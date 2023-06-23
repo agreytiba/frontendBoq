@@ -77,7 +77,7 @@ export const tokens = (mode) => ({
           100: "#040509",
           200: "#080b12",
           300: "#0c101b",
-          400: "#f2f0f0", // manually changed
+          400: "#fefefe", // manually changed
           500: "#141b2d",
           600: "#1F2A40",
           700: "#727681",
@@ -109,7 +109,7 @@ export const tokens = (mode) => ({
         blueAccent: {
           100: "#151632",
           200: "#2a2d64",
-          300: "#3e4396",
+          300: "#3425a9",
           400: "#535ac8",
           500: "#6870fa",
           600: "#868dfb",
@@ -158,7 +158,7 @@ export const themeSettings = (mode) => {
               light: colors.grey[100],
             },
             background: {
-              default: "#fcfcfc",
+              default: "#f0f1f6",
             },
           }),
     },
@@ -199,7 +199,7 @@ export const ColorModeContext = createContext({
 });
 
 export const useMode = () => {
-  const [mode, setMode] = useState("dark");
+  const [mode, setMode] = useState("light");
 
   const colorMode = useMemo(
     () => ({

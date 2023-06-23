@@ -7,7 +7,7 @@ import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 import Header from "../../components/Header";
 
-const Team = () => {
+const User = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const columns = [
@@ -49,15 +49,15 @@ const Team = () => {
             justifyContent="center"
             backgroundColor={
               access === "admin"
-                ? colors.greenAccent[600]
-                : access === "manager"
-                ? colors.greenAccent[700]
+                ? colors.redAccent[600]
+                : access === "doctor"
+                ? colors.blueAccent[500]
                 : colors.greenAccent[700]
             }
             borderRadius="4px"
           >
             {access === "admin" && <AdminPanelSettingsOutlinedIcon />}
-            {access === "manager" && <SecurityOutlinedIcon />}
+            {access === "doctor" && <SecurityOutlinedIcon />}
             {access === "user" && <LockOpenOutlinedIcon />}
             <Typography color={colors.grey[100]} sx={{ ml: "5px" }}>
               {access}
@@ -70,10 +70,10 @@ const Team = () => {
 
   return (
     <Box m="20px">
-      <Header title="TEAM" subtitle="Managing the Team Members" />
+      <Header title="User" subtitle="user access level" />
       <Box
         m="40px 0 0 0"
-        height="75vh"
+        height="100%"
         sx={{
           "& .MuiDataGrid-root": {
             border: "none",
@@ -85,7 +85,8 @@ const Team = () => {
             color: colors.greenAccent[300],
           },
           "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: colors.blueAccent[700],
+            backgroundColor: colors.blueAccent[300],
+            color:"#fff",
             borderBottom: "none",
           },
           "& .MuiDataGrid-virtualScroller": {
@@ -93,7 +94,7 @@ const Team = () => {
           },
           "& .MuiDataGrid-footerContainer": {
             borderTop: "none",
-            backgroundColor: colors.blueAccent[700],
+            backgroundColor:"none",
           },
           "& .MuiCheckbox-root": {
             color: `${colors.greenAccent[200]} !important`,
@@ -106,4 +107,4 @@ const Team = () => {
   );
 };
 
-export default Team;
+export default  User;
