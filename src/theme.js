@@ -156,6 +156,12 @@ export const themeSettings = (mode) => {
               dark: colors.grey[700],
               main: colors.grey[500],
               light: colors.grey[100],
+          },
+          danger: {
+              main: colors.redAccent[400]
+            },
+          firstColor: {
+              main: colors.blueAccent[400]
             },
             background: {
               default: "#f0f1f6",

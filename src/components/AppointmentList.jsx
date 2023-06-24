@@ -1,13 +1,13 @@
-import { Box, Button } from "@mui/material";
+import { Box } from "@mui/material";
+import Header from "../components/Header";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import { tokens } from "../../theme";
-import { mockDoctors } from "../../data/mockData";
-import Header from "../../components/Header";
-import { useTheme } from "@mui/material";
-import DeleteOutlined from "@mui/icons-material/DeleteOutlineOutlined"
-import EditOutlined from "@mui/icons-material/Edit"
+import { tokens } from "../theme";
 
-const Doctor = () => {
+import { useTheme } from "@mui/material";
+
+const AppointmentsList = ({data}) => {
+
+
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -15,63 +15,40 @@ const Doctor = () => {
     { field: "id", headerName: "ID", flex: 0.5 },
 
     {
-      field: "img",
-      headerName: " photo",
+      field: "patientName",
+      headerName: "patient name",
       flex: 1,
       cellClassName: "name-column--cell",
     },
     {
-      field: "name",
-      headerName: "Name",
+      field: "doctorName",
+      headerName: "Doctor Name",
       flex: 1,
       cellClassName: "name-column--cell",
     },
     {
-      field: "age",
-      headerName: "Age",
-      type: "number",
-      headerAlign: "left",
-      align: "left",
+      field: "appointmentDate",
+      headerName: "appointment Date",
+      flex: 1,
     },
     {
-      field: "dept",
+      field: "department",
       headerName: "Department",
       flex: 1,
     },
-     {
-      field:"actions",
-      headerName: "Actions",
-    flex: 1,
-      renderCell: (params) => {
-        const handelEdit = () => {
-         console.log(`edit clicked id`)
-       }
-        const handeldDelete = (id) => {
-         console.log(`delete clicked id`)
-        }
-        return (
-          <div>
-            <Button onClick={()=>handelEdit()} type="submit" color="secondary" variant="contained" style={{ marginRight: "3px",width:"50%" }} >
-              <EditOutlined/>
-            </Button>
-            <Button onClick={()=>handeldDelete()} type="submit" color="danger" variant="contained">
-              <DeleteOutlined style={{color:"#fff"}}/>
-            </Button>
-          </div>
-        )
-     }
+    {
+      field: "reason",
+      headerName: "reasons",
+      flex: 1
     },
-       
- 
   ];
 
   return (
     <Box m="20px">
-      <Header
-        title="Doctor"
-        subtitle="List of  doctors"
-      />
-      <Box
+
+      <Box borderTop="2px #000 solid" mt="30px" p="15px">
+        <Header title="list of appointment" subtitle="list of appointment attended or on wait" />
+         <Box
         m="40px 0 0 0"
         height="100%"
         sx={{
@@ -85,9 +62,9 @@ const Doctor = () => {
             color: colors.greenAccent[300],
           },
           "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: colors.blueAccent[400],
+            backgroundColor: colors.grey[400],
             borderBottom: "none",
-            color:"#fff"
+            color: "#fff"
           },
           "& .MuiDataGrid-virtualScroller": {
             backgroundColor: colors.primary[400],
@@ -105,13 +82,18 @@ const Doctor = () => {
         }}
       >
         <DataGrid
-          rows={mockDoctors}
+          rows={data}
           columns={columns}
           components={{ Toolbar: GridToolbar }}
         />
       </Box>
+        
+      </Box>
     </Box>
+   
   );
 };
 
-export default Doctor;
+
+
+export default AppointmentsList;
