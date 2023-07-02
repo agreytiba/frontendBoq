@@ -128,10 +128,13 @@ console.log()
                 name="workingStatus"
                 error={!!touched.workingStatus && !!errors.workingStatus}
                 helperText={touched.workingStatus && errors.workingStatus}
-                sx={{ gridColumn: "span 4" }}
+                sx={{ gridColumn: "span 2" }}
               />
             </Box>
-            <Box display="flex" justifyContent="end" mt="20px">
+            <Box display="flex" justifyContent="end" mt="20px" columnGap="10px">
+               <Button  color="primary" variant="contained" onClick={()=>setShowAddForm(false)}>
+                cancel
+              </Button>
               <Button type="submit" color="secondary" variant="contained">
                 save
               </Button>

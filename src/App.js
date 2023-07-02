@@ -13,6 +13,7 @@ import Patient from './scenes/patient';
 import Form from './scenes/form'
 import Appointment from './scenes/appointment';
 import Profile from "./scenes/user/profile"
+import Calendar from "./scenes/calendar/calendar"
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { ColorModeContext, useMode } from './theme';
 import 'react-toastify/dist/ReactToastify.css';
@@ -49,7 +50,7 @@ function App() {
 							<Route path="/doctors" element={<Doctor />} />
 							<Route path="/patients" element={<Patient />} />
 							<Route path="/bar" element={<Bar />} />
-							<Route path="/form" element={<Form />} />
+							<Route path="/todos" element={<Calendar />} />
 								<Route path="/appointments" element={<Appointment />} />
 							</Route>
 						</Routes>

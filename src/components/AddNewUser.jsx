@@ -4,29 +4,32 @@ import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "./Header";
 import { useDispatch, useSelector } from "react-redux";
-import { createPatient } from "../redux/patient/patientSlice";
 import { toast } from "react-toastify";
+import { createDoctor } from "../redux/doctor/doctorSlices";
 
-const AddNewPatient = ({ setShowAddForm }) => {
+const AddNewUser = ({ setShowAddForm }) => {
     
-
-    const {patients, isSuccess,isError} = useSelector((state)=>state.patient)
+    const { isSuccess,isError,message} = useSelector((state)=>state.auth)
 //   initialize useDispatch
     const dispatch = useDispatch()
   const isNonMobile = useMediaQuery("(min-width:600px)");
 
-  const handleFormSubmit = (values) => {
-      dispatch(createPatient(values))
-      if (isSuccess) {
-          setShowAddForm(false)
-          toast.success("successfull added")
-      }
+    const handleFormSubmit = (values) => {
+    console.log(values)
+      
+  try {
+      dispatch(createDoctor(values))
+      setShowAddForm(false)
+      toast.success("doctor added successful")
+  } catch (error) {
+    
+  }
       
   };
-
+console.log()
   return (
-    <Box p="20px" backgroundColor="#ddd">
-      <Header title="Add new patient" subtitle="Register new patient" />
+    <Box p="20px" backgroundColor="#ddd" maxWidth="800px" >
+      <Header title="Add New User" subtitle="add new user details" />
 
       <Formik
         onSubmit={handleFormSubmit}
@@ -54,15 +57,16 @@ const AddNewPatient = ({ setShowAddForm }) => {
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Patient Name"
+                label="User Name"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={values.patientName}
-                name="patientName"
-                error={!!touched.patientName && !!errors.patientName}
-                helperText={touched.patientName && errors.patientName}
-                sx={{ gridColumn: "span 2" }}
+                value={values.name}
+                name="name"
+                error={!!touched.name && !!errors.name}
+                helperText={touched.name && errors.name}
+                sx={{ gridColumn: "span 4" }}
               />
+    
               <TextField
                 fullWidth
                 variant="filled"
@@ -74,7 +78,7 @@ const AddNewPatient = ({ setShowAddForm }) => {
                 name="email"
                 error={!!touched.email && !!errors.email}
                 helperText={touched.email && errors.email}
-                sx={{ gridColumn: "span 2" }}
+                sx={{ gridColumn: "span 4" }}
               />
               <TextField
                 fullWidth
@@ -87,42 +91,31 @@ const AddNewPatient = ({ setShowAddForm }) => {
                 name="phone"
                 error={!!touched.phone && !!errors.phone}
                 helperText={touched.phone && errors.phone}
-                sx={{ gridColumn: "span 2" }}
-              />
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="registrar number"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.registerId}
-                name="registerId"
-                error={!!touched.registerId && !!errors.registerId}
-                helperText={touched.registerId && errors.registerId}
-                sx={{ gridColumn: "span 2" }}
-              />
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Address"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.address}
-                name="address"
-                error={!!touched.address && !!errors.address}
-                helperText={touched.address && errors.address}
                 sx={{ gridColumn: "span 4" }}
               />
+              <TextField
+                fullWidth
+                variant="filled"
+                type="text"
+                label="Access Level"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                value={values.accessLevel}
+                name="accessLevel"
+                error={!!touched.accessLevel && !!errors.accessLevel}
+                helperText={touched.accessLevel && errors.accessLevel}
+                sx={{ gridColumn: "span 4" }}
+              />
+         
             </Box>
             <Box display="flex" justifyContent="end" mt="20px" columnGap="10px">
-               <Button  color="primary" variant="contained" onClick={()=>setShowAddForm(false)}>
+              <Button  color="primary" variant="contained" onClick={()=>setShowAddForm(false)}>
                 cancel
               </Button>
               <Button type="submit" color="secondary" variant="contained">
-                Add patient
+                save
               </Button>
+              
             </Box>
           </form>
         )}
@@ -135,20 +128,20 @@ const phoneRegExp =
   /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
 
 const checkoutSchema = yup.object().shape({
-  patientName: yup.string().required("required"),
+  name: yup.string().required("required"),
   email: yup.string().email("invalid email").required("required"),
   phone: yup
     .string()
     .matches(phoneRegExp, "Phone number is not valid")
     .required("required"),
-  registerId: yup.string().required("required")
+  accessLevel: yup.string().required("required")
 });
 const initialValues = {
-  patientName: "",
+  name: "",
   email: "",
   phone: "",
-  registerId: "",
-  address: "",
+  accessLevel: "",
+  
 };
 
-export default AddNewPatient;
+export default AddNewUser;

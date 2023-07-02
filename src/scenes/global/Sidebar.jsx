@@ -160,8 +160,8 @@ const Sidebar = () => {
             />
           
             <Item
-              title="messages"
-              to="/form"
+              title="Todo"
+              to="/todos"
                icon={<MessageOutlined />}
               selected={selected}
               setSelected={setSelected}

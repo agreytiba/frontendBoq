@@ -1,6 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {toast} from "react-toastify"
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box, Typography,Button, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
@@ -11,9 +11,12 @@ import { getAllUsers,reset} from "../../redux/auth/authSlice";
 import { useDispatch , useSelector} from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Spinner from "../../components/Spinner";
-import Register from "../../components/RegisterForm";
+import AddNewUser from "../../components/AddNewUser";
 
 const User = () => {
+
+  // useState for show create user form
+  const [showAddForm,setShowAddForm] =useState(false)
   //colors themes
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -23,12 +26,12 @@ const User = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-//  useSelector  containe properties from authSlice
+//useSelector  containe properties from authSlice
   const {users, isLoading, isError, isSuccess, message } = useSelector(
     (state) => state.auth
   )
 
-  // useEffect to fetch all users
+  //useEffect to fetch all users
   useEffect(() => {
     if (isError) {
       toast.error(message)
@@ -102,9 +105,11 @@ if (isLoading) {
   return <Spinner/>
 }
   return (
-    <Box m="20px">
+    <Box m="20px" position="relative">
       <Header title="User" subtitle="user access level" />
-     
+        <Box display="center" justifyContent="flex-end" alignItems="center" mt="20px" >
+        <Button style={{backgroundColor:"rgb(0,0,255)", color:"#fff"}} onClick={()=>setShowAddForm(true)}>New</Button>
+      </Box>
       <Box
         m="40px 0 0 0"
         height="100%"
@@ -137,6 +142,14 @@ if (isLoading) {
       >
         <DataGrid checkboxSelection rows={users} columns={columns} getRowId={getRowId}/>
       </Box>
+      {
+        showAddForm &&
+        <Box position="absolute" top="0" left="0" p="20px" right="0" backgroundColor="rgba(0,0,0,0.5)" minHeight="100vh">
+          
+              <AddNewUser setShowAddForm={setShowAddForm} /> 
+      </Box>
+      }
+      
     </Box>
   );
 };
