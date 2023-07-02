@@ -1,14 +1,18 @@
 import { useState } from "react";
 import { Sidebar as ProSideBar, Menu, MenuItem } from "react-pro-sidebar";
-import { Box, IconButton, Typography, useTheme } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
 import { tokens } from "../../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import { AirlineSeatFlat, BookOnlineRounded, MessageOutlined, MessageRounded, SupervisorAccountOutlined } from "@mui/icons-material";
+import { AirlineSeatFlat, BookOnlineRounded, Logout, MessageOutlined, MessageRounded, SupervisorAccountOutlined } from "@mui/icons-material";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../redux/auth/authSlice";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
+
+ 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   return (
@@ -28,10 +32,24 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
 };
 
 const Sidebar = () => {
+   // initialize dispatch
+  const dispatch = useDispatch()
+
+  // initializer navigation
+  const navigate = useNavigate()
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
+
+  // handle logout user from the system
+  const handleLogout = () => {
+    dispatch(logout())
+    navigate("/login")
+    window.location.reload()
+  }
+
+  
 
   return (
     <Box
@@ -66,7 +84,8 @@ const Sidebar = () => {
         }
       }}
     >
-      <ProSideBar collapsed={isCollapsed} >
+      <ProSideBar collapsed={isCollapsed} style={{   position: "fixed",
+              left:"0px", top:"0px"}}>
         <Menu iconShape="square">
           {/* LOGO AND MENU ICON */}
           <MenuItem
@@ -75,6 +94,7 @@ const Sidebar = () => {
             style={{
               margin: "10px 0 20px 0",
               color: colors.grey[100],
+           
             }}
           >
             {!isCollapsed && (
@@ -104,7 +124,7 @@ const Sidebar = () => {
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
             <Item
               title="Dashboard"
-              to="/dashboard"
+              to="/"
               icon={<HomeOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
@@ -141,29 +161,25 @@ const Sidebar = () => {
           
             <Item
               title="messages"
-              to="/user"
+              to="/form"
                icon={<MessageOutlined />}
               selected={selected}
               setSelected={setSelected}
             />
          
-            <Item
-              title="login"
-              to="/"
-               icon={<MessageOutlined />}
-              selected={selected}
-              setSelected={setSelected}
-            />
          
-            <Item
-              title="Register"
-              to="/register"
-               icon={<MessageOutlined />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-         
-           
+              <MenuItem
+      active={selected === logout}
+      style={{
+        color: colors.grey[100],
+      }}
+      onClick={handleLogout}
+    icon={<Logout/>}
+  
+    >
+      <Typography>logout</Typography>
+     
+    </MenuItem>
           </Box>
         </Menu>
       </ProSideBar>

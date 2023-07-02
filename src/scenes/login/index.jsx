@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { Formik } from 'formik';
 import * as yup from 'yup';
@@ -5,28 +6,48 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { tokens } from '../../theme';
 import { useTheme } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux'
+import { login, reset } from '../../redux/auth/authSlice';
+import { toast } from 'react-toastify';
 
 const Login = () => {
 	const isNonMobile = useMediaQuery('(min-width:600px)');
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
 
-	//initialize use navigate
-	const navigate = useNavigate();
+	// get all  properties from react reduc state
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.auth
+  )
+ useEffect(() => {
+    if (isError) {
+     toast.error(message);
+    }
+
+    if (isSuccess || user?.token) {
+      navigate('/')
+    }
+
+   
+  }, [user, isError, isSuccess, message, navigate, dispatch])
+  
+ 
+//  handle submission of the form
 	const handleFormSubmit = (values) => {
-		console.log(values);
-		navigate('/dashboard');
+
+		dispatch(login(values))
+	
 	};
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
-
+if (isLoading) {
+	return <h1>loading ....</h1>
+}
 	return (
-		<Box
-			m="20px"
-			display="flex"
-			justifyContent="center"
-			alignItems="center"
-		 minHeight="100vh"
-		>
-			<Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={checkoutSchema}>
+		<Box m="20px" display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+			<Formik onSubmit={handleFormSubmit}
+				initialValues={initialValues}
+				validationSchema={checkoutSchema}>
 				{({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
 					<form
 						onSubmit={handleSubmit}
@@ -80,7 +101,6 @@ const Login = () => {
 						<Box display="flex" justifyContent="flex-end" mt="20px" padding="20px">
 							<Button
 								type="submit"
-								onClick={handleFormSubmit}
 								color="firstColor"
 								variant="contained"
 								style={{ width: '100%', height: '40px', color: '#fff' }}
@@ -100,7 +120,6 @@ const checkoutSchema = yup.object().shape({
 	email: yup.string().email('invalid email').required('required'),
 	password: yup
 		.string()
-		.matches(passwordRegExp, 'Minimum 8 characters, at least 1 letter and 1 number')
 		.required('required')
 });
 const initialValues = {

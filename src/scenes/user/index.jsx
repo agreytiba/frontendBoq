@@ -1,30 +1,56 @@
+import { useEffect } from "react";
+import {toast} from "react-toastify"
 import { Box, Typography, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
-import { mockDataTeam } from "../../data/mockData";
 import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 import Header from "../../components/Header";
+import { getAllUsers,reset} from "../../redux/auth/authSlice";
+import { useDispatch , useSelector} from "react-redux";
+import { useNavigate } from "react-router-dom";
+import Spinner from "../../components/Spinner";
+import Register from "../../components/RegisterForm";
 
 const User = () => {
+  //colors themes
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+
+  // initiliaze useDispatch && useNavigate
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+//  useSelector  containe properties from authSlice
+  const {users, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.auth
+  )
+
+  // useEffect to fetch all users
+  useEffect(() => {
+    if (isError) {
+      toast.error(message)
+    }
+    // firing get all users
+    dispatch(getAllUsers())
+
+    return () => {
+      dispatch(reset())
+    }
+  }, [ navigate, isError, message, dispatch])
+
+  // header arrangement in data grid
   const columns = [
-    { field: "id", headerName: "ID" },
+    { field: "_id", headerName: "ID" },
     {
       field: "name",
       headerName: "Name",
       flex: 1,
       cellClassName: "name-column--cell",
     },
-    {
-      field: "age",
-      headerName: "Age",
-      type: "number",
-      headerAlign: "left",
-      align: "left",
-    },
+  
     {
       field: "phone",
       headerName: "Phone Number",
@@ -39,7 +65,7 @@ const User = () => {
       field: "accessLevel",
       headerName: "Access Level",
       flex: 1,
-      renderCell: ({ row: { access } }) => {
+      renderCell: ({ row:{accessLevel} }) => {
         return (
           <Box
             width="60%"
@@ -48,19 +74,19 @@ const User = () => {
             display="flex"
             justifyContent="center"
             backgroundColor={
-              access === "admin"
+              accessLevel === "admin"
                 ? colors.redAccent[600]
-                : access === "doctor"
+                : accessLevel === "doctor"
                 ? colors.blueAccent[500]
                 : colors.greenAccent[700]
             }
             borderRadius="4px"
           >
-            {access === "admin" && <AdminPanelSettingsOutlinedIcon />}
-            {access === "doctor" && <SecurityOutlinedIcon />}
-            {access === "user" && <LockOpenOutlinedIcon />}
+            {accessLevel === "admin" && <AdminPanelSettingsOutlinedIcon />}
+            {accessLevel === "doctor" && <SecurityOutlinedIcon />}
+            {accessLevel === "user" && <LockOpenOutlinedIcon />}
             <Typography color={colors.grey[100]} sx={{ ml: "5px" }}>
-              {access}
+              {accessLevel}
             </Typography>
           </Box>
         );
@@ -68,9 +94,17 @@ const User = () => {
     },
   ];
 
+
+  // define unique id 
+  const getRowId =(row) => row._id
+// when on loadind state show this spinner
+if (isLoading) {
+  return <Spinner/>
+}
   return (
     <Box m="20px">
       <Header title="User" subtitle="user access level" />
+     
       <Box
         m="40px 0 0 0"
         height="100%"
@@ -101,7 +135,7 @@ const User = () => {
           },
         }}
       >
-        <DataGrid checkboxSelection rows={mockDataTeam} columns={columns} />
+        <DataGrid checkboxSelection rows={users} columns={columns} getRowId={getRowId}/>
       </Box>
     </Box>
   );
