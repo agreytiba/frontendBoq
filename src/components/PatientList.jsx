@@ -1,29 +1,30 @@
-import { useEffect,useContext,useMemo } from "react";
+import { useEffect, useMemo,useContext } from "react";
 import { Box } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../theme";
 import { useTheme } from "@mui/material";
-import { useDispatch,useSelector} from "react-redux"
-import { useNavigate } from "react-router-dom"
-import {toast} from "react-toastify"
-import { getAppointments, reset } from "../redux/appointment/appointSlice";
-import Spinner from "./Spinner"
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { getPatients,reset } from "../redux/patient/patientSlice";
+import { useNavigate } from "react-router-dom";
+import Spinner from "./Spinner";
 import { AppContext } from "../useContextApi/AppContext";
 
-const AppointmentsList = () => {
 
-  // color themes
-   const theme = useTheme();
+const PatientList = () => {
+
+
+  // colors themes 
+  const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-
-   // initiliaze useDispatch && useNavigate
+  // initiliaze useDispatch && useNavigate
   const dispatch = useDispatch();
   const navigate = useNavigate()
 
 //  useSelector  containe properties from authSlice
-  const { appointments, isLoading, isError, isSuccess, message } = useSelector(
-    (state) => state.appoint
+  const { patients, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.patient
   )
 
   // useEffect to fetch all the patients
@@ -33,69 +34,75 @@ const AppointmentsList = () => {
     }
 
 
-    dispatch(getAppointments())
+    dispatch(getPatients())
 
     return () => {
       dispatch(reset())
     }
-  }, [navigate, isError, message, dispatch])
+  }, [ navigate, isError, message, dispatch])
   
 
   // use context api
-  const { setTotalAppoints } = useContext(AppContext);
+  const { setTotalPatients } = useContext(AppContext);
   
 // use Memo to get the length of the patient array of objects
   const countP = useMemo(() => {
-    return appointments.length;
-  }, [appointments]);
-  setTotalAppoints(countP);
-
-  // onLoading show the spinner
-if (isLoading) {
-  return <Spinner/>
-}
-
+    return patients.length;
+  }, [patients]);
+  setTotalPatients(countP);
+  
  
+//header data grid arrangement
   const columns = [
     { field: "_id", headerName: "ID", flex: 0.5 },
-
+    { field: "registerId", headerName: "Registrar ID" },
     {
       field: "patientName",
-      headerName: "patient Id",
+      headerName: "Name",
       flex: 1,
       cellClassName: "name-column--cell",
     },
-   
+ 
     {
-      field: "department",
-      headerName: "Department",
-      flex: 1,
-    },
-     {
-      field: "appointDate",
-      headerName: "Appointment Date",
-      flex: 1,
-      cellClassName: "name-column--cell",
-    },
-    {
-      field: "appointTime",
-      headerName: "appointment Time",
+      field: "phone",
+      headerName: "Phone Number",
       flex: 1,
     },
     {
-      field: "description",
-      headerName: "reasons",
-      flex: 1
+      field: "email",
+      headerName: "Email",
+      flex: 1,
     },
-  
+    {
+      field: "address",
+      headerName: "Address",
+      flex: 1,
+    },
+    {
+      field: "appointments",
+      headerName: "appointments",
+      flex: 1,
+    },
+    {
+      field: "createdAt",
+      headerName: "registed date",
+      flex: 1,
+    },
   ];
-  // define unique id 
+
+// define unique id 
   const getRowId =(row) => row._id
 
-  return (
-    <Box >
 
-     <Box
+  if (isLoading) {
+       return <Spinner/>
+  }
+  return (
+    <Box>
+   
+
+      <Box
+     
         sx={{
           "& .MuiDataGrid-root": {
             border: "none",
@@ -104,12 +111,11 @@ if (isLoading) {
             borderBottom: "none",
           },
           "& .name-column--cell": {
-            color: colors.greenAccent[300],
+            color: colors.greenAccent[200],
           },
           "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: colors.grey[400],
+            backgroundColor: colors.greenAccent[700],
             borderBottom: "none",
-            color: "#fff"
           },
           "& .MuiDataGrid-virtualScroller": {
             backgroundColor: colors.primary[400],
@@ -127,20 +133,17 @@ if (isLoading) {
         }}
       >
         <DataGrid
-          rows={appointments}
-            columns={columns}
-            getRowId={getRowId}
+          rows={patients}
+          columns={columns}
+          getRowId={getRowId}
           components={{ Toolbar: GridToolbar }}
-                 responsiveLayout={['xs','sm']}
+          responsiveLayout={['xs','sm']}
+
         />
       </Box>
-        
-      </Box>
-    
-   
+      
+    </Box>
   );
 };
 
-
-
-export default AppointmentsList;
+export default PatientList;

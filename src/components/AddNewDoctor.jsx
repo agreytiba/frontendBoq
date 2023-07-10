@@ -163,7 +163,7 @@ const initialValues = {
   email: "",
   phone: "",
   registerId: "",
-    workingStatus: "",
+  workingStatus: "",
   department:"",
 };
 

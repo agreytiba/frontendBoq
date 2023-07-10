@@ -1,20 +1,33 @@
-import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
+import { useContext } from "react";
+import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
-import { mockDoctors, mockTransactions } from "../../data/mockData";
+import { mockDoctors } from "../../data/mockData";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
 import AirlineSeatFlatIcon from '@mui/icons-material/AirlineSeatFlat';
+import { useEffect } from "react";
+import {toast} from "react-toastify"
 import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
 import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 import Header from "../../components/Header";
 import BarChart from "../../components/BarChart";
 import StatBox from "../../components/StatBox";
-
+import {getPatients, reset} from "../../redux/patient/patientSlice"
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { AppContext } from "../../useContextApi/AppContext";
+import PatientList from "../../components/PatientList";
+import DoctorsList from "../../components/DoctorsList";
+import AppointmentsList from "../../components/AppointmentList";
 
 const Dashboard = () => {
+  // colors themes
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
  // get user from local 
   const user = JSON.parse(localStorage.getItem('user'));
+    // use context api
+  const { totalPatients,totalDoctors,totalAppoints } = useContext(AppContext);
   
   return (
     <Box m="20px">
@@ -44,8 +57,8 @@ const Dashboard = () => {
           justifyContent="center"
         >
           <StatBox
-            title="30"
-            subtitle="New patient"
+            title={totalPatients}
+            subtitle="Patient"
            icon={
               <PeopleOutlineIcon
                 sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
@@ -61,7 +74,7 @@ const Dashboard = () => {
           justifyContent="center"
         >
           <StatBox
-            title="10"
+            title={totalDoctors}
             subtitle="Our Doctors"
             icon={
               <SupervisorAccountIcon
@@ -78,8 +91,8 @@ const Dashboard = () => {
           justifyContent="center"
         >
           <StatBox
-            title="10"
-            subtitle="Today operation"
+            title={totalAppoints}
+            subtitle="Appointment"
           
           />
         </Box>
@@ -92,7 +105,7 @@ const Dashboard = () => {
         >
           <StatBox
             title="20"
-            subtitle="available room"
+            subtitle="Todos"
             icon={
               <AirlineSeatFlatIcon
                 sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
@@ -139,6 +152,7 @@ const Dashboard = () => {
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
           overflow="auto"
+           display="none"
         >
           <Box
             display="flex"
@@ -147,42 +161,14 @@ const Dashboard = () => {
             borderBottom={`4px solid ${colors.primary[500]}`}
             colors={colors.grey[100]}
             p="15px"
+           
           >
             <Typography color={colors.grey[400]} variant="h5" fontWeight="600">
               List of Doctors
             </Typography>
           </Box>
-          {mockDoctors.map((doctor, i) => (
-            <Box
-              key={`${doctor.id}-${i}`}
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-              borderBottom={`4px solid ${colors.primary[500]}`}
-              p="15px"
-            >
-              <Box>
-                <Typography
-                  color={colors.greenAccent[500]}
-                  variant="h5"
-                  fontWeight="600"
-                >
-                  {doctor.id}
-                </Typography>
-                <Typography color={colors.grey[100]}>
-                  {doctor.name}
-                </Typography>
-              </Box>
-              <Box color={colors.grey[100]}>{doctor.age}</Box>
-              <Box
-                backgroundColor={colors.greenAccent[500]}
-                p="5px 10px"
-                borderRadius="4px"
-              >
-                {doctor.dept}
-              </Box>
-            </Box>
-          ))}
+         
+          <DoctorsList/>
         </Box>
 
         {/* ROW 3 */}
@@ -190,19 +176,17 @@ const Dashboard = () => {
           gridColumn="span 6"
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
-          p="30px"
-          marginTop="30px"
+          overflow="hidden"
+          p="20px"
+          mt="20px"
         >
           <Typography variant="h5" fontWeight="600">
-             new patient list
+             patient list
           </Typography>
           <Box
-            display="flex"
-            flexDirection="column"
-            alignItems="center"
-          marginY="30px"
+         
           >
-            list of patient on the system
+          <PatientList/>
           </Box>
         </Box>
         
@@ -210,7 +194,9 @@ const Dashboard = () => {
           gridColumn="span 6"
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
-          padding="30px"
+          overflow="hidden"
+          p="20px"
+          mt="20px"
         >
           <Typography
             variant="h5"
@@ -219,8 +205,8 @@ const Dashboard = () => {
           >
            appointments
           </Typography>
-          <Box height="100px">
-           
+          <Box  >
+           <AppointmentsList/>
           </Box>
         </Box>
       </Box>

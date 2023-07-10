@@ -1,16 +1,18 @@
 import { Box, IconButton, useTheme,Typography,Mem} from "@mui/material";
 import { useContext } from "react";
 import { ColorModeContext, tokens } from "../../theme";
-import InputBase from "@mui/material/InputBase";
-import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
-import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
+
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import SearchIcon from "@mui/icons-material/Search";
 import { Link, useNavigate } from "react-router-dom";
+import Profile from "../../components/Profile";
+import { useState } from "react";
 
 const Topbar = () => {
+  // useState to show the profile
+  const[showProfile, setShowProfile] = useState(false)
+  // colors themes
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
@@ -20,7 +22,7 @@ const Topbar = () => {
 const user = JSON.parse(localStorage.getItem('user'));
 
   return (
-    <Box display="flex" justifyContent="space-between" p={2} boxShadow="10px 0px 8px #555">
+    <Box display="flex" justifyContent="space-between" p={2} boxShadow="10px 0px 8px #555" position="relative">
       {/* SEARCH BAR */}
       <Box
         display="flex"
@@ -43,8 +45,8 @@ const user = JSON.parse(localStorage.getItem('user'));
         <IconButton>
           <SettingsOutlinedIcon />
         </IconButton>
-        <IconButton onClick={()=>navigate("/user/profile")}>
-          <PersonOutlinedIcon />
+        <IconButton onClick={()=>setShowProfile(!showProfile) }>
+            <PersonOutlinedIcon  />
         </IconButton>
         </Box> :
         <Box display="flex" columnGap="7px">
@@ -61,7 +63,11 @@ const user = JSON.parse(localStorage.getItem('user'));
           </Link>
        
         </Box>}
-   
+      { showProfile &&
+      <Box position="absolute" top="60px" right="0" >
+          <Profile />
+        </Box>
+      }
     </Box>
   );
 };

@@ -20,6 +20,7 @@ const Calendar = () => {
   const colors = tokens(theme.palette.mode);
   const [currentEvents, setCurrentEvents] = useState([]);
 
+  // function to add event to fullcalendar
   const handleDateClick = (selected) => {
     const title = prompt("Please enter a new title for your event");
     const calendarApi = selected.view.calendar;
@@ -36,6 +37,8 @@ const Calendar = () => {
     }
   };
 
+
+  // function to delete event fro fulltime calendar
   const handleEventClick = (selected) => {
     if (
       window.confirm(
@@ -45,7 +48,7 @@ const Calendar = () => {
       selected.event.remove();
     }
   };
-
+console.log(currentEvents)
   return (
     <Box m="20px">
       <Header title="Calendar" subtitle="Full Calendar Interactive Page" />

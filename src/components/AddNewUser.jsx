@@ -5,7 +5,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "./Header";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { createDoctor } from "../redux/doctor/doctorSlices";
+import {  createUser} from "../redux/auth/authSlice";
 
 const AddNewUser = ({ setShowAddForm }) => {
     
@@ -17,16 +17,19 @@ const AddNewUser = ({ setShowAddForm }) => {
     const handleFormSubmit = (values) => {
     console.log(values)
       
-  try {
-      dispatch(createDoctor(values))
+      if (isError) {
+        toast.error(message)
+      }
+      if(isSuccess) {
+         dispatch(createUser(values))
       setShowAddForm(false)
-      toast.success("doctor added successful")
-  } catch (error) {
-    
-  }
+      toast.success("user added successful")
+      }
+      else {
+        toast.error("failed to create the user")
+      }
       
   };
-console.log()
   return (
     <Box p="20px" backgroundColor="#ddd" maxWidth="800px" >
       <Header title="Add New User" subtitle="add new user details" />
@@ -107,6 +110,20 @@ console.log()
                 sx={{ gridColumn: "span 4" }}
               />
          
+              <TextField
+                fullWidth
+                variant="filled"
+                type="text"
+                label="password"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                value={values.password}
+                name="password"
+                error={!!touched.password && !!errors.password}
+                helperText={touched.password && errors.password}
+                sx={{ gridColumn: "span 4" }}
+              />
+         
             </Box>
             <Box display="flex" justifyContent="end" mt="20px" columnGap="10px">
               <Button  color="primary" variant="contained" onClick={()=>setShowAddForm(false)}>
@@ -134,13 +151,15 @@ const checkoutSchema = yup.object().shape({
     .string()
     .matches(phoneRegExp, "Phone number is not valid")
     .required("required"),
-  accessLevel: yup.string().required("required")
+  accessLevel: yup.string().required("required"),
+  password: yup.string().required("required")
 });
 const initialValues = {
   name: "",
   email: "",
   phone: "",
   accessLevel: "",
+  password:""
   
 };
 

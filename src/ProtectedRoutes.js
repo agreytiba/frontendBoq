@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 const useAuth = () => {
     // get all  properties from react reduc state
     const { user } = useSelector((state) => state.auth)
+   console.log(user)
     return user && user.token
 };
 const ProtectedRoutes = () => {

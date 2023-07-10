@@ -1,21 +1,20 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import patientService from './patientService';
+import appointService from './appointService';
 
 const initialState = {
-    patients: [],
-	patient: [],
-   patientsNo:0,
+    appointments: [],
+    appointment:[],
 	isError: false,
 	isSuccess: false,
 	isLoading: false,
 	message: ''
 };
 
-// Create new patient
-export const createPatient = createAsyncThunk('patients/create', async (patientData, thunkAPI) => {
+// add new appointment details
+export const createAppointment = createAsyncThunk('appointments/create', async (appointData, thunkAPI) => {
 	try {
 		//   const token = thunkAPI.getState().auth.user.token
-		return await patientService.createPatient(patientData);
+		return await appointService.createAppointment(appointData);
 	} catch (error) {
 		const message =
 			'error'(error.response && error.response.data && error.response.data.message) ||
@@ -25,44 +24,44 @@ export const createPatient = createAsyncThunk('patients/create', async (patientD
 	}
 });
 
-// Get all patients
-export const getPatients = createAsyncThunk('patients/getAll', async (_, thunkAPI) => {
+// Get all appointments
+export const getAppointments = createAsyncThunk('appointments/getAll', async (_, thunkAPI) => {
 	try {
 		//   const token = thunkAPI.getState().auth.user.token
-		return await patientService.getPatients();
+		return await appointService.getAppointments();
 	} catch (error) {
 		const message =
 			(error.response && error.response.data && error.response.data.message) || error.message || error.toString();
 		return thunkAPI.rejectWithValue(message);
 	}
 });
-// Get single patient
-export const getPatient = createAsyncThunk('patients/getOne', async (patientId, thunkAPI) => {
+// Get single appointment
+export const getAppointment = createAsyncThunk('appointments/getOne', async (appointId, thunkAPI) => {
 	try {
 		//   const token = thunkAPI.getState().auth.user.token
-		return await patientService.getPatient(patientId);
+		return await appointService.getAppointment(appointId);
 	} catch (error) {
 		const message =
 			(error.response && error.response.data && error.response.data.message) || error.message || error.toString();
 		return thunkAPI.rejectWithValue(message);
 	}
 });
-//edit  patient
-export const editPatient = createAsyncThunk('patients/edit', async (patientId, thunkAPI) => {
+//edit  appointment details
+export const editAppointment = createAsyncThunk('appointments/edit', async (appointId, thunkAPI) => {
 	try {
 		//   const token = thunkAPI.getState().auth.user.token
-		return await patientService.updatePatient(patientId);
+		return await appointService.updateAppointment(appointId);
 	} catch (error) {
 		const message =
 			(error.response && error.response.data && error.response.data.message) || error.message || error.toString();
 		return thunkAPI.rejectWithValue(message);
 	}
 });
-// Delete patient
-export const deletePatient = createAsyncThunk('patients/delete', async (patientId, thunkAPI) => {
+// Delete appointment details
+export const deleteAppointment = createAsyncThunk('appointments/delete', async (appointId, thunkAPI) => {
 	try {
 		//   const token = thunkAPI.getState().auth.user.token
-		return await patientService.deletePatient(patientId);
+		return await appointService.deleteAppointment(appointId);
 	} catch (error) {
 		const message =
 			(error.response && error.response.data && error.response.data.message) || error.message || error.toString();
@@ -70,8 +69,8 @@ export const deletePatient = createAsyncThunk('patients/delete', async (patientI
 	}
 });
 
-export const patientSlice = createSlice({
-	name: 'patient',
+export const appointmentSlice = createSlice({
+	name: 'appoint',
 	initialState,
   reducers: {
 		reset: (state) => initialState
@@ -79,91 +78,91 @@ export const patientSlice = createSlice({
 	extraReducers: (builder) => {
     builder
       
-			// STATES FOR CREAT PATIENT
+			// STATES FOR CREATE APPOINTMENT
 			// state on waiting for reqeust to be fullfulled or rejected
-			.addCase(createPatient.pending, (state) => {
+			.addCase(createAppointment.pending, (state) => {
 				state.isLoading = true;
 			})
 			// state on  success fullfilled of request
-			.addCase(createPatient.fulfilled, (state, action) => {
+			.addCase(createAppointment.fulfilled, (state, action) => {
 				state.isLoading = false;
 				state.isSuccess = true;
-				state.patients.push(action.payload);
+				state.appointments.push(action.payload);
 			})
 			// state on  when the request rejected
-			.addCase(createPatient.rejected, (state, action) => {
+			.addCase(createAppointment.rejected, (state, action) => {
 				state.isLoading = false;
 				state.isError = true;
 				state.message = action.payload;
       })
       
-			// STATES FOR GET ALL PATIENTS
-			//state on waiting for response get patient from the server
-			.addCase(getPatients.pending, (state) => {
+			// STATES FOR GET ALL APPOINTMENTS
+			//state on waiting for response get appointments from the server
+			.addCase(getAppointments.pending, (state) => {
 				state.isLoading = true;
       })
 			// states when the request fullfilles and when code [200k] we get data
-			.addCase(getPatients.fulfilled, (state, action) => {
+			.addCase(getAppointments.fulfilled, (state, action) => {
 				state.isLoading = false;
 				state.isSuccess = true;
-				state.patients = action.payload;
+				state.appointments = action.payload;
       })
 			//state when the request is rejected and capture the to display to user
-			.addCase(getPatients.rejected, (state, action) => {
+			.addCase(getAppointments.rejected, (state, action) => {
 				state.isLoading = false;
 				state.isError = true;
 				state.message = action.payload;
       })
       
-			// STATES FOR GET SINGLE  PATIENT
+			// STATES FOR GET SINGLE  APPOINTMENT DETAILS
 			//state on waiting for response get patient from the server
-			.addCase(getPatient.pending, (state) => {
+			.addCase(getAppointment.pending, (state) => {
 				state.isLoading = true;
 			})
 			// states when the request fullfilles and when code [200k] we get data
-			.addCase(getPatient.fulfilled, (state, action) => {
+			.addCase(getAppointment.fulfilled, (state, action) => {
 				state.isLoading = false;
 				state.isSuccess = true;
-				state.patient = action.payload;
+				state.appointment = action.payload;
 			})
 			//state when the request is rejected and capture the to display to user
-			.addCase(getPatient.rejected, (state, action) => {
+			.addCase(getAppointment.rejected, (state, action) => {
 				state.isLoading = false;
 				state.isError = true;
 				state.message = action.payload;
       })
       
-			// STATES FOR DELETE PATIENT
+			// STATES FOR DELETE APPOINTMENT
 			//  state on waiting of request to be fullifilled or rejected
-			.addCase(deletePatient.pending, (state) => {
+			.addCase(deleteAppointment.pending, (state) => {
 				state.isLoading = true;
 			})
 			// states when the request for delete patient was successful
-			.addCase(deletePatient.fulfilled, (state, action) => {
+			.addCase(deleteAppointment.fulfilled, (state, action) => {
 				state.isLoading = false;
 				state.isSuccess = true;
-				state.patients = state.patients.filter((patient) => patient._id !== action.payload.id);
+				state.appointments = state.appointments.filter((appointment) => appointment._id !== action.payload.id);
 			})
 			//the states when request for deleting patient  is rejected and reason for rejection
-			.addCase(deletePatient.rejected, (state, action) => {
+			.addCase(deleteAppointment.rejected, (state, action) => {
 				state.isLoading = false;
 				state.isError = true;
 				state.message = action.payload;
       })
       
-			//STATES FOR EDIT CUSTOMER
+			//STATES FOR EDIT APPOINTMENT
 			//  state on waiting for the request to be fullfilled  or rejected
-			.addCase(editPatient.pending, (state) => {
+			.addCase(editAppointment.pending, (state) => {
 				state.isLoading = true;
       })
       // states when the request is successful
-			.addCase(editPatient.fulfilled, (state, action) => {
+			.addCase(editAppointment.fulfilled, (state, action) => {
 				state.isLoading = false;
 				state.isSuccess = true;
-				state.patients = state.patients.filter((patient) => patient._id !== action.payload.id);
+				state.appointments = state.appointments.filter((appointment) => appointment._id !== action.payload.id);
       })
       //states when the request is rejected with reason for rejection
-			.addCase(editPatient.rejected, (state, action) => {
+			.addCase(editAppointment.rejected, (state, action) => {
 				state.isLoading = false;
 				state.isError = true;
 				state.message = action.payload;
@@ -171,5 +170,5 @@ export const patientSlice = createSlice({
 	}
 });
 
-export const { reset } = patientSlice.actions;
-export default patientSlice.reducer;
+export const { reset } = appointmentSlice.actions;
+export default appointmentSlice.reducer;

@@ -1,16 +1,44 @@
-import { Box, Button, TextField } from "@mui/material";
-import { Formik } from "formik";
+import { useEffect } from "react";
+import { Box, Button, TextField, FormControl, MenuItem, InputLabel, Select } from "@mui/material";
+import { Formik, Field } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { tokens } from "../theme";
 import { useTheme } from "@mui/material";
-
-const AppointmentsForm = () => {
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { getPatients} from "../redux/patient/patientSlice";
+import { getDoctors } from "../redux/doctor/doctorSlices";
+const AppointmentsForm = ({}) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
 
+
+   // initiliaze useDispatch && useNavigate
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
+
+//  useSelector  containe properties from patientSlice
+  const { patients } = useSelector(
+    (state) => state.patient
+  )
+//  useSelector  containe properties from doctorSlice
+  const { doctors } = useSelector(
+    (state) => state.doctor
+  )
+
+  // useEffect to fetch all the patients
+  useEffect(() => {
+    dispatch(getPatients())
+    dispatch(getDoctors())
+   
+  }, [ navigate, dispatch])
+
+  // handle submit data from  the form
   const handleFormSubmit = (values) => {
     console.log(values);
   };
+
+  //color themes
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -42,32 +70,31 @@ const AppointmentsForm = () => {
               }}
               color="#fff"
             >
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="patient name"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.patientName}
-                name="patientName"
-                error={!!touched.patientName && !!errors.patientName}
-                helperText={touched.patientName && errors.patientName}
-                sx={{ gridColumn: "span 2" }}
-              />
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label=" Doctor Name"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.doctorName}
-                name="doctorName"
-                error={!!touched.doctorName && !!errors.doctorName}
-                helperText={touched.doctorName && errors.doctorName}
-                sx={{ gridColumn: "span 2" }}
-              />
+      
+        <FormControl>
+          <InputLabel>patient Name</InputLabel>
+          <Field name="patientName" as={Select} label="patient name">
+            {patients.map((patient) => (
+              <MenuItem key={patient._id} value={patient._id}>
+                {patient.patientName}
+              </MenuItem>
+            ))}
+          </Field>
+        </FormControl>
+
+
+           
+
+          <FormControl>
+          <InputLabel>Doctor Name</InputLabel>
+          <Field name="doctorName" as={Select} label="doctor name" >
+            {doctors?.map((doctor) => (
+              <MenuItem key={doctor._id} value={doctor._id}>
+                {doctor.doctorName}
+              </MenuItem>
+            ))}
+          </Field>
+        </FormControl>
               <TextField
                 fullWidth
                 variant="filled"
@@ -81,18 +108,36 @@ const AppointmentsForm = () => {
                 helperText={touched.date && errors.date}
                 sx={{ gridColumn: "span 2" }}
               />
+          
+ 
+
+
+
               <TextField
                 fullWidth
                 variant="filled"
-                type="text"
-                label="appointment time"
+                type="time"
+                label="start time"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={values.contact}
-                name="time"
-                error={!!touched.time && !!errors.time}
-                helperText={touched.time && errors.time}
-                sx={{ gridColumn: "span 2" }}
+                value={values.startTime}
+                name="startTime"
+                error={!!touched.startTime && !!errors.startTime}
+                helperText={touched.startTime && errors.startTime}
+                sx={{ gridColumn: "span 1" }}
+              />
+              <TextField
+                fullWidth
+                variant="filled"
+                type="time"
+                label="end time"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                value={values.endStart}
+                name="endTime"
+                error={!!touched.endTime && !!errors.endTime}
+                helperText={touched.endTime && errors.endTime}
+                sx={{ gridColumn: "span 1" }}
               />
               <TextField
                 fullWidth
@@ -137,20 +182,19 @@ const AppointmentsForm = () => {
 };
 
 const checkoutSchema = yup.object().shape({
-  patientName: yup.string().required("required"),
-  doctorName: yup.string().required("required"),
+ 
   date: yup.string().required("required"),
-  time: yup
-    .string()
-    .required("required"),
   department: yup.string().required("required"),
   desc: yup.string().required("required"),
+  startTime: yup.string().required("requried"),
+  endTime: yup.string().required("required")
 });
 const initialValues = {
   patientName: "",
   doctorName: "",
   date: "",
-  time: "",
+  startTime: "",
+  endTime:"",
   department: "",
   desc: "",
 };
