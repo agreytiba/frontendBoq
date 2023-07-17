@@ -9,10 +9,10 @@ const initialState = {
 	user: user ? user : null,
 	users:{},
 	isError: false,
-	isSucess: false,
-	isRegistered: false,
+	isSuccess: false,
 	isLoading: false,
-	message: ''
+	message: '',
+	success:''
 };
 
 // Get all user
@@ -69,9 +69,10 @@ export const authSlice = createSlice({
 		// reset state to the initial state
 		reset: (state) => {
 			state.isLoading = false;
-			state.isSucess = false;
+			state.isSuccess = false;
 			state.isError = false;
 			state.message = '';
+			state.success = '';
 		}
 	},
 	extraReducers: (builder) => {
@@ -82,32 +83,30 @@ export const authSlice = createSlice({
 			})
 			.addCase(getAllUsers.fulfilled, (state, action) => {
 				state.isLoading = false;
-				state.isSucess = true;
+				state.isSuccess = true;
 				state.users=(action.payload);
 			})
 			.addCase(getAllUsers.rejected, (state, action) => {
 				state.isLoading = false;
 				state.isError = true;
-				state.isSucess = false;
+				state.isSuccess = false;
 				state.message = action.payload;
 			})
 			// register user pending, fulfilled,rejected
 			.addCase(register.pending, (state) => {
 				state.isLoading = true;
 			})
-			.addCase(register.fulfilled, (state, action) => {
+			.addCase(register.fulfilled, (state) => {
 				state.isLoading = false;
-				state.isSucess = true;
-				state.isRegistered = true;
-				state.user = action.payload;
+				state.isSuccess = true;
+			
 			})
 			.addCase(register.rejected, (state, action) => {
 				state.isLoading = false;
 				state.isError = true;
-				state.isRegistered = false;
-				state.isSucess = false;
+				state.isSuccess = false;
 				state.message = action.payload;
-				state.user = null;
+			
 			})
 			// create user pending, fulfilled,rejected
 			.addCase(createUser.pending, (state) => {
@@ -115,16 +114,17 @@ export const authSlice = createSlice({
 			})
 			.addCase(createUser.fulfilled, (state, action) => {
 				state.isLoading = false;
-				state.isSucess = true;
-				state.isRegistered = true;
+				state.isSuccess = true;
+				state.success="successful registered"
 				state.users = action.payload;
 			})
 			.addCase(createUser.rejected, (state, action) => {
 				state.isLoading = false;
 				state.isError = true;
-				state.isSucess = false;
+				state.isSuccess = false;
 				state.message = action.payload;
 				state.users = null;
+				
 			})
 			// login user  pending, fulfilled,rejected
 			.addCase(login.pending, (state) => {
@@ -132,14 +132,14 @@ export const authSlice = createSlice({
 			})
 			.addCase(login.fulfilled, (state, action) => {
 				state.isLoading = false;
-				state.isSucess = true;
+				state.isSuccess = true;
 				state.isRegistered = true;
 				state.user = action.payload;
 			})
 			.addCase(login.rejected, (state, action) => {
 				state.isLoading = false;
 				state.isError = true;
-				state.isSucess = false;
+				state.isSuccess = false;
 				state.message = action.payload;
 				state.user = null;
 			})

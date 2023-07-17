@@ -275,59 +275,75 @@ export const mockDoctors = [
 
 export const mockBarData = [
   {
-    country: "AD",
-    "doctor": 137,
-    "doctorColor": "hsl(286, 70%, 50%)",
-    patient: 96,
-    patientColor: "hsl(296, 70%, 50%)",
+    month: "jan",
+    "ramani": 40,
+    "ramaniColor": "hsl(286, 70%, 50%)",
+    mnunuzi: 5,
+    mnunuziColor: "hsl(296, 70%, 50%)",
     
   },
   {
-    country: "AE",
-    "doctor": 55,
-   "doctorColor": "hsl(286, 70%, 50%)",
-   patient: 28,
-   patientColor: "hsl(111, 70%, 50%)",
+    month: "feb",
+    "ramani": 55,
+   "ramaniColor": "hsl(286, 70%, 50%)",
+   mnunuzi: 28,
+   mnunuziColor: "hsl(111, 70%, 50%)",
   
   },
   {
-    country: "AF",
-    "doctor": 109,
-  "doctorColor": "hsl(286, 70%, 50%)",
-   patient: 23,
-   patientColor: "hsl(96, 70%, 50%)",
+    month: "march",
+    "ramani": 109,
+  "ramaniColor": "hsl(286, 70%, 50%)",
+   mnunuzi: 23,
+   mnunuziColor: "hsl(96, 70%, 50%)",
    
   },
   {
-    department: "AG",
-    "doctor": 133,
-    "doctorColor": "hsl(286, 70%, 50%)",
-   patient: 52,
-   patientColor: "hsl(326, 70%, 50%)",
+    month: "june",
+    "ramani": 133,
+    "ramaniColor": "hsl(286, 70%, 50%)",
+   mnunuzi: 52,
+   mnunuziColor: "hsl(326, 70%, 50%)",
     
   },
   {
-    department: "AI",
-    "doctor": 81,
-    "doctorColor": "hsl(286, 70%, 50%)",
-   patient: 80,
-   patientColor: "hsl(325, 70%, 50%)",
+    month: "july",
+    "ramani": 81,
+    "ramaniColor": "hsl(286, 70%, 50%)",
+   mnunuzi: 80,
+   mnunuziColor: "hsl(325, 70%, 50%)",
   
   },
   {
-    department: "AL",
-    "doctor": 66,
-   "doctorColor": "hsl(286, 70%, 50%)",
-   patient: 111,
-   patientColor: "hsl(334, 70%, 50%)",
+    month: "aug",
+    "ramani": 66,
+   "ramaniColor": "hsl(286, 70%, 50%)",
+   mnunuzi: 111,
+   mnunuziColor: "hsl(334, 70%, 50%)",
   
   },
   {
-  department:"AM",
-    "doctor": 80,
-    "doctorColor": "hsl(286, 70%, 50%)",
-   patient: 47,
-   patientColor: "hsl(141, 70%, 50%)",
+  month:"oct",
+    "ramani": 80,
+    "ramaniColor": "hsl(286, 70%, 50%)",
+   mnunuzi: 47,
+   mnunuziColor: "hsl(141, 70%, 50%)",
+    
+  },
+  {
+  month:"nov",
+    "ramani": 40,
+    "ramaniColor": "hsl(286, 70%, 50%)",
+   mnunuzi: 40,
+   mnunuziColor: "hsl(141, 70%, 50%)",
+    
+  },
+  {
+  month:"dec",
+    "ramani": 10,
+    "ramaniColor": "hsl(286, 70%, 50%)",
+   mnunuzi: 4,
+   mnunuziColor: "hsl(141, 70%, 50%)",
     
   },
 ];

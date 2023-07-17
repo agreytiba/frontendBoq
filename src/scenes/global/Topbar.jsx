@@ -50,7 +50,7 @@ const user = JSON.parse(localStorage.getItem('user'));
         </IconButton>
         </Box> :
         <Box display="flex" columnGap="7px">
-          <Link to={"/"} style={{textDecoration:"none", color:"#222"}}>
+          <Link to={"/login"} style={{textDecoration:"none", color:"#222"}}>
         <Typography variant="h5" textAlign="center">
 							Login
             </Typography>
@@ -64,7 +64,7 @@ const user = JSON.parse(localStorage.getItem('user'));
        
         </Box>}
       { showProfile &&
-      <Box position="absolute" top="60px" right="0" >
+      <Box position="absolute" top="60px" right="0"  zIndex="999">
           <Profile />
         </Box>
       }

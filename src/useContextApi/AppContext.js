@@ -2,17 +2,14 @@ import React, { createContext, useState } from 'react'
 export const AppContext = createContext();
 
 export const AppContextProvider = ({ children }) => {
-    const [totalPatients, setTotalPatients]= useState(0)
-    const [totalDoctors, setTotalDoctors]= useState(0)
-    const [totalAppoints, setTotalAppoints]= useState(0)
-    const [totalTodos, setTotalTodos]= useState(0)
+    const [file, setFile]= useState(null)
+    const [totalTodos, setTotalTodos] = useState(null)
   return (
       <AppContext.Provider
           value={{
-              totalPatients, setTotalPatients,
-              totalDoctors, setTotalDoctors,
+              file, setFile,
+
               totalTodos, setTotalTodos,
-              totalAppoints,setTotalAppoints
           }}
       >
           {children}

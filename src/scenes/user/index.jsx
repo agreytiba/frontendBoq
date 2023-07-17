@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import {toast} from "react-toastify"
 import { Box, Typography,Button, useTheme } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid,GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
@@ -140,7 +140,7 @@ if (isLoading) {
           },
         }}
       >
-        <DataGrid checkboxSelection rows={users} columns={columns} getRowId={getRowId}/>
+        <DataGrid checkboxSelection rows={users} columns={columns} getRowId={getRowId} components={{ Toolbar: GridToolbar }}/>
       </Box>
       {
         showAddForm &&

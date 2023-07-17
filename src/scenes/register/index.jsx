@@ -15,29 +15,30 @@ const Register = () => {
     const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const { user, isLoading, isError, isSuccess, message,isRegistered } = useSelector( (state) => state.auth)
+  const { user, isLoading, isError, isSuccess, message } = useSelector( (state) => state.auth)
 
   useEffect(() => {
     if (isError) {
       toast.error(message)
     }
 
-    if (isSuccess && isRegistered && user) {
-      toast.success("successful register user")
+    if (isSuccess) {
+      toast.success("umefanikiwa kujisajiri")
       navigate('/login')
-      
     }
- return () => {
+
+   
+  return () => {
     dispatch(reset())
     }
     
-  }, [user, isError, isSuccess,isRegistered, message, navigate, dispatch])
+    
+  }, [user,isError,isSuccess, message, navigate, dispatch])
 
 
   const handleFormSubmit = (values) => {
-  
     dispatch(register(values))
- 
+
   };
   if (isLoading) {
     return <h1>loading ....</h1>

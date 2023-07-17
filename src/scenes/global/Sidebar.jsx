@@ -6,13 +6,15 @@ import { tokens } from "../../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import { AirlineSeatFlat, BookOnlineRounded, Logout, MessageOutlined, MessageRounded, SupervisorAccountOutlined } from "@mui/icons-material";
+import { AirlineSeatFlat, Book, BookOnlineRounded, Logout, MapOutlined, MessageOutlined, MessageRounded, People, ProductionQuantityLimits, SupervisorAccountOutlined, WorkOff, WorkOutlined } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/auth/authSlice";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
 
- 
+
+
+
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   return (
@@ -42,13 +44,14 @@ const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
 
-  // handle logout user from the system
+
+ 
+    // handle logout user from the system
   const handleLogout = () => {
     dispatch(logout())
     navigate("/login")
     window.location.reload()
   }
-
   
 
   return (
@@ -105,7 +108,7 @@ const Sidebar = () => {
                 ml="15px"
               >
                 <Typography variant="h3" color="#fff" textTransform="uppercase">
-                  At Hospital
+                  BOQ
                 </Typography>
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                   <MenuOutlinedIcon  style={{color:" #fff"}}/>
@@ -131,16 +134,47 @@ const Sidebar = () => {
             />
 
             <Item
-              title="Appointments"
-              to="/appointments"
+              title="mtumiaji"
+              to="/mtumiaji"
                icon={<BookOnlineRounded />}
               selected={selected}
               setSelected={setSelected}
             />
               <Item
-              title="patients"
-              to="/patients"
-               icon={<AirlineSeatFlat />}
+              title="muuzaji"
+              to="/mtoahuduma"
+               icon={<WorkOutlined />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+              <Item
+              title="bidhaa"
+              to="/bidhaa"
+               icon={<ProductionQuantityLimits/>}
+              selected={selected}
+              setSelected={setSelected}
+            />
+              <Item
+              title="watoahuduma"
+              to="/watoahuduma"
+               icon={<People />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+               
+          
+            <Item
+              title="Ramani"
+              to="/ramani"
+               icon={<MapOutlined />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+         
+              <Item
+              title="BOQ"
+              to="/boq"
+               icon={<Book />}
               selected={selected}
               setSelected={setSelected}
             />
@@ -151,31 +185,17 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-            <Item
-              title="Doctors"
-              to="/doctors"
-               icon={<SupervisorAccountOutlined />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-          
-            <Item
-              title="Todo"
-              to="/todos"
-               icon={<MessageOutlined />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-         
+       
          
               <MenuItem
       active={selected === logout}
       style={{
         color: colors.grey[100],
       }}
-      onClick={handleLogout}
+    
     icon={<Logout/>}
-  
+  onClick={handleLogout}
+
     >
       <Typography>logout</Typography>
      

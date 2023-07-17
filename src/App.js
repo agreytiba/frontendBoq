@@ -6,12 +6,8 @@ import Dashboard from './scenes/dashboard';
 import Users from './scenes/user';
 import Login from './scenes/login';
 import Register from './scenes/register';
-import User from './access level/User';
-import Bar from './scenes/bar';
-import Doctor from './scenes/doctor';
-import Patient from './scenes/patient';
-import Appointment from './scenes/appointment';
-import Test from './scenes/test';
+
+
 import Calendar from './scenes/calendar/calendar';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { ColorModeContext, useMode } from './theme';
@@ -20,6 +16,13 @@ import { useSelector } from 'react-redux';
 import ProtectedRoutes from './ProtectedRoutes';
 import { ToastContainer } from 'react-toastify';
 import './App.css';
+import Home from './scenes/home';
+import Boq from './scenes/boq';
+import UserPage from './scenes/userpage';
+import SellerPage from './scenes/seller';
+import Products from './scenes/products';
+import ServiceProviders from './scenes/serviceProvider';
+import Maps from './scenes/map';
 function App() {
 	const [ theme, colorMode ] = useMode();
 	const [ isSidebar, setIsSidebar ] = useState(true);
@@ -31,25 +34,26 @@ function App() {
 				<CssBaseline />
 
 				<div className="app">
-					{user && user.token && <Sidebar isSidebar={isSidebar} />}
+					{user &&<Sidebar isSidebar={isSidebar} />}
 					<main className="content">
 						<Topbar setIsSidebar={setIsSidebar} />
 						<div className={isSidebar ? 'notCollapseItems' : 'collapseItems'}>
 							<Routes>
 								<Route path="/register" element={<Register />} />
 								<Route path="/login" element={<Login />} />
+
 								<Route element={<ProtectedRoutes />}>
 									<Route path="/" element={<Dashboard />} />
-								
+									<Route path="/home" element={<Home />} />
 									<Route path="/users" element={<Users />} />
-									<Route path="/doctors" element={<Doctor />} />
-									<Route path="/patients" element={<Patient />} />
-									<Route path="/bar" element={<Bar />} />
-									<Route path="/todos" element={<Calendar />} />
-									<Route path="/appointments" element={<Appointment />} />
-								</Route>
-								<Route>
-										<Route path="/user" element={<User />} />
+									<Route path="/mtumiaji" element={<UserPage />} />
+									<Route path="/boq" element={<Boq />} />
+									<Route path="/mtoahuduma" element={<SellerPage />} />
+									<Route path="/bidhaa" element={<Products/>} />
+									<Route path="/watoahuduma" element={<ServiceProviders/>} />
+									<Route path="/ramani" element={<Maps/>} />
+								
+									
 								</Route>
 							</Routes>
 						</div>

@@ -18,7 +18,8 @@ const Login = () => {
 	// get all  properties from react reduc state
   const { user, isLoading, isError, isSuccess, message } = useSelector(
     (state) => state.auth
-  )
+	)
+
  useEffect(() => {
     if (isError) {
      toast.error(message);
