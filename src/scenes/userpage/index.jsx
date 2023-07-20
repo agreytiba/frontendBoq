@@ -21,7 +21,8 @@ const UserPage = () => {
 				<Header title="Mteja" subtitle="" />
 				<Typography variant="h5">
 					karibu kwenye mfumo wetu
-					<span style={{ color: 'blue', textTransform: 'uppercase' }}>{user.name}</span> karibu tukuhudumie
+					
+					<span style={{ color: 'blue', textTransform: 'uppercase', marginLeft:"5px" }}>{user.name}</span> karibu tukuhudumie
 				</Typography>
 			</Box>
 

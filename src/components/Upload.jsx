@@ -19,11 +19,11 @@ const Upload = ({setShowUpload}) => {
   const handleFileUpload = () => {
     const fileReader = new FileReader();
 
-    fileReader.onloadend = () => {
-      const buffer = new Uint8Array(fileReader.result);
-      const blob = new Blob([buffer], { type: 'application/pdf' });
-      saveAs(blob, 'uploaded_pdf.pdf');
-    };
+    // fileReader.onloadend = () => {
+    //   const buffer = new Uint8Array(fileReader.result);
+    //   const blob = new Blob([buffer], { type: 'application/pdf' });
+    //   saveAs(blob, 'uploaded_pdf.pdf');
+    // };
 
     fileReader.readAsArrayBuffer(file);
     setShowUpload(false)

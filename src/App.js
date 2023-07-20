@@ -46,7 +46,7 @@ function App() {
 									<Route path="/" element={<Dashboard />} />
 									<Route path="/home" element={<Home />} />
 									<Route path="/users" element={<Users />} />
-									<Route path="/mtumiaji" element={<UserPage />} />
+									<Route path="/mteja" element={<UserPage />} />
 									<Route path="/boq" element={<Boq />} />
 									<Route path="/mtoahuduma" element={<SellerPage />} />
 									<Route path="/bidhaa" element={<Products/>} />

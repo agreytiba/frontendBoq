@@ -23,7 +23,7 @@ const Dashboard = () => {
 				<Box mb="10px">
 					<Header title="DASHBOARD" subtitle="" />
 					<Typography variant="h5">
-						Welcome <span style={{ color: 'blue', textTransform:"uppercase" }}>{user.name }</span> to your dashboard
+						 umeingia kwenye mfumo kwa jina <span style={{ color: 'blue', textTransform:"uppercase" }}>{user.name }</span>
 					</Typography>
 				</Box>
 			</Box>

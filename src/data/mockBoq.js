@@ -33,6 +33,32 @@ export const mockPreliminaries = {
 	]
 };
 
+export const collectivePurchases = [
+	{   id: "1",
+		material: "tofali",
+		rate: 900,
+		unit: "moja",
+		payBefore: "04/07/2023",
+		placeDelivered: "ubungo,luis",
+		deliveryRange:"1 may - 30 may 2023",
+		transport: "free",
+		orderStatus: "tunaendelea kupokea",
+	    usersAcceptOffer:[ "agreyId", "anithaId"]
+		
+	},
+	{   id: "2",
+		material: "cement",
+		unit: "mfuko",
+		rate: 13000,
+		payBefore: "04/08/2023",
+		placeDelivered: "kibaha, milemoja",
+		deliveryRange:"1 may - 30 may 2023",
+		transport: "free",
+		orderStatus: "tunaendelea kupokea",
+	    usersAcceptOffer:[ "agreyId", "anithaId"]
+		
+	},
+]
 export const products = [
 	{
 		id: 1,

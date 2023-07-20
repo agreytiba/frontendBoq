@@ -134,14 +134,14 @@ const Sidebar = () => {
             />
 
             <Item
-              title="mtumiaji"
-              to="/mtumiaji"
+              title="mteja"
+              to="/mteja"
                icon={<BookOnlineRounded />}
               selected={selected}
               setSelected={setSelected}
             />
               <Item
-              title="muuzaji"
+              title="mtoa huduma"
               to="/mtoahuduma"
                icon={<WorkOutlined />}
               selected={selected}
