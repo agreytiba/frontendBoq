@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Box, Typography, Button, useTheme } from '@mui/material';
-import { DataGrid,GridToolbar} from '@mui/x-data-grid';
+import { DataGrid,GridToolbar } from '@mui/x-data-grid';
 import { tokens } from '../theme';
-import Header from './Header';
 
-const CustomerDrawing = () => {
+
+const Walling = () => {
 	//colors themes
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
@@ -12,70 +12,67 @@ const CustomerDrawing = () => {
 	const data = [
 		{
 			id: 1,
-			createdAt: '22/07/2023',
-			constructionDate: '11/12/2023',
-			region: 'dar es salaam',
-			district: 'ubungo ',
-			kata: 'mbezi',
-			desc: '',
-			status: 'imepokelewa',
-			maps: []
+            material: "cement", 
+            manufacturer: "dangote",
+            unit: "bag",
+            quantity: 100,
+            price: 15000,
 		},
 		{
-			id: 2,
-			createdAt: '11/07/2023',
-			constructionDate: '20/12/2023',
-			region: 'mwanza',
-			district: 'ilemela ',
-			kata: 'maduna tisa',
-			desc: 'qqkkr r rruruu yeyeyeyye ueuhnfnfns f',
-			status: 'imepokelewa',
-			maps: []
+				id: 2,
+            material: "brick", 
+            manufacturer: "",
+		    unit: "one",
+            quantity: 1000,
+            price: 500,
 		}
 	];
 
 	// header arrangement in data grid
 	const columns = [
-		{ field: 'id', headerName: 'ID' },
+		
 		{
-			field: 'createdAt',
-			headerName: 'ULITUMA',
+			field: 'material',
+			headerName: 'bidhaa',
 			flex: 1,
 			cellClassName: 'name-column--cell'
 		},
 
 		{
-			field: 'constructionDate',
-			headerName: 'Itajengwa',
+			field: 'manufacturer',
+			headerName: 'from',
 			flex: 1
 		},
 		{
-			field: 'region',
-			headerName: 'mkoa',
+			field: ' unit',
+			headerName: 'kipimo',
 			flex: 1
 		},
 		{
-			field: 'district',
-			headerName: 'wilaya',
-			flex: 1
+			field: 'quantity',
+			headerName: 'qauntity',
+			flex: 0.5
 		},
-		{
-			field: 'kata',
-			headerName: 'mtaa',
-			flex: 1
-		},
-		{
-			field: 'status',
-			headerName: 'status',
-			flex: 1
-		}
+	
+           {
+      field: 'total',
+      headerName: 'Total',
+      type: 'number',
+     flex: 1,
+      valueGetter: (params) => {
+        return params.row.quantity * params.row.price;
+      },
+    },
+	
 	];
 
 	// define unique id
-	const getRowId = (row) => row.id;
+    const getRowId = (row) => row.id;
+    
+    //  calculate the total Amount
+	const totalAmount = data.reduce((total, row) => total + row.quantity * row.rate, 0);
 	return (
 		<Box >
-			
 			<Box
 				
 				height="100%"
@@ -90,7 +87,7 @@ const CustomerDrawing = () => {
 						color: colors.greenAccent[300]
 					},
 					'& .MuiDataGrid-columnHeaders': {
-						backgroundColor: colors.blueAccent[300],
+						backgroundColor: colors.greenAccent[300],
 						color: '#fff',
             borderBottom: 'none',
             textTransform:"uppercase"
@@ -101,7 +98,7 @@ const CustomerDrawing = () => {
 					'& .MuiDataGrid-footerContainer': {
 						borderTop: 'none',
 						backgroundColor: 'none',
-						display:"none"
+							display:"none"
 					},
 					'& .MuiCheckbox-root': {
 						color: `${colors.greenAccent[200]} !important`
@@ -114,4 +111,4 @@ const CustomerDrawing = () => {
 	);
 };
 
-export default CustomerDrawing;
+export default Walling;

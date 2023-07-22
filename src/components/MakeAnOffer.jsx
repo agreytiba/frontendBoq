@@ -3,91 +3,100 @@ import { Box, Typography, Button } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { tokens } from '../theme';
 import { useTheme } from '@mui/material';
-import { mockPreliminaries } from '../data/mockBoq';
 
-const OrderPlaced = () => {
+
+const MakeAnOffer = () => {
 	// use state to show  order needed
 	const [ showOrder, setShowOrder ] = useState(false);
 	// color themes
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
-	const data = mockPreliminaries.items;
+	const data = [
+		{
+			id:1,
+		material: "tofali",
+		quantity: 21000,
+		maxDate: "1 may 2023",
+		area: "kimbiji, kisarwe II",
+		costWithoutTrasport: "",
+		costWithTransport: "",
+	},
+		{
+			id: 2,
+		material: "cement",
+		quantity: 1000,
+		maxDate: "12 oct 2023",
+		area: "ubungo, kimara mwisho",
+		costWithoutTrasport: "",
+		costWithTransport: "",
+	},
+	]
 
 	// headers of each column in  the data grid
 	const columns = [
 		{ field: 'id', headerName: 'ID', flex: 0.5 },
 
 		{
-			field: 'materialName',
+			field: 'material',
 			headerName: 'bidhaa',
 			flex: 1,
 			cellClassName: 'name-column--cell'
 		},
 
 		{
-			field: 'unit',
-			headerName: 'kipimo',
+			field: 'quantity',
+			headerName: ' idadi',
 			flex: 0.5
 		},
 		{
-			field: 'quantity',
+			field: 'maxDate',
 			headerName: 'idadi',
 			flex: 1,
 			cellClassName: 'name-column--cell'
 		},
 		{
-			field: 'rate',
-			headerName: 'grahama @ 1',
+			field: 'area',
+			headerName:'itapelekwa',
 			flex: 1,
 			cellClassName: 'name-column--cell'
 		},
-		{
-			field: 'amount',
-			headerName: 'kiasi',
-			valueGetter: (params) => params.row.quantity * params.row.rate,
-			flex: 1
+	{
+			field: 'actions',
+			headerName: 'tuma ofa',
+            flex: 1,
+            textAlign:'center',
+			renderCell: (params) => {
+			
+				const handleSubmit = (id) => {
+					console.log(`delete clicked id`);
+				};
+				
+				return (
+					<Box textAlign="center" display="flex" justifyContent="center">
+						<Button
+							style={{
+								backgroundColor: 'green',
+								color: '#fff',
+								
+							}}
+                           onClick={handleSubmit}
+						>
+							Tuma ofa
+						</Button>
+					</Box>
+				);
+			}
 		}
 	];
 	// define unique id
 	const getRowId = (row) => row.id;
 
-	//  calculate the total Amount
-	const totalAmount = data.reduce((total, row) => total + row.quantity * row.rate, 0);
+
 
 	return (
 		<Box border="1px solid #333" p="10px" mt="10px">
-			<Box display="flex" flexDirection="column" rowGap="10px">
-				<Typography variant="h4">
-					<strong> Jina la mteja:</strong> {mockPreliminaries.name}
-				</Typography>
-				<Typography variant="h4">
-					<strong>Eneo : </strong> {mockPreliminaries.area}
-				</Typography>
-				<Typography variant="h4">
-					<strong>Jina la ramani:</strong> {mockPreliminaries.mapName}
-				</Typography>
-				<Typography variant="h4">
-					<strong> Inahitajika kabla:</strong> {mockPreliminaries.lastDate}
-                </Typography>
-                
-                	<Box textAlign="" >
-						<Button
-							style={{
-								backgroundColor: 'goldenrod',
-								color: '#fff',
-								width: '150px',
-								height: '50px',
-								marginTop: '15px'
-                        }}
-                        onClick={()=>setShowOrder(!showOrder)}
-						>
-						{showOrder ? "ficha" : "onyesha"}
-						</Button>
-					</Box>
-            </Box>
-            
+		
 
-			{showOrder && (
 				<Box
 					sx={{
 						'& .MuiDataGrid-root': {
@@ -125,7 +134,7 @@ const OrderPlaced = () => {
 						//   components={{ Toolbar: GridToolbar }}
 						responsiveLayout={[ 'xs', 'sm' ]}
 					/>
-					<Box
+					{/* <Box
 						display="flex"
 						justifyContent="space-between"
 						backgroundColor="#333"
@@ -134,25 +143,13 @@ const OrderPlaced = () => {
 					>
 						<Typography>total</Typography>
 						<Typography>Tsh {totalAmount}</Typography>
-					</Box>
+					</Box> */}
 
-					<Box textAlign="center" display="flex" justifyContent="center">
-						<Button
-							style={{
-								backgroundColor: 'green',
-								color: '#fff',
-								width: '150px',
-								height: '50px',
-								marginTop: '15px'
-							}}
-						>
-							Tuma ofa
-						</Button>
-					</Box>
+					
 				</Box>
-			)}
+		
 		</Box>
 	);
 };
 
-export default OrderPlaced;
+export default MakeAnOffer;

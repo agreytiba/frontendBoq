@@ -6,8 +6,6 @@ import Dashboard from './scenes/dashboard';
 import Users from './scenes/user';
 import Login from './scenes/login';
 import Register from './scenes/register';
-
-
 import Calendar from './scenes/calendar/calendar';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { ColorModeContext, useMode } from './theme';
@@ -23,6 +21,7 @@ import SellerPage from './scenes/seller';
 import Products from './scenes/products';
 import ServiceProviders from './scenes/serviceProvider';
 import Maps from './scenes/map';
+import Blog from './scenes/blog';
 function App() {
 	const [ theme, colorMode ] = useMode();
 	const [ isSidebar, setIsSidebar ] = useState(true);
@@ -52,6 +51,7 @@ function App() {
 									<Route path="/bidhaa" element={<Products/>} />
 									<Route path="/watoahuduma" element={<ServiceProviders/>} />
 									<Route path="/ramani" element={<Maps/>} />
+									<Route path="/blog" element={<Blog/>} />
 								
 									
 								</Route>

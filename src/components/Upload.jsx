@@ -6,7 +6,7 @@ import { AppContext } from '../useContextApi/AppContext';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
-const Upload = ({setShowUpload}) => {
+const Upload = () => {
   const [numPages, setNumPages] = useState(null);
 
   // get  useState from context api
@@ -19,14 +19,14 @@ const Upload = ({setShowUpload}) => {
   const handleFileUpload = () => {
     const fileReader = new FileReader();
 
-    // fileReader.onloadend = () => {
-    //   const buffer = new Uint8Array(fileReader.result);
-    //   const blob = new Blob([buffer], { type: 'application/pdf' });
-    //   saveAs(blob, 'uploaded_pdf.pdf');
-    // };
+    fileReader.onloadend = () => {
+      const buffer = new Uint8Array(fileReader.result);
+      const blob = new Blob([buffer], { type: 'application/pdf' });
+      saveAs(blob, 'uploaded_pdf.pdf');
+    };
 
     fileReader.readAsArrayBuffer(file);
-    setShowUpload(false)
+   
   };
 
   const handlePdfLoadSuccess = ({ numPages }) => {
@@ -52,14 +52,7 @@ const Upload = ({setShowUpload}) => {
           >
             Upload PDF
           </Button>
-          <Button
-            variant="contained"
-            color="success"
-            onClick={() => setShowUpload(false)}
-            style={{marginLeft:"10px"}}
-          >
-             cancel
-          </Button>
+        
         </Grid>
         {file && (
           <Grid item xs={12}>

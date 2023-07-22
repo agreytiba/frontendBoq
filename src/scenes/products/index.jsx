@@ -72,7 +72,8 @@ const Products = () => {
 	const getRowId = (row) => row.id;
 
 	return (
-		<Box p="10px" mt="20px">
+		<Box display="flex" justifyContent="center" alignItems="center" py="50px">
+		<Box  width="90%" p="15px" boxShadow="0 0 5px #333" borderRadius="10px">
 			<Typography style={{ textAlign: 'center', textTransform: 'uppercase' }} variant="h3">
 				bidhaa na bei zake
 			</Typography>
@@ -136,7 +137,7 @@ const Products = () => {
 <AddMaterialForm setShowAddForm={setShowAddForm}/>
 			</Box>
 			}
-		</Box>
+		</Box></Box>
 	);
 };
 

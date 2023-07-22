@@ -3,11 +3,12 @@ import { Box, useTheme, Button, Typography } from '@mui/material';
 import { tokens } from '../../theme';
 
 import BlogPosts from '../../components/BlogPosts';
-import ProviderInfoForm from "../../components/ProviderInfoForm"
-import { useState } from 'react';
-import MakeAnOffer from '../../components/MakeAnOffer';
 
-const SellerPage = () => {
+import { useState } from 'react';
+
+import AddBlogPost from '../../components/AddBlogPost';
+
+const Blog = () => {
 	const [showSendForm, setShowSendForm] =useState(false)
 	// color themes
 	const theme = useTheme();
@@ -26,16 +27,13 @@ const SellerPage = () => {
 					}}
 					onClick={()=>setShowSendForm(true)}
 				>
-					 Tuma taarifa
+				weka post
 				</Button>
             </Box>
-            <Box>
-                <Typography style={{textTransform:"uppercase"}} variant="h3"><strong>manunuzi ya pamoja: bidhaa zinahitajika</strong></Typography>
-                <MakeAnOffer/>
-            </Box>
+          
             	<Box my="4em">
 				<Box textAlign="center" mb="1rem">
-					<Typography variant="h2">Lastest blog posts</Typography>
+					<Typography variant="h2"> blog posts</Typography>
 				</Box>
 				<Box border="1px solid #333" p="10px">
 					<BlogPosts />
@@ -46,7 +44,7 @@ const SellerPage = () => {
 				
 			</Box>
 			{showSendForm &&<Box   minHeight="100vh" position="absolute" top="0" left="0" right="0" backgroundColor="rgba(0,0,0,0.7)" >
-						<ProviderInfoForm setShowSendForm={setShowSendForm } />
+						<AddBlogPost  />
 					</Box>
 
 				}
@@ -56,4 +54,4 @@ const SellerPage = () => {
 	);
 };
 
-export default SellerPage;
+export default Blog;

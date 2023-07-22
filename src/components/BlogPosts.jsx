@@ -29,7 +29,7 @@ const BlogPosts = () => {
 			{data.map((post) => {
 			
 				return (
-					<Card key={post.id} style={{ width: '350px' }}>
+					<Card key={post.id} style={{ width: '300px' }}>
 						<CardMedia component="img" alt="image blog" height="200" width="250" image={post.img} />
 						<CardContent>
 							<Typography variant="h5" component="h2" style={{color:"green"}}>

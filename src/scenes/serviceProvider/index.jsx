@@ -5,6 +5,7 @@ import { tokens } from '../../theme';
 import { serviceProviders } from '../../data/mockBoq';
 import { DeleteOutlined } from '@mui/icons-material';
 import { EditOutlined } from '@mui/icons-material';
+import ProviderInfoForm from '../../components/ProviderInfoForm';
 const ServiceProviders = () => {
 	// color themes
 	const theme = useTheme();
@@ -80,8 +81,9 @@ const ServiceProviders = () => {
 	const getRowId = (row) => row.id;
 
 	return (
-		<Box p="10px" mt="20px">
-			<Typography style={{ textAlign: 'center', textTransform: 'uppercase' }} variant="h3">
+		 <Box display="flex" justifyContent="center" alignItems="center" py="50px">
+		<Box width="90%" p="15px" boxShadow="0 0 5px #333" borderRadius="10px">
+			<Typography style={{ textAlign: 'center', textTransform: 'uppercase',padding:"50px 0 20px 0" }} variant="h3">
 				watoa huduma
 			</Typography>
 		
@@ -123,7 +125,8 @@ const ServiceProviders = () => {
 					responsiveLayout={[ 'xs', 'sm' ]}
 				/>
 			</Box>
-		</Box>
+			
+		</Box></Box>
 	);
 };
 

@@ -4,6 +4,7 @@ import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { tokens } from '../theme';
 import { useTheme } from '@mui/material';
 import { collectivePurchases } from '../data/mockBoq';
+import AddCollectiveBuying from './AddCollectiveBuying';
 
 const BuyCollective = () => {
 	// color themes
@@ -13,7 +14,7 @@ const BuyCollective = () => {
 
 	// headers of each column in  the data grid
 	const columns = [
-		{ field: 'id', headerName: 'ID', flex: 0.5 },
+	
 
 		{
 			field: 'material',
@@ -23,14 +24,14 @@ const BuyCollective = () => {
 		},
 
 		{
-			field: 'unit',
-			headerName: 'kipimo',
+			field: 'quantity',
+			headerName: 'idadi',
 			flex: 0.5
 		},
 
 		{
-			field: 'rate',
-			headerName: 'grahama @ 1',
+			field: 'price',
+			headerName: 'offer',
 			flex: 0.5,
 		},
 		{
@@ -92,20 +93,9 @@ const BuyCollective = () => {
 	// const totalAmount = data.reduce((total, row) => total + row.quantity * row.rate, 0);
 
 	return (
-    <Box border="1px solid #333" p="10px">
+    <Box  p="10px">
       <Typography style={{textAlign:"center",textTransform:"uppercase"}} variant="h3">manunuzi ya pamoja</Typography>
-      	<Box>
-				<Button
-					style={{
-						backgroundColor: 'goldenrod',
-						color: '#fff',
-						width: '150px',
-            marginBlock:"15px"
-					}}
-				>
-					 ongeza  vifaa 
-				</Button>
-      </Box>
+     
      
 			
       <Box
@@ -164,6 +154,7 @@ const BuyCollective = () => {
 					Weka oda
 				</Button>
 			</Box> */}
+			
 		</Box>
 	);
 };

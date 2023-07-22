@@ -105,7 +105,8 @@ if (isLoading) {
   return <Spinner/>
 }
   return (
-    <Box m="20px" position="relative">
+    <Box display="flex" justifyContent="center" alignItems="center" py="50px">
+    <Box width="90%" p="15px" boxShadow="0 0 5px #333" borderRadius="10px">
       <Header title="User" subtitle="user access level" />
         <Box display="center" justifyContent="flex-end" alignItems="center" mt="20px" >
         <Button style={{backgroundColor:"rgb(0,0,255)", color:"#fff"}} onClick={()=>setShowAddForm(true)}>New</Button>
@@ -150,7 +151,7 @@ if (isLoading) {
       </Box>
       }
       
-    </Box>
+    </Box></Box>
   );
 };
 

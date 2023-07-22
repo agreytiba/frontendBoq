@@ -185,6 +185,13 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
+            <Item
+              title="Blog"
+               icon={<PersonOutlinedIcon />}
+              to="/blog"
+              selected={selected}
+              setSelected={setSelected}
+            />
        
          
               <MenuItem
