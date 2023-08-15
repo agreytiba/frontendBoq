@@ -9,7 +9,7 @@ import { useState } from 'react';
 import AddBlogPost from '../../components/AddBlogPost';
 
 const Blog = () => {
-	const [showSendForm, setShowSendForm] =useState(false)
+	const [showAddForm, setShowAddForm] =useState(false)
 	// color themes
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
@@ -25,7 +25,7 @@ const Blog = () => {
 						width: '150px',
                         marginBlock:"15px"
 					}}
-					onClick={()=>setShowSendForm(true)}
+					onClick={()=>setShowAddForm(true)}
 				>
 				weka post
 				</Button>
@@ -37,14 +37,11 @@ const Blog = () => {
 				</Box>
 				<Box border="1px solid #333" p="10px">
 					<BlogPosts />
-					<Box display="flex" justifyContent="center" mt="1em">
-						<Button style={{ backgroundColor: '#333', color: '#fff' }}>more blog post</Button>
-					</Box>
 				</Box>
 				
 			</Box>
-			{showSendForm &&<Box   minHeight="100vh" position="absolute" top="0" left="0" right="0" backgroundColor="rgba(0,0,0,0.7)" >
-						<AddBlogPost  />
+			{showAddForm &&<Box   minHeight="100vh" position="absolute" top="0" left="0" right="0" backgroundColor="rgba(0,0,0,0.7)" >
+						<AddBlogPost setShowAddForm={setShowAddForm}  />
 					</Box>
 
 				}

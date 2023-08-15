@@ -5,7 +5,7 @@ import Header from '../../components/Header';
 import StatBox from '../../components/StatBox';
 import { Book, PagesOutlined, Topic } from '@mui/icons-material';
 import { useState } from 'react';
-import BarChart from '../../components/BarChart';
+
 
 
 const Dashboard = () => {
@@ -14,7 +14,7 @@ const Dashboard = () => {
 	const colors = tokens(theme.palette.mode);
 
 	// get user from local
-	const user = JSON.parse(localStorage.getItem('user'));
+	const user = JSON.parse(sessionStorage.getItem('user'));
 
 	return (
 		<Box m="20px" position="relative">
@@ -83,11 +83,11 @@ const Dashboard = () => {
 				
 				
 			</Box>
-			{/* row 2  BARCHART*/}
+			{/* row 2  BARCHART
 		      <Box height="300px" mt="10px">
 				<BarChart />
 				
-          </Box>
+          </Box> */}
 			<Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gridAutoRows="140px" gap="20px" sx={{}}>
 				{/* ROW  3*/}
 				<Box

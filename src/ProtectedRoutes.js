@@ -1,13 +1,18 @@
-import { Navigate, Outlet } from "react-router-dom";
-import { useSelector } from "react-redux";
-const useAuth = () => {
-    // get all  properties from react reduc state
-    const { user } = useSelector((state) => state.auth)
-   console.log(user)
-    return user && user.token
+import { Route, Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
+const PrivateRoute = ({ element: Element, roles, ...rest }) => {
+  const user = useSelector((state) => state.auth.user);
+  const isAuthorized = user && roles.includes(user.accessLevel);
+
+  return isAuthorized ? (
+    <Route {...rest} element={<Element />} />
+  ) : (
+    <Navigate to="/login" state={{ from: rest.location.pathname }} />
+  );
 };
-const ProtectedRoutes = () => {
-    const isauth = useAuth()
-    return isauth ? <Outlet /> : <Navigate to="/login" />;
-}
-export default ProtectedRoutes
+
+export default PrivateRoute;
+
+
+

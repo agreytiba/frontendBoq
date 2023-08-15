@@ -46,7 +46,7 @@ const User = () => {
 
   // header arrangement in data grid
   const columns = [
-    { field: "_id", headerName: "ID" },
+   
     {
       field: "name",
       headerName: "Name",
@@ -113,7 +113,7 @@ if (isLoading) {
       </Box>
       <Box
         m="40px 0 0 0"
-        height="100%"
+        height="80vh"
         sx={{
           "& .MuiDataGrid-root": {
             border: "none",
@@ -141,7 +141,7 @@ if (isLoading) {
           },
         }}
       >
-        <DataGrid checkboxSelection rows={users} columns={columns} getRowId={getRowId} components={{ Toolbar: GridToolbar }}/>
+        <DataGrid  rows={users} columns={columns} getRowId={getRowId} components={{ Toolbar: GridToolbar }}/>
       </Box>
       {
         showAddForm &&

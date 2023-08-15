@@ -1,10 +1,12 @@
+import { useEffect } from "react";
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import Header from "./Header";
-
-
+import { AddMaterial ,reset} from "../redux/material/materialSlice";
+import {useDispatch, useSelector} from "react-redux";
+import { useNavigate } from "react-router-dom";
+import {toast} from "react-toastify"
 
 const AddMaterialForm = ({ setShowAddForm }) => {
     
@@ -12,11 +14,38 @@ const AddMaterialForm = ({ setShowAddForm }) => {
 
   const isNonMobile = useMediaQuery("(min-width:600px)");
 
-    const handleFormSubmit = (values) => {
-        console.log(values)
-        setShowAddForm(false)
-      
-  };
+  
+	// initiliaze useDispatch && useNavigate
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+	//useSelector  containe properties from authSlice
+  const {material, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.material
+	)
+
+// use effect for handling states
+  useEffect(() => {
+    if (isError) {
+      toast.error(message)
+    }
+  
+    return () => {
+      dispatch(reset())
+    }
+  }, [ isError, message, dispatch])
+
+	const handleFormSubmit = (values) => {
+	if (values) {
+		dispatch(AddMaterial(values))
+    setShowAddForm(false);
+		toast.success("umefanikiwa")
+    window.location.reload()
+		
+	}
+		
+		
+		
+	};
     return (
 <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
         <Box p="20px" backgroundColor="#ddd" maxWidth="800px" >
@@ -53,10 +82,10 @@ const AddMaterialForm = ({ setShowAddForm }) => {
                 label="bidhaa"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={values.materialName}
-                name="materialName"
-                error={!!touched.materialName && !!errors.materialName}
-                helperText={touched.materialName && errors.materialName}
+                value={values.material}
+                name="material"
+                error={!!touched.material && !!errors.material}
+                helperText={touched.material && errors.material}
                 sx={{ gridColumn: "span 4" }}
               />
     
@@ -109,7 +138,7 @@ const AddMaterialForm = ({ setShowAddForm }) => {
 
 
 const checkoutSchema = yup.object().shape({
-  materialName: yup.string().required("inahitaji"),
+  material: yup.string().required("inahitaji"),
   unit: yup.string().required("inahitaji"),
   rate: yup
     .string()
@@ -117,7 +146,7 @@ const checkoutSchema = yup.object().shape({
 
 });
 const initialValues = {
-  materialName: "",
+  material: "",
   unit: "",
   rate: ""
 };

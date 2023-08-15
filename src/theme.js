@@ -53,7 +53,7 @@ export const tokens = (mode) => ({
           100: "#e1e2fe",
           200: "#c3c6fd",
           300: "#a4a9fc",
-          400: "#868dfb",
+          400: "#868dfb)",
           500: "#6870fa",
           600: "#535ac8",
           700: "#3e4396",
@@ -89,7 +89,7 @@ export const tokens = (mode) => ({
           200: "#1e5245",
           300: "#2e7c67",
           400: "#3da58a",
-          500: "#4cceac",
+          500: "#00ed20",
           600: "#70d8bd",
           700: "#94e2cd",
           800: "#b7ebde",
@@ -110,7 +110,7 @@ export const tokens = (mode) => ({
           100: "#151632",
           200: "#2a2d64",
           300: "#3425a9",
-          400: "#535ac8",
+          400: "#00cded",
           500: "#6870fa",
           600: "#868dfb",
           700: "#a4a9fc",
@@ -162,10 +162,8 @@ export const themeSettings = (mode) => {
             },
           firstColor: {
               main: colors.blueAccent[400]
-            },
-            background: {
-              default: "#f0f1f6",
-            },
+          },
+       
           }),
     },
     typography: {

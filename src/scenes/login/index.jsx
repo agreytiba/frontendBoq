@@ -5,7 +5,7 @@ import * as yup from 'yup';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { tokens } from '../../theme';
 import { useTheme } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
 import { login, reset } from '../../redux/auth/authSlice';
 import { toast } from 'react-toastify';
@@ -19,14 +19,36 @@ const Login = () => {
   const { user, isLoading, isError, isSuccess, message } = useSelector(
     (state) => state.auth
 	)
-
+// const me= localStorage.getItem("user")
  useEffect(() => {
     if (isError) {
      toast.error(message);
     }
 
-    if (isSuccess || user?.token) {
-      navigate('/')
+	
+    if ((isSuccess || user?.token)&&( (user?.accessLevel) === "admin")) {
+      navigate('/dashboard')
+    }
+    if ((isSuccess || user?.token)&&( (user?.accessLevel) === "user")) {
+      navigate('/mteja')
+    }
+    if ((isSuccess || user?.token)&&( (user?.accessLevel) === "boq")) {
+      navigate('/boq')
+    }
+    if ((isSuccess || user?.token)&&( (user?.accessLevel) === "typechecker")) {
+      navigate('/pangaramani')
+    }
+    if ((isSuccess || user?.token)&&( (user?.accessLevel) === "unitchecker")) {
+      navigate('/vipimo')
+    }
+    if ((isSuccess || user?.token)&&( (user?.accessLevel) === "failedchecker")) {
+      navigate('/suggestion')
+    }
+    if ((isSuccess || user?.token)&&( (user?.accessLevel) === "pricetag")) {
+      navigate('/bidhaa')
+    }
+    if ((isSuccess || user?.token)&&( (user?.accessLevel) === "seller")) {
+      navigate('/mtoahuduma')
     }
 
    
@@ -104,14 +126,18 @@ if (isLoading) {
 								type="submit"
 								color="firstColor"
 								variant="contained"
-								style={{ width: '100%', height: '40px', color: '#fff' }}
+								style={{ width: '100%', height: '40px', color: '#000' }}
 							>
 								Login
 							</Button>
 						</Box>
+						<Box display="flex" justifyContent="center" mt="10px" padding="10px">
+				        <Link to="/forgot"> nimesahau password</Link>
+			        </Box>
 					</form>
 				)}
 			</Formik>
+			
 		</Box>
 	);
 };

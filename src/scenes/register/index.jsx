@@ -1,10 +1,10 @@
 import { useEffect } from "react";
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, TextField,Select, FormControl,InputLabel,MenuItem, Typography } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useDispatch,useSelector} from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { register, reset } from "../../redux/auth/authSlice";
 import {toast} from "react-toastify"
 import Header from "../../components/Header";
@@ -24,7 +24,7 @@ const Register = () => {
 
     if (isSuccess) {
       toast.success("umefanikiwa kujisajiri")
-      navigate('/login')
+      navigate('/')
     }
 
    
@@ -48,8 +48,8 @@ const Register = () => {
     <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
       <Box>
 <Header
-        title="REGISTER"
-      subtitle="register as system user"/>
+        title="JISAJIRI"
+      subtitle="Jaza fomu kujisajiri"/>
       <Formik
         onSubmit={handleFormSubmit}
         initialValues={initialValues}
@@ -83,8 +83,27 @@ const Register = () => {
                 name="name"
                 error={!!touched.name && !!errors.name}
                 helperText={touched.name && errors.name}
+                sx={{ gridColumn: "span 2" }}
+                />
+                 <FormControl fullWidth style={{width:"150px"}}>
+								<InputLabel id="accessLevel">Huduma</InputLabel>
+								<Select
+                labelId="accessLevel"
+                onBlur={handleBlur}
+								onChange={handleChange}
+								value={values.accessLevel}
+								name="accessLevel"
+						    error={!!touched.accessLevel && !!errors.accessLevel}
+                helperText={touched.accessLevel && errors.accessLevel}
                 sx={{ gridColumn: "span 4" }}
-              />
+								
+								>
+							  <MenuItem   defaultValue="" disabled>select account</MenuItem>
+									<MenuItem value="user">mteja</MenuItem>
+									<MenuItem value="seller">Mtoa huduma</MenuItem>
+							
+								</Select>
+							</FormControl>
           
               <TextField
                 fullWidth
@@ -113,7 +132,7 @@ const Register = () => {
                 sx={{ gridColumn: "span 2" }}
                 />
                
-                  <TextField
+           {/*        <TextField
                 fullWidth
                 variant="filled"
                 type="text"
@@ -125,7 +144,8 @@ const Register = () => {
                 error={!!touched.accessLevel && !!errors.accessLevel}
                 helperText={touched.accessLevel && errors.accessLevel}
                 sx={{ gridColumn: "span 4" }}
-              />
+                /> */}
+            
               <TextField
                 fullWidth
                 variant="filled"
@@ -154,12 +174,13 @@ const Register = () => {
             </Box>
             <Box display="flex" justifyContent="end" mt="20px">
               <Button type="submit" color="secondary" variant="contained" >
-                Register
+                Jisajiri
               </Button>
             </Box>
           </form>
         )}
         </Formik>
+        <Typography>ulishajisajiri? <Link to="/login" style={{fontWeight:"bold", textDecoration:"none", color:"#333"}}>Login</Link></Typography>
       </Box>
     </Box>
   );

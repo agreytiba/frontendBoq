@@ -1,4 +1,4 @@
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, TextField,FormControl,InputLabel,Select,MenuItem} from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -22,8 +22,9 @@ const AddNewUser = ({ setShowAddForm }) => {
       }
       if(isSuccess) {
          dispatch(createUser(values))
-      setShowAddForm(false)
-      toast.success("user added successful")
+        setShowAddForm(false)
+        toast.success("user added successful")
+        window.location.reload()
       }
       else {
         toast.error("failed to create the user")
@@ -96,19 +97,30 @@ const AddNewUser = ({ setShowAddForm }) => {
                 helperText={touched.phone && errors.phone}
                 sx={{ gridColumn: "span 4" }}
               />
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Access Level"
+         <FormControl fullWidth style={{width:"100%"}}>
+								<InputLabel id="accessLevel">aina ya mtumiaji</InputLabel>
+								<Select
+                labelId="accessLevel"
                 onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.accessLevel}
-                name="accessLevel"
-                error={!!touched.accessLevel && !!errors.accessLevel}
+								onChange={handleChange}
+								value={values.accessLevel}
+								name="accessLevel"
+						    error={!!touched.accessLevel && !!errors.accessLevel}
                 helperText={touched.accessLevel && errors.accessLevel}
                 sx={{ gridColumn: "span 4" }}
-              />
+								
+								>
+							  <MenuItem   defaultValue="" disabled>select account</MenuItem>
+									<MenuItem value="user">mteja</MenuItem>
+									<MenuItem value="seller">Mtoa huduma</MenuItem>
+									<MenuItem value="typechecker"> mpanga michoro</MenuItem>
+									<MenuItem value="unitchecker">mkagua vipimo</MenuItem>
+									<MenuItem value="failedchecker">mfanya maboresho</MenuItem>
+									<MenuItem value="pricetag">mpangaji bei</MenuItem>
+									<MenuItem value="boq">mtengeneza boq</MenuItem>
+							
+								</Select>
+							</FormControl>
          
               <TextField
                 fullWidth
@@ -142,7 +154,7 @@ const AddNewUser = ({ setShowAddForm }) => {
 };
 
 const phoneRegExp =
-  /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
+  /^((\+[0-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
 
 const checkoutSchema = yup.object().shape({
   name: yup.string().required("required"),

@@ -1,50 +1,207 @@
-import React from 'react';
-import { Box, useTheme, Button, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { Box, Typography, Button, useTheme} from '@mui/material';
+import { DataGrid,GridToolbar} from '@mui/x-data-grid';
 import { tokens } from '../../theme';
+import { useDispatch,useSelector} from "react-redux";
+import {useNavigate}  from "react-router-dom"
+import { toast } from "react-toastify"
+import { deleteMap, getAllMaps, reset } from '../../redux/maps/mapsSlice';
+import { DeleteOutlined } from '@mui/icons-material';
+import { EditOutlined } from '@mui/icons-material';
+import axios from 'axios';
+import Spinner from '../../components/Spinner';
+const Boq = () => {
 
-import BlogPosts from '../../components/BlogPosts';
-import ProviderInfoForm from '../../components/ProviderInfoForm';
-import { useState } from 'react';
-import MakeAnOffer from '../../components/MakeAnOffer';
-import Foundation from '../../components/Foundation';
-import Header from '../../components/Header';
-import Walling from '../../components/Walling';
-import Roufing from '../../components/Roufing';
-
-const SellerPage = () => {
-	const [ showSendForm, setShowSendForm ] = useState(false);
-	// color themes
+//   const [mapId, setMapId] = useState();
+  const [newStatus, setNewStatus] = useState('vipimo');
+	//colors themes
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 
+
+
+// initiliaze useDispatch && useNavigate
+  const dispatch = useDispatch()
+	const navigate = useNavigate()
+
+	// get user from local
+	const user = JSON.parse(sessionStorage.getItem('user'));
+
+//useSelector  containe properties from authSlice
+  const {maps, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.map
+  )
+	const filtereData = maps.filter((map) => map.status === "boq")
+
+
+  //useEffect to fetch all users
+  useEffect(() => {
+    if (isError) {
+      toast.error(message)
+    }
+    // firing get all users
+    dispatch(getAllMaps())
+
+    return () => {
+      dispatch(reset())
+    }
+  }, [navigate, isError, message, dispatch])
+
+	const createBoq = (data) => {
+	navigate("/createboq", { state: data})
+ }
+
+
+
+	// handle get all maps
+	const handleAllMap = (mapsData) => {
+	
+		navigate("/mymaps", { state:mapsData})
+	}
+	// header arrangement in data grid
+	const columns = [
+	  	{
+			field: '_id',
+			headerName: 'Ramani No',
+            flex: 1,
+            textAlign:'center',
+			renderCell: (params) => {
+			
+				return (
+					<Typography component={"p"} >
+						Rama1{(params.row._id).slice(-3)}
+					</Typography>
+				);
+			}
+		},
+
+		{
+			field: 'startConstruction',
+			headerName: 'Itajengwa',
+			flex: 1
+		},
+		{
+			field: 'region',
+			headerName: 'mkoa',
+			flex: 0.5
+		},
+		{
+			field: 'ramani',
+			headerName: 'ramani',
+			flex: 1.5,
+			renderCell: (params) => {
+				const handelEdit = () => {
+					console.log(`edit clicked id`);
+				};
+			
+				return (
+				<Box>
+					 
+							{(user?.accessLevel === "admin" || user?.accessLevel === "user") &&
+						<Button
+							onClick={()=>handleAllMap(params.row)}
+							type="submit"
+							color="primary"
+							variant="contained"
+							style={{ marginRight: '3px' }}
+							>
+						 Ramani
+						</Button>
+						}
+				
+			
+					</Box>
+				);
+			}
+		},
+		{
+			field: ' hali michoro',
+			headerName: 'hali ya michoro',
+			flex: 1.5,
+			renderCell: (params) => {
+		
+				return (
+				<Box>
+					 <div>
+							{(user?.accessLevel === "admin" || user?.accessLevel === "boq") &&
+						<>	<Button
+							onClick={()=>createBoq(params.row)}
+							type="submit"
+							color="secondary"
+							variant="contained"
+							style={{ marginRight: '3px' }}
+							>
+						  create  boq
+						</Button>
+							
+								</>}
+				
+						</div>
+					</Box>
+				);
+			}
+		}
+	];
+
+
+
+
+	// define unique id
+	const getRowId = (row) => row._id;
+
+	if (isLoading) {
+		return <Spinner/>
+	}
 	return (
-		<Box display="flex" justifyContent="center" alignItems="center">
-			<Box width="90%" p="10px 20px" my="50px" boxShadow="0 0 5px #333" borderRadius="10px">
-				<Box textAlign="center" p="2rem 0 1rem 0">
-					<Header title="makadilio(BOQ)" subtitle="makadilio ya msingi,kupandisha ukuta na kupua " />
-				   <Typography variant='h4'>ramani No:<strong>rm123</strong> </Typography>
-				</Box>
-				<Box p="10px" mt="20px" border="1px solid #000">
-					<Box py="10px">
-						<Typography variant="h3">Makadilio ya msingi</Typography>
-					</Box>
-					<Foundation />
-				</Box>
-				<Box p="10px" mt="20px" border="1px solid #000">
-					<Box py="10px">
-						<Typography variant="h3">Makadilio ya kupandisha ukuta</Typography>
-					</Box>
-					<Walling />
-				</Box>
-				<Box p="10px" mt="20px" border="1px solid #000">
-					<Box py="10px">
-						<Typography variant="h3">Makadilio ya kupaua</Typography>
-					</Box>
-					<Roufing />
-				</Box>
-			</Box>
+		<Box display="flex" justifyContent="center" alignItems="center" >
+			
+			<Box   marginTop="2rem"
+        width="90%">
+        <Box marginY="1rem">
+        <Typography variant='h3' textAlign="center" >
+           ukurasa wa kupanga ramani
+
+          </Typography>
+        </Box>
+      <Box
+				
+    
+				sx={{
+					'& .MuiDataGrid-root': {
+						border: 'none'
+					},
+					'& .MuiDataGrid-cell': {
+						borderBottom: 'none'
+					},
+					'& .name-column--cell': {
+						color: colors.greenAccent[300]
+					},
+					'& .MuiDataGrid-columnHeaders': {
+						backgroundColor: colors.blueAccent[400],
+						color: '#333',
+            borderBottom: 'none',
+            textTransform:"uppercase"
+					},
+					'& .MuiDataGrid-virtualScroller': {
+						backgroundColor: colors.primary[400]
+					},
+					'& .MuiDataGrid-footerContainer': {
+						borderTop: 'none',
+						backgroundColor: 'none',
+						display:"none"
+					},
+					'& .MuiCheckbox-root': {
+						color: `${colors.greenAccent[200]} !important`
+					}
+				}}
+			>
+			
+					<DataGrid rows={filtereData} columns={columns} getRowId={getRowId} /> 
+			
+        </Box>
+      </Box>
 		</Box>
 	);
 };
 
-export default SellerPage;
+export default Boq;

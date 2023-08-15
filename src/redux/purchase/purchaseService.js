@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/purchase/';
+const API_URL = 'http://localhost:5000/api/purchases/';
 
 // Create new purchase detail
 const createPurchase = async (data) => {

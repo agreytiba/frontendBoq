@@ -19,11 +19,11 @@ const Topbar = () => {
   // initialize useNavigation
   const navigate = useNavigate()
   // get user from local storage
-const user = JSON.parse(localStorage.getItem('user'));
+const user = JSON.parse(sessionStorage.getItem('user'));
 
   return (
-    <Box display="flex" justifyContent="space-between" p={2} boxShadow="10px 0px 8px #555" position="relative">
-      {/* SEARCH BAR */}
+    <Box display="flex" justifyContent="space-between" p={2} boxShadow="10px 0px 8px #555" position="relative" backgroundColor="#edae00">
+     BOQ BURE
       <Box
         display="flex"
         backgroundColor={colors.primary[400]}
@@ -49,7 +49,22 @@ const user = JSON.parse(localStorage.getItem('user'));
             <PersonOutlinedIcon  />
         </IconButton>
         </Box> :
-        <Box display="flex" columnGap="7px">
+        <Box display="flex" columnGap="15px">
+          <Link to={"/"} style={{textDecoration:"none", color:"#222"}}>
+        <Typography variant="h5" textAlign="center">
+							Home
+            </Typography>
+          </Link>
+          <Link to={"/about"} style={{textDecoration:"none", color:"#222"}}>
+        <Typography variant="h5" textAlign="center">
+							about us
+            </Typography>
+          </Link>
+          <Link to={"/contact"} style={{textDecoration:"none", color:"#222"}}>
+        <Typography variant="h5" textAlign="center">
+							contact
+            </Typography>
+          </Link>
           <Link to={"/login"} style={{textDecoration:"none", color:"#222"}}>
         <Typography variant="h5" textAlign="center">
 							Login
@@ -57,7 +72,7 @@ const user = JSON.parse(localStorage.getItem('user'));
           </Link>
           <Link to={"/register"} style={{textDecoration:"none", color:"#222"}}>
             <Typography variant="h5" textAlign="center">
-							Register
+							Jisajiri
 						</Typography>
 
           </Link>

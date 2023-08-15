@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Sidebar as ProSideBar, Menu, MenuItem } from "react-pro-sidebar";
+import { Sidebar as ProSideBar, Menu, MenuItem,SubMenu } from "react-pro-sidebar";
 import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { tokens } from "../../theme";
@@ -11,8 +11,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/auth/authSlice";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
-
-
 
 
   const theme = useTheme();
@@ -49,7 +47,7 @@ const Sidebar = () => {
     // handle logout user from the system
   const handleLogout = () => {
     dispatch(logout())
-    navigate("/login")
+    navigate("/")
     window.location.reload()
   }
   
@@ -59,12 +57,12 @@ const Sidebar = () => {
       sx={{
 
         "& .ps-sidebar-container": {
-          background: `#3425a9 !important`,
+          background: `#edae00 !important`,
           minHeight: `100vh !important`,
           
         },
         "& .pro-sidebar-inner": {
-          background: `${colors.primary[400]} !important`,
+          background: `${colors.primary[200]} !important`,
         },
         "& .pro-icon-wrapper": {
           backgroundColor: "transparent !important",
@@ -80,10 +78,13 @@ const Sidebar = () => {
           color: "#fff !important",
         },
         "& .ps-menu-button": {
-           color: `#fff !important`,
+           color: `#000 !important`,
         },
         "& .ps-menu-button:hover": {
            background: `${colors.greenAccent[400]} !important`,
+        },
+        "& .ps-open": {
+           background: `#eee !important`,
         }
       }}
     >
@@ -127,26 +128,58 @@ const Sidebar = () => {
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
             <Item
               title="Dashboard"
-              to="/"
+              to="/dashboard"
               icon={<HomeOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
 
-            <Item
-              title="mteja"
+        <SubMenu title="Watumiaji"  style={{color:"#333"}}  icon={<People />}>
+        <Item
+              title="wateja"
               to="/mteja"
-               icon={<BookOnlineRounded />}
+              
+              selected={selected}
+              setSelected={setSelected}
+            />
+              <Item
+              title="panga ramani"
+              to="/pangaramani"
+               
+              selected={selected}
+              setSelected={setSelected}
+            />
+              <Item
+              title=" angalia vipimo"
+              to="/vipimo"
+              selected={selected}
+              setSelected={setSelected}
+            />
+              <Item
+              title="maboresho"
+              to="suggestion"
+             
               selected={selected}
               setSelected={setSelected}
             />
               <Item
               title="mtoa huduma"
               to="/mtoahuduma"
-               icon={<WorkOutlined />}
+            
+              selected={selected}
+              setSelected={setSelected}
+              />
+                      <Item
+              title="watoahuduma"
+              to="/watoahuduma"
+              
               selected={selected}
               setSelected={setSelected}
             />
+      </SubMenu>
+       
+
+          
               <Item
               title="bidhaa"
               to="/bidhaa"
@@ -155,21 +188,50 @@ const Sidebar = () => {
               setSelected={setSelected}
             />
               <Item
-              title="watoahuduma"
-              to="/watoahuduma"
-               icon={<People />}
+              title="Oda"
+              to="/orders"
+               icon={<ProductionQuantityLimits/>}
               selected={selected}
               setSelected={setSelected}
             />
+      
                
-          
-            <Item
+           <SubMenu title="Ramani"  style={{color:"#333"}}  icon={<MapOutlined/>}>
+        <Item
+              title="pdfs"
+               to="/allpdf"
+              selected={selected}
+              setSelected={setSelected}
+            />
+              <Item
+              title="ramani zote"
+              to="/maps" 
+              selected={selected}
+              setSelected={setSelected}
+            />
+              <Item
+              title=" zilizofail"
+              to="/failed"
+              selected={selected}
+              setSelected={setSelected}
+            />
+              <Item
+              title="Zilizofanikiwa"
+              to="passed"
+             
+              selected={selected}
+              setSelected={setSelected}
+            />
+             
+                     
+      </SubMenu>
+            {/* <Item
               title="Ramani"
-              to="/ramani"
+              to="/allpdf"
                icon={<MapOutlined />}
               selected={selected}
               setSelected={setSelected}
-            />
+            /> */}
          
               <Item
               title="BOQ"

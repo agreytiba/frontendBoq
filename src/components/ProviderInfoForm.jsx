@@ -1,16 +1,38 @@
+import { useEffect } from 'react';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import Header from './Header';
-
+import { useDispatch, useSelector } from "react-redux"
+import { useNavigate} from "react-router-dom"
+import { AddProvider } from '../redux/provider/providerSlice';
+import Spinner from "./Spinner"
+import {toast} from "react-toastify"
 const ProviderInfoForm = ({ setShowSendForm }) => {
 	const isNonMobile = useMediaQuery('(min-width:600px)');
 
+		// initiliaze useDispatch && useNavigate
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+	//useSelector  containe properties from authSlice
+  const {provider, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.provider
+	)
+
+
+
 	const handleFormSubmit = (values) => {
-		console.log(values);
+	try {
+		dispatch(AddProvider(values))
 		setShowSendForm(false);
+	} catch (error) {
+		toast.success(error)
+	}
+		
 	};
+	if (isLoading) {
+		return <Spinner/>
+	}
 	return (
 		<Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
 			<Box p="20px" backgroundColor="#ddd" borderRadius="10px" maxWidth="800px" minWidth="500px">

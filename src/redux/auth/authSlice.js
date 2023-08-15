@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import authService from './authService';
 
 //Get user from localStorage
-const user = JSON.parse(localStorage.getItem('user'));
+const user = JSON.parse(sessionStorage.getItem('user'));
 
 // reducer initila state
 const initialState = {
@@ -59,7 +59,7 @@ export const login = createAsyncThunk('auth/login', async (user, thunkAPI) => {
 
 // logout
 export const logout = createAsyncThunk('auth/logout', async () => {
-	localStorage.removeItem("user")
+	sessionStorage.removeItem("user")
 });
 
 export const authSlice = createSlice({

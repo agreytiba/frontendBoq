@@ -2,60 +2,77 @@ import { useEffect, useContext, useMemo } from 'react';
 import { Box, Typography, Button, useTheme} from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { tokens } from '../../theme';
-import { mapsdetails } from '../../data/mockBoq';
-import { DeleteOutlined } from '@mui/icons-material';
-import { EditOutlined } from '@mui/icons-material';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { getAllMaps, reset } from '../../redux/maps/mapsSlice';
+import Spinner from '../../components/Spinner';
 const Maps = () => {
 	// color themes
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 
+
+    // initiliaze useDispatch && useNavigate
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+//useSelector  containe properties from authSlice
+  const {maps, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.map
+  )
+console.log(maps)
+  //useEffect to fetch all users
+  useEffect(() => {
+    if (isError) {
+      toast.error(message)
+    }
+    // firing get all users
+    dispatch(getAllMaps())
+
+    return () => {
+      dispatch(reset())
+    }
+  }, [navigate, isError, message, dispatch])
+	
 	// headers of each column in  the data grid
 	const columns = [
-		{ field: 'id', headerName: 'ID', flex: 0.5 },
+		
 
 		{
-			field: 'mapNo',
-			headerName: 'Ramani NO',
-			flex: 1,
-			cellClassName: 'name-column--cell'
+			field: 'mapName',
+			headerName: 'Ramani No',
+            flex: 1,
+            textAlign:'center',
+			renderCell: (params) => {
+			
+				return (
+					<Typography component={"p"}>
+						Rama{(params.row._id).slice(-4)}
+					</Typography>
+				);
+			}
+		}
+,
+		{
+			field: 'userName',
+			headerName: 'tarehe iliyotumwa',
+			flex: 1
 		},
-
 		{
-			field: 'uploadedDate',
+			field: 'createdAt',
 			headerName: 'tarehe iliyotumwa',
 			flex: 1
 		},
 
 		
-		{
-			field: 'actions',
-			headerName: 'hali ya michoro',
-            flex: 1,
-            textAlign:'center',
-			renderCell: (params) => {
-			
-				const handleapprove = (id) => {
-					console.log(`delete clicked id`);
-				};
-				const handleDisApprove = (id) => {
-					console.log(`delete clicked id`);
-				};
-				return (
-					<Box  display="flex" columnGap="10px">
-						<Button onClick={() => handleapprove()} type="submit" color="secondary" variant="contained"  >
-							inafaa
-						</Button>
-						<Button onClick={() => handleDisApprove()} type="submit" color="danger" variant="contained" style={{color:"#fff"}}>
-	                        inamatatizo
-						</Button>
-					</Box>
-				);
-			}
-		}
+	
 	];
 	// define unique id
-	const getRowId = (row) => row.id;
+    const getRowId = (row) => row._id;
+    if (isLoading) {
+        return <Spinner/>
+    }
 
 	return (
 		<Box p="10px" mt="20px">
@@ -94,7 +111,7 @@ const Maps = () => {
 				}}
 			>
 				<DataGrid
-					rows={mapsdetails}
+					rows={maps}
 					columns={columns}
 					getRowId={getRowId}
 					components={{ Toolbar: GridToolbar }}

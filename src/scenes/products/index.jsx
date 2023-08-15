@@ -3,10 +3,13 @@ import { Box, Typography, Button } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { tokens } from '../../theme';
 import { useTheme } from '@mui/material';
-import { products } from '../../data/mockBoq';
 import { DeleteOutlined } from '@mui/icons-material';
 import { EditOutlined } from '@mui/icons-material';
 import AddMaterialForm from '../../components/AddMaterialForm';
+import { useNavigate } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
+import {toast} from "react-toastify"
+import { deleteMaterial, getAllMaterial, reset } from '../../redux/material/materialSlice';
 const Products = () => {
 
 	// useState to show form
@@ -15,12 +18,71 @@ const Products = () => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 
+	 // initiliaze useDispatch && useNavigate
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+//useSelector  containe properties from authSlice
+  const {materials, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.material
+  )
+
+  //useEffect to fetch all  materials
+  useEffect(() => {
+    if (isError) {
+      toast.error(message)
+    }
+    // firing get all materials
+    dispatch(getAllMaterial())
+
+    return () => {
+      dispatch(reset())
+    }
+  }, [navigate, isError, message, dispatch])
+	
+	
+	
+	// const handleDelete = (id) => {
+	// 	dispatch(deleteMaterial(id))
+	// 	window.location.reload()
+	// 	toast.success("umefanikiwa kufuta")
+		
+	// }
+	// edit price only
+	const handleEditPrice = (item) => {
+	
+    const newPrice = prompt(`Enter the new price for ${item.material}:`, item.price);
+    if (newPrice !== null && newPrice !== '') {
+      // Send the request to update the price
+      const requestOptions = {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ newPrice: parseFloat(newPrice) })
+      };
+
+      fetch(`http://localhost:5000/api/materials/${item._id}`, requestOptions)
+        .then(response => response.json())
+        .then(data => {
+          if (data) {
+        toast.success("umefanikiwa kubadilisha bei")
+            // Refresh the material list
+            dispatch(getAllMaterial());
+          } else {
+            toast.error(data.message || 'kubadilisha bei imeshindika');
+          }
+        })
+        .catch(error => {
+     
+          toast.error('kubadilisha bei imeshindika');
+        });
+    }
+  };
+
 	// headers of each column in  the data grid
 	const columns = [
-		{ field: 'id', headerName: 'ID', flex: 0.5 },
-
+		
 		{
-			field: 'materialName',
+			field: 'material',
 			headerName: 'bidhaa',
 			flex: 1,
 			cellClassName: 'name-column--cell'
@@ -33,7 +95,7 @@ const Products = () => {
 		},
 
 		{
-			field: 'rate',
+			field: 'price',
 			headerName: 'grahama @ 1',
 			flex: 1,
 			cellClassName: 'name-column--cell'
@@ -43,16 +105,12 @@ const Products = () => {
 			headerName: 'Actions',
 			flex: 1,
 			renderCell: (params) => {
-				const handelEdit = () => {
-					console.log(`edit clicked id`);
-				};
-				const handeldDelete = (id) => {
-					console.log(`delete clicked id`);
-				};
+				
+			
 				return (
 					<div>
 						<Button
-							onClick={() => handelEdit()}
+							onClick={() => handleEditPrice(params.row)}
 							type="submit"
 							color="secondary"
 							variant="contained"
@@ -60,16 +118,16 @@ const Products = () => {
 						>
 							<EditOutlined />
 						</Button>
-						<Button onClick={() => handeldDelete()} type="submit" color="danger" variant="contained">
+						{/* <Button onClick={() => handleDelete( params.row._id )} type="submit" color="danger" variant="contained">
 							<DeleteOutlined style={{ color: '#fff' }} />
-						</Button>
+						</Button> */}
 					</div>
 				);
 			}
 		}
 	];
 	// define unique id
-	const getRowId = (row) => row.id;
+	const getRowId = (row) => row._id;
 
 	return (
 		<Box display="flex" justifyContent="center" alignItems="center" py="50px">
@@ -122,7 +180,7 @@ const Products = () => {
 				}}
 			>
 				<DataGrid
-					rows={products}
+					rows={materials}
 					columns={columns}
 					getRowId={getRowId}
 					components={{ Toolbar: GridToolbar }}

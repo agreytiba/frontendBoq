@@ -1,20 +1,54 @@
+import { useEffect } from 'react';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import useMediaQuery from '@mui/material/useMediaQuery';
-
+import { createPurchase,getAllPurchase,reset } from '../redux/purchase/purchaseSlice';
+import {useDispatch, useSelector } from "react-redux"
+import {toast} from "react-toastify"
 const AddCollectiveBuying = ({ setShowFormBuy }) => {
 	const isNonMobile = useMediaQuery('(min-width:600px)');
 
+	// initiliaze useDispatch && useNavigate
+  const dispatch = useDispatch()
+	//useSelector  containe properties from authSlice
+  const {purchase, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.purchase
+	)
+
+// use effect for handling states
+  useEffect(() => {
+    if (isError) {
+      toast.error(message)
+	  }
+	
+
+    return () => {
+      dispatch(reset())
+    }
+  }, [ isError, message, dispatch])
+
 	const handleFormSubmit = (values) => {
-		console.log(values);
+	try {
+			dispatch(createPurchase(values))
 		setShowFormBuy(false);
+		toast.success("umefanikiwa")
+		dispatch(getAllPurchase())
+		
+	} catch (error) {
+		toast.error(error)
+	}
+	
+
+		
+		
+		
 	};
 	return (
 		<Box display="flex" justifyContent="center" alignItems="center" >
 			<Box p="20px" backgroundColor="#ddd" borderRadius="10px" maxWidth="800px" minWidth="500px">
 				<Box py="10px" textAlign="center" marginBottom="20px">
-					<Typography variant="h3">Taarifa za mtoa huduma</Typography>
+					<Typography variant="h3">Ongeza manunuzi ya pamoja</Typography>
 				</Box>
 				<Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={checkoutSchema}>
 					{({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
@@ -73,7 +107,7 @@ const AddCollectiveBuying = ({ setShowFormBuy }) => {
 								<TextField
 									fullWidth
 									variant="filled"
-									type="text"
+									type="date"
 									label="lipa kabla ya"
 									onBlur={handleBlur}
 									onChange={handleChange}
