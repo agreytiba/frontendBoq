@@ -16,7 +16,7 @@ const UploadImage = () => {
 		});
 
 		try {
-			const res = await axios.post('http://localhost:5000/upload-pdf', formData, {
+			const res = await axios.post('https://backendboq.onrender.com/upload-pdf', formData, {
 				headers: {
 					'Content-Type': 'multipart/form-data'
 				}

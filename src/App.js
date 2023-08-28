@@ -29,14 +29,12 @@ import TypeChecker from './scenes/map/TypeChecker';
 import UnitChecker from './scenes/map/UnitChecker';
 import FailedChecker from './scenes/map/FailedChecker';
 import MyMaps from './scenes/userpage/MyMaps';
-import CreateFoudation from './scenes/boq/CreateFoudation';
-import CreateWalling from './scenes/boq/CreateWalling';
-import CreateRoufing from './scenes/boq/CreateRoufing';
 import CreateBoq from './scenes/boq/CreateBoq';
 import Orders from './scenes/order';
 import Failed from './scenes/map/Failed';
 import Passed from './scenes/map/Passed';
-
+import CompletedBoq from './scenes/boq/CompletedBoq';
+import UserBoq from './scenes/userpage/UserBoq';
 function App() {
 	const [ theme, colorMode ] = useMode();
 	const [ isSidebar, setIsSidebar ] = useState(true);
@@ -59,20 +57,18 @@ function App() {
                                  <Route path="/forgot" element={<ForgotPassword />} />
                                 {(user?.accessLevel === "admin" ) && <Route path="/allpdf" element={<AllPdf/>} />}
 								{(user?.accessLevel === "admin" ||  user?.accessLevel ==="user") && <Route path="/mymaps" element={<MyMaps />} />}
-	
 								{(user?.accessLevel === "admin" ) && <Route path="/maps" element={<Maps/>} />}
 								{(user?.accessLevel === "admin" ) && <Route path="/failed" element={<Failed/>} />}
 								{(user?.accessLevel === "admin" ) && <Route path="/passed" element={<Passed/>} />}
 	
 								{/* boq routes */}
-                               { (user?.accessLevel === "admin" || user?.accessLevel ==="boq") && <Route path="/createfoundation" element={<CreateFoudation/>} />}
-                               { (user?.accessLevel === "admin" || user?.accessLevel ==="boq") && <Route path="/createwalling" element={<CreateWalling/>} />}
-                               { (user?.accessLevel === "admin" || user?.accessLevel ==="boq") && <Route path="/createroufing" element={<CreateRoufing/>} />}
-								{(user?.accessLevel === "admin" || user?.accessLevel === "boq") && <Route path="/createboq" element={<CreateBoq setIsSidebar={setIsSidebar} />} />}
+                              
+								{(user?.accessLevel === "admin"||user?.accessLevel === "pricetag" || user?.accessLevel === "boq") && <Route path="/createboq" element={<CreateBoq setIsSidebar={setIsSidebar} />} />}
+								{(user?.accessLevel === "admin" || user?.accessLevel === "user") && <Route path="/completedboq" element={<CompletedBoq />} />}
 								   
 								{user?.accessLevel === "admin" && <Route path="/users" element={<Users />} />}
 								{(user?.accessLevel === "admin" || user?.accessLevel === "user") && <Route path="/upload" element={<Upload />} />} 
-									{/* {(user?.accessLevel === "admin" || user?.accessLevel ==="user") &&<Route path="mteja/myboq" element={<MyBoq />} />} */}
+									{(user?.accessLevel === "admin" || user?.accessLevel ==="user") &&<Route path="mteja/userboq" element={<UserBoq/>} />}
 								
 								{/* blog routes */}
 								{(user?.accessLevel === "admin") && <Route path="/blog" element={<Blog />} />}
@@ -85,7 +81,7 @@ function App() {
 								{(user?.accessLevel === "admin") &&	<Route path="/dashboard" element={<Dashboard />} />}
 								{(user?.accessLevel === "admin" || user?.accessLevel === "user") && <Route path="/mteja" element={<UserPage />} />}
 								{(user?.accessLevel === "admin" || user?.accessLevel === "seller") && <Route path="/mtoahuduma" element={<SellerPage />} />}
-								{(user?.accessLevel === "admin" || user?.accessLevel ==="boq") &&<Route path="/boq" element={<Boq />} />}
+								{(user?.accessLevel === "admin" || user?.accessLevel ==="boq"|| user?.accessLevel ==="pricetag") &&<Route path="/boq" element={<Boq />} />}
 								{(user?.accessLevel === "admin" || user?.accessLevel === "pricetag") && <Route path="/bidhaa" element={<Products />} />}
 								{(user?.accessLevel === "admin") && <Route path="/watoahuduma" element={<ServiceProviders />} />}
 								{(user?.accessLevel === "admin" || user?.accessLevel ==="checker") &&<Route path="/ramani" element={<Maps/>} />}

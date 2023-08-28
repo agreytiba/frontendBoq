@@ -101,6 +101,7 @@ const Register = () => {
 							  <MenuItem   defaultValue="" disabled>select account</MenuItem>
 									<MenuItem value="user">mteja</MenuItem>
 									<MenuItem value="seller">Mtoa huduma</MenuItem>
+									<MenuItem value="admin">Admin</MenuItem>
 							
 								</Select>
 							</FormControl>

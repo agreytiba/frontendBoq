@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/foudations/';
+const API_URL = 'https://backendboq.onrender.com/api/foudations/';
 
 // Create new Foudation
 const createFoudation = async (data) => {

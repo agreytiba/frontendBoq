@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/materials/';
+const API_URL = 'https://backendboq.onrender.com/api/materials/';
 
 // add new material
 const AddMaterial = async (materialData) => {

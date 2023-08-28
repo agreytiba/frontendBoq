@@ -16,7 +16,7 @@ const AllPdf = () => {
 
   const fetchAllPDFs = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/upload-pdf');
+      const response = await axios.get('https://backendboq.onrender.com/upload-pdf');
       setAllPDFs(response.data);
     } catch (error) {
       console.error('Error fetching all PDFs:', error);
@@ -25,7 +25,7 @@ const AllPdf = () => {
     };
   //     const handleDownload = async (pdfId) => {
   //   try {
-  //     const response = await axios.get(`http://localhost:5000/get-pdf/${pdfId}`, {
+  //     const response = await axios.get(`https://backendboq.onrender.com/get-pdf/${pdfId}`, {
   //       responseType: 'blob',
   //     });
   //     const pdfBlob = new Blob([response.data], { type: 'application/pdf' });
@@ -42,7 +42,7 @@ const AllPdf = () => {
   const handleDownload = async (pdfId) => {
     try {
       // Fetch the PDF file data
-      const response = await axios.get(`http://localhost:5000/get-pdf/${pdfId}`, {
+      const response = await axios.get(`https://backendboq.onrender.com/get-pdf/${pdfId}`, {
         responseType: 'blob',
       });
 

@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { Sidebar as ProSideBar, Menu, MenuItem,SubMenu } from "react-pro-sidebar";
-import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
+import { Box, Button, IconButton, Paper, Typography, useTheme } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { tokens } from "../../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import { AirlineSeatFlat, Book, BookOnlineRounded, Logout, MapOutlined, MessageOutlined, MessageRounded, People, ProductionQuantityLimits, SupervisorAccountOutlined, WorkOff, WorkOutlined } from "@mui/icons-material";
+import { AirlineSeatFlat, Book, BookOnlineRounded, Logout, MapOutlined, MessageOutlined, MessageRounded, PageviewSharp, People, ProductionQuantityLimits, SupervisorAccountOutlined, WorkOff, WorkOutlined } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/auth/authSlice";
 
@@ -89,7 +89,7 @@ const Sidebar = () => {
       }}
     >
       <ProSideBar collapsed={isCollapsed} style={{   position: "fixed",
-              left:"0px", top:"0px"}}>
+              left:"0px", top:"0px",bottom:"0px"}}>
         <Menu iconShape="square">
           {/* LOGO AND MENU ICON */}
           <MenuItem
@@ -188,9 +188,9 @@ const Sidebar = () => {
               setSelected={setSelected}
             />
               <Item
-              title="Oda"
-              to="/orders"
-               icon={<ProductionQuantityLimits/>}
+              title="Completed Boq"
+              to="/completedboq"
+               icon={<PageviewSharp/>}
               selected={selected}
               setSelected={setSelected}
             />

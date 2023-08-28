@@ -1,4 +1,4 @@
-import React from "react";
+import {useState,useEffect} from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -8,7 +8,9 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Box, Typography } from "@mui/material";
-
+import axios from "axios";
+import { toast } from "react-toastify"
+import { Edit } from "@mui/icons-material";
 const blanderingInsideRows = [
   {
     material: "2x2 Treated Timber",
@@ -79,6 +81,62 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const Blandering = () => {
+  // get data from database
+  const [blanderRows, setBlanderRows] = useState([])
+   // edit rate useState
+  const [editingRate, setEditingRate] = useState(null);
+  const [newRate, setNewRate] = useState(null);
+
+    //  get user from session store
+  const user = JSON.parse(sessionStorage.getItem("user"));
+
+    // useEffect to enable fetching  of data
+  useEffect(() => {
+    // Fetch data using axios
+  fetchUpdatedData()
+  }, []);
+  // get data after success
+  const fetchUpdatedData = async () => {
+    try {
+      const response = await axios.get("https://backendboq.onrender.com/api/blandering");
+      setBlanderRows(response.data);
+    } catch (error) {
+      toast.error("Failed to fetch updated data");
+    }
+  };
+
+    // handle update rate
+  const handleRateUpdate = async (materialId) => {
+    if (newRate !== null) {
+      try {
+        const response = await axios.put(
+          `https://backendboq.onrender.com/api/blandering/${materialId}`,
+          { newRate: newRate }
+        );
+        setNewRate(null);
+        if (response.data) {
+          setEditingRate(null);
+          await fetchUpdatedData();
+        } else {
+          toast.error("Failed to update rate in the backend");
+        }
+      } catch (error) {
+        toast.error(`kuna matatizo katika kubadilisha bei, ${error}`);
+      }
+      setEditingRate(null);
+    }
+  };
+
+  // format number int currency format
+  const formatCurrency = (value) => {
+    const formattedValue = new Intl.NumberFormat( {
+      style: 'currency',
+      currency: 'TZS', // Tanzanian Shillings
+      minimumFractionDigits: 0, // Display whole numbers
+    }).format(value);
+
+    return `${formattedValue}`; // Concatenate the "TSh" sign
+  };
   return (
     <Box mt={"2rem"}>
       <TableContainer component={Paper}>
@@ -113,7 +171,7 @@ const Blandering = () => {
                 1. Blandering Inside
               </Typography>
             </TableRow>
-            {blanderingInsideRows.map((row) => (
+            {blanderRows.map((row) => (
               <StyledTableRow
                 key={row.material}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -123,7 +181,36 @@ const Blandering = () => {
                 </StyledTableCell>
                 <StyledTableCell align="right">{row.unit}</StyledTableCell>
                 <StyledTableCell align="right">{row.quantity}</StyledTableCell>
-                <StyledTableCell align="right">{row.rate}</StyledTableCell>
+                    <StyledTableCell align="right">
+                  {editingRate === row.material ? (
+                    <div>
+                      <input
+                        type="number"
+                        value={newRate}
+                        onChange={(e) => setNewRate(e.target.value)}
+                        style={{ height: "50px", width: "50px" }}
+                      />
+                      {row.quantity}
+                      <button onClick={() => handleRateUpdate(row._id)}>
+                        Submit
+                      </button>
+                    </div>
+                  ) : (
+                    <span
+                      style={{
+                        display: "flex",
+                        justifyContent: "right",
+                        columnGap: "10px",
+                      }}
+                    >
+                      {formatCurrency(row.rate)}
+                      {(user?.accessLevel === "admin" ||
+                        user?.accessLevel === "pricetag") && (
+                        <Edit onClick={() => setEditingRate(row.material)} />
+                      )}
+                    </span>
+                  )}
+                </StyledTableCell>
                 <StyledTableCell align="right">{row.amount}</StyledTableCell>
               </StyledTableRow>
             ))}
@@ -137,7 +224,7 @@ const Blandering = () => {
                 2. Blandering Outside
               </Typography>
             </TableRow>
-            {blanderingInsideRows.map((row) => (
+            {blanderRows.map((row) => (
               <StyledTableRow
                 key={row.material}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -147,7 +234,36 @@ const Blandering = () => {
                 </StyledTableCell>
                 <StyledTableCell align="right">{row.unit}</StyledTableCell>
                 <StyledTableCell align="right">{row.quantity}</StyledTableCell>
-                <StyledTableCell align="right">{row.rate}</StyledTableCell>
+                  <StyledTableCell align="right">
+                  {editingRate === row.material ? (
+                    <div>
+                      <input
+                        type="number"
+                        value={newRate}
+                        onChange={(e) => setNewRate(e.target.value)}
+                        style={{ height: "50px", width: "50px" }}
+                      />
+                      {row.quantity}
+                      <button onClick={() => handleRateUpdate(row._id)}>
+                      Save
+                      </button>
+                    </div>
+                  ) : (
+                    <span
+                      style={{
+                        display: "flex",
+                        justifyContent: "right",
+                        columnGap: "10px",
+                      }}
+                    >
+                      {formatCurrency(row.rate)}
+                      {(user?.accessLevel === "admin" ||
+                        user?.accessLevel === "pricetag") && (
+                        <Edit onClick={() => setEditingRate(row.material)} />
+                      )}
+                    </span>
+                  )}
+                </StyledTableCell>
                 <StyledTableCell align="right">{row.amount}</StyledTableCell>
               </StyledTableRow>
             ))}

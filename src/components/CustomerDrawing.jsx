@@ -72,8 +72,8 @@ const CustomerDrawing = () => {
   };
 
   // handle show the  boq created
-  const handleGetBoq = () => {
-    navigate("/myboq");
+  const handleGetBoq = (id) => {
+    navigate("userboq", {state:id});
   };
   // handle get all maps
   const handleAllMap = (mapsData) => {
@@ -85,7 +85,7 @@ const CustomerDrawing = () => {
     setMapInfo(info)
     setMapPopupOpen(true)
   }
-console.log(mapInfo)
+
   // header arrangement in data grid
   const columns = [
   	{
@@ -187,10 +187,6 @@ console.log(mapInfo)
       flex: 1.5,
       // actions to be performed 
       renderCell: (params) => {
-        const handelEdit = () => {
-          console.log(`edit clicked id`);
-        };
-
         return (
           <Box>
             <div>
@@ -208,7 +204,7 @@ console.log(mapInfo)
                     Ramani
                   </Button>
                   <Button
-                    onClick={handleGetBoq}
+                    onClick={()=>handleGetBoq(params.row._id)}
                     type="submit"
                     color="secondary"
                     variant="contained"

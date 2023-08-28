@@ -60,14 +60,25 @@ const TypeChecker = () => {
   //michoro yote ipo
   const handleUpdateStatus = async (id) => {
     try {
-      const res = await axios.put(`http://localhost:5000/api/maps/${id}`, {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        }
+      }
+      const check = window.confirm('unataka kupitisha ramani ?')
+      setNewStatus('vipimo')
+    
+      if (check) {
+         const res = await axios.put(`https://backendboq.onrender.com/api/maps/${id}`,{
         status: newStatus,
-      });
+      },config);
 
       // Handle successful update (e.g., show a success message or update the state)
       if (res.data) {
         window.location.reload();
       }
+      }
+     
     } catch (error) {
       console.error("Error:", error.message);
       // Handle error (e.g., show an error message)
@@ -86,7 +97,7 @@ const TypeChecker = () => {
       if (!checkComment) {
         toast.error("weka comment")
       }
-      const res = await axios.put(`http://localhost:5000/api/maps/${mapId}`, { checkComment });
+      const res = await axios.put(`https://backendboq.onrender.com/api/maps/${mapId}`, { checkComment });
       if (res.data) {
         setComment('');
         setCommentPopupOpen(false);
@@ -100,7 +111,7 @@ const TypeChecker = () => {
   // const handleFailed = async (id) => {
     // 	try {
     // setNewStatus("maboresho")
-    // 	const res = await axios.put(`http://localhost:5000/api/maps/${id}`, { status: newStatus });
+    // 	const res = await axios.put(`https://backendboq.onrender.com/api/maps/${id}`, { status: newStatus });
     //   // Handle successful update (e.g., show a success message or update the state)
     // 	if (res.data) {
     // 		window.location.reload()
@@ -117,12 +128,20 @@ const TypeChecker = () => {
   };
   // header arrangement in data grid
   const columns = [
-    {
-      field: "_id",
-      headerName: "Ramani no",
-      flex: 1,
-      cellClassName: "name-column--cell",
-    },
+   	{
+			field: '_id',
+			headerName: 'Ramani No',
+            flex: 0.5,
+            textAlign:'center',
+			renderCell: (params) => {
+			
+				return (
+					<Typography component={"p"} >
+						Rama1{(params.row._id).slice(-3)}
+					</Typography>
+				);
+			}
+		},
 
     {
       field: "startConstruction",
@@ -142,7 +161,7 @@ const TypeChecker = () => {
         return (
           <Box>
             {(user?.accessLevel === "admin" ||
-              user?.accessLevel === "user") && (
+              user?.accessLevel === "user" || user?.accessLevel === "typechecker") && (
               <Button
                 onClick={() => handleAllMap(params.row)}
                 type="submit"

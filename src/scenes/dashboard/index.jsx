@@ -1,20 +1,84 @@
-import { useContext } from 'react';
+import { useEffect} from 'react';
 import { Box, Button, Typography, useTheme } from '@mui/material';
 import { tokens } from '../../theme';
 import Header from '../../components/Header';
 import StatBox from '../../components/StatBox';
 import { Book, PagesOutlined, Topic } from '@mui/icons-material';
 import { useState } from 'react';
-
-
+import axios from 'axios'
+import {useNavigate} from "react-router-dom"
 
 const Dashboard = () => {
+	 const [mapCount, setMapCount] = useState(0);
+	 const [matCount, setMatCount] = useState(0);
+	 const [usersCount, setUsersCount] = useState(0);
+	 const [customerCount, setCustomerCount] = useState(0);
+	 const [workersCount, setWorkersCount] = useState(0);
 	// colors themes
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
-
+//  initial use navigate
+	const navigate = useNavigate()
+	
 	// get user from local
 	const user = JSON.parse(sessionStorage.getItem('user'));
+  useEffect(() => {
+    // Fetch all maps and count them
+    const fetchMaps = async () => {
+		try {
+		const config = {
+	    headers: {
+	      Authorization: `Bearer ${user.token}`,
+	    },
+	  }
+        const response = await axios.get('https://backendboq.onrender.com/api/maps',config); // Adjust the API endpoint accordingly
+        const maps = response.data;
+        setMapCount(maps.length);
+      } catch (error) {
+        console.error('Error fetching maps:', error);
+      }
+    };
+    const fetchMaterials = async () => {
+		try {
+		  	const config = {
+	    headers: {
+	      Authorization: `Bearer ${user.token}`,
+	    },
+	  }
+        const response = await axios.get('https://backendboq.onrender.com/api/materials',config); // Adjust the API endpoint accordingly
+        const materials = response.data;
+        setMatCount(materials.length);
+      } catch (error) {
+        console.error('Error fetching materials:', error);
+      }
+    };
+	  const fetchUsers = async () => {
+		  try {
+		  	const config = {
+	    headers: {
+	      Authorization: `Bearer ${user.token}`,
+	    },
+	  }
+        const response = await axios.get('https://backendboq.onrender.com/api/users',config); // Adjust the API endpoint accordingly
+        const users = response.data;
+		  setUsersCount(users.length);
+		//   get all customer
+		  const filterUsers = users.filter((user) => user.accessLevel === "user")
+		  setCustomerCount(filterUsers.length);
+		//   get all workers
+		   const filterWorkers = users.filter((user) => user.accessLevel !== "user")
+         setWorkersCount(filterWorkers.length)
+	  } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    };
+
+	  fetchMaps();
+	  fetchMaterials()
+	  fetchUsers()
+  }, []);
+
+
 
 	return (
 		<Box m="20px" position="relative">
@@ -37,10 +101,13 @@ const Dashboard = () => {
 					display="flex"
 					alignItems="center"
 					justifyContent="center"
+					onClick={() => { navigate("/maps") }}
+					
 				>
 					<StatBox
-						title="20"
+						title={mapCount}
 						subtitle="ramani"
+					
 						// icon={<PagesOutlined sx={{ color: colors.greenAccent[600], fontSize: '26px' }} />}
 					/>
 				</Box>
@@ -50,9 +117,11 @@ const Dashboard = () => {
 					display="flex"
 					alignItems="center"
 					justifyContent="center"
+					onClick={() => { navigate("/bidhaa") }}
+					
 				>
 					<StatBox
-						title="23"
+						title={matCount}
 						subtitle="bidhaa"
 						icon={<Topic sx={{ color: colors.greenAccent[600], fontSize: '26px' }} />}
 					/>
@@ -64,7 +133,7 @@ const Dashboard = () => {
 					alignItems="center"
 					justifyContent="center"
 				>
-					<StatBox title="50" subtitle="wateja" />
+					<StatBox title={customerCount} subtitle="wateja" />
 				</Box>
 				<Box
 					gridColumn="span 3"
@@ -111,7 +180,7 @@ const Dashboard = () => {
 					justifyContent="center"
 				>
 					<StatBox
-						title="23"
+						title={workersCount}
 						subtitle="huduma kwa wateja"
 						icon={<Topic sx={{ color: colors.greenAccent[600], fontSize: '26px' }} />}
 					/>
@@ -122,8 +191,9 @@ const Dashboard = () => {
 					display="flex"
 					alignItems="center"
 					justifyContent="center"
+					onClick={() => { navigate("/users") }}
 				>
-					<StatBox title="80" subtitle="watumiaji  mfumo" />
+					<StatBox title={usersCount} subtitle="watumiaji  mfumo" />
 				</Box>
 				<Box
 					gridColumn="span 3"

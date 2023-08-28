@@ -37,7 +37,7 @@ const UserChecker = ({ singleMap}) => {
 	);
 const handleAssigment = async(id) => {
 		try {
-            const res = await axios.put(`http://localhost:5000/api/maps/${singleMap._id}`,{assignTo:id})
+            const res = await axios.put(`https://backendboq.onrender.com/api/maps/${singleMap._id}`,{assignTo:id})
         if (res.status === 200) {
             toast.success("successful assigned")
             }

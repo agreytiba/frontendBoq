@@ -13,8 +13,8 @@ const initialState = {
 // add new map details
 export const createMap = createAsyncThunk('maps/create', async (mapData, thunkAPI) => {
 	try {
-		//   const token = thunkAPI.getState().auth.user.token
-		return await mapsService.createMap(mapData);
+		  const token = thunkAPI.getState().auth.user.token
+		return await mapsService.createMap(mapData,token);
 	} catch (error) {
 		const message =
 			'error'(error.response && error.response.data && error.response.data.message) ||
@@ -27,8 +27,8 @@ export const createMap = createAsyncThunk('maps/create', async (mapData, thunkAP
 // Get all maps
 export const getAllMaps = createAsyncThunk('maps/getAll', async (_, thunkAPI) => {
 	try {
-		//   const token = thunkAPI.getState().auth.user.token
-		return await mapsService.getAllMaps();
+		  const token = thunkAPI.getState().auth.user.token
+		return await mapsService.getAllMaps(token);
 	} catch (error) {
 		const message =
 			(error.response && error.response.data && error.response.data.message) || error.message || error.toString();
@@ -36,10 +36,10 @@ export const getAllMaps = createAsyncThunk('maps/getAll', async (_, thunkAPI) =>
 	}
 });
 // Get single map
-export const getMap = createAsyncThunk('maps/getOne', async (appointId, thunkAPI) => {
+export const getMap = createAsyncThunk('maps/getOne', async (mapId, thunkAPI) => {
 	try {
-		//   const token = thunkAPI.getState().auth.user.token
-		return await mapsService.getMap(appointId);
+		  const token = thunkAPI.getState().auth.user.token
+		return await mapsService.getMap(mapId,token);
 	} catch (error) {
 		const message =
 			(error.response && error.response.data && error.response.data.message) || error.message || error.toString();
@@ -47,10 +47,10 @@ export const getMap = createAsyncThunk('maps/getOne', async (appointId, thunkAPI
 	}
 });
 //edit  map details
-export const updateMap = createAsyncThunk('maps/edit', async (appointId, thunkAPI) => {
+export const updateMap = createAsyncThunk('maps/edit', async (mapId, thunkAPI) => {
 	try {
-		//   const token = thunkAPI.getState().auth.user.token
-		return await mapsService.updateMap(appointId);
+		  const token = thunkAPI.getState().auth.user.token
+		return await mapsService.updateMap(mapId,token);
 	} catch (error) {
 		const message =
 			(error.response && error.response.data && error.response.data.message) || error.message || error.toString();
@@ -58,10 +58,10 @@ export const updateMap = createAsyncThunk('maps/edit', async (appointId, thunkAP
 	}
 });
 // Delete map details
-export const deleteMap = createAsyncThunk('maps/delete', async (appointId, thunkAPI) => {
+export const deleteMap = createAsyncThunk('maps/delete', async (mapId, thunkAPI) => {
 	try {
-		//   const token = thunkAPI.getState().auth.user.token
-		return await mapsService.deleteMap(appointId);
+		  const token = thunkAPI.getState().auth.user.token
+		return await mapsService.deleteMap(mapId,token);
 	} catch (error) {
 		const message =
 			(error.response && error.response.data && error.response.data.message) || error.message || error.toString();

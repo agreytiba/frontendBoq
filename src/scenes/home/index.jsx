@@ -53,7 +53,7 @@ const Home = () => {
 						</Typography>
 					</Box>
 				</Box>
-				<Box>
+				{/* <Box>
 					<Box py="3rem" border="1px solid #333" px="10px" borderRadius="10px">
 						<Typography variant="h3" textAlign="center" style={{ marginBlock: '5px' }}>
 							Ramani zilizotumwa
@@ -66,8 +66,8 @@ const Home = () => {
 						</Typography>
 						<CustomerDrawing />
 					</Box>
-        </Box>
-        	<Box height="100px" backgroundColor="#333" mt="20px" color="#fff">
+        </Box> */}
+        	{/* <Box height="100px" backgroundColor="#333" mt="20px" color="#fff">
 				<List style={{ display: 'flex' }}>
 					<ListItem>
 						<ListItemText primary="privacy" />
@@ -79,7 +79,7 @@ const Home = () => {
 						<ListItemText primary="contact" />
 					</ListItem>
 				</List>
-			</Box>
+			</Box> */}
 			</Box>
 		
 		</Box>

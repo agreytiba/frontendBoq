@@ -1,31 +1,31 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState,useContext} from 'react';
 import { Box, Typography, Button, useTheme} from '@mui/material';
 import { DataGrid,GridToolbar} from '@mui/x-data-grid';
 import { tokens } from '../../theme';
 import { useDispatch,useSelector} from "react-redux";
 import {useNavigate}  from "react-router-dom"
 import { toast } from "react-toastify"
+import {AppContext} from '../../useContextApi/AppContext'
 import { deleteMap, getAllMaps, reset } from '../../redux/maps/mapsSlice';
-import { DeleteOutlined } from '@mui/icons-material';
-import { EditOutlined } from '@mui/icons-material';
 import axios from 'axios';
 import Spinner from '../../components/Spinner';
 const Boq = () => {
 
 //   const [mapId, setMapId] = useState();
-  const [newStatus, setNewStatus] = useState('vipimo');
+
 	//colors themes
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 
 
-
 // initiliaze useDispatch && useNavigate
   const dispatch = useDispatch()
 	const navigate = useNavigate()
+// get the values from context apia
+	  const {setPreMapData } = useContext(AppContext);
 
-	// get user from local
-	const user = JSON.parse(sessionStorage.getItem('user'));
+// get user from local
+const user = JSON.parse(sessionStorage.getItem('user'));
 
 //useSelector  containe properties from authSlice
   const {maps, isLoading, isError, isSuccess, message } = useSelector(
@@ -46,9 +46,21 @@ const Boq = () => {
       dispatch(reset())
     }
   }, [navigate, isError, message, dispatch])
-
-	const createBoq = (data) => {
-	navigate("/createboq", { state: data})
+const createBoq =async (data) => {
+	try {
+		const mapId = data._id
+      const response = await axios.post("https://backendboq.onrender.com/api/savedpres",{ mapId});
+		if (response.data) {
+		    const combinedData = {...data,savedPreId: response.data._id // Add the savedPreId to the combined data
+			};
+		 localStorage.setItem('mapData', JSON.stringify(combinedData));
+		 navigate("/createboq")
+			
+	  }
+    } catch (error) {
+      toast.error("Error creating saved pre:", error.response.data);
+    }
+	
  }
 
 
@@ -90,14 +102,12 @@ const Boq = () => {
 			headerName: 'ramani',
 			flex: 1.5,
 			renderCell: (params) => {
-				const handelEdit = () => {
-					console.log(`edit clicked id`);
-				};
+				
 			
 				return (
 				<Box>
 					 
-							{(user?.accessLevel === "admin" || user?.accessLevel === "user") &&
+							{(user?.accessLevel === "admin" || user?.accessLevel === "boq") &&
 						<Button
 							onClick={()=>handleAllMap(params.row)}
 							type="submit"
@@ -123,7 +133,7 @@ const Boq = () => {
 				return (
 				<Box>
 					 <div>
-							{(user?.accessLevel === "admin" || user?.accessLevel === "boq") &&
+							{(user?.accessLevel === "admin" || user?.accessLevel === "boq"|| user?.accessLevel === "pricetag") &&
 						<>	<Button
 							onClick={()=>createBoq(params.row)}
 							type="submit"

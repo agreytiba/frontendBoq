@@ -34,12 +34,14 @@ const Orders = () => {
   )
   // filter data to get all maps upload by the user
 
-  const filtereData = orders.filter((order) => {
-    let myid = order.purchaseId._id
+
+  
+const filtereData = orders?.filter((order) => {
+    let myid = order.purchaseId?._id
     return myid=== purchId
     
 })
-  
+
 
   //useEffect to fetch all users
   useEffect(() => {
@@ -92,7 +94,10 @@ const Orders = () => {
 // when on loadind state show this spinner
 if (isLoading) {
   return <Spinner/>
-}
+  }
+  if (orders === null) {
+    return <Typography>no orders</Typography>
+  }
   return (
     <Box display="flex" justifyContent="center" alignItems="center" py="50px">
     <Box width="90%" p="15px" boxShadow="0 0 5px #333" borderRadius="10px">

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Box, Button, TextField, Typography } from '@mui/material';
+import { Box, Button, TextField, Typography,CircularProgress } from '@mui/material';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -14,7 +14,8 @@ const SendMapForm = ({ setShowFormMap }) => {
 	// handle upload of file pdf
 	const [ selectedFiles, setSelectedFiles ] = useState([]);
 	const [ showForm, setShowForm ] = useState(false);
-	const [ mapdata, setMapData ] = useState();
+	const [mapdata, setMapData] = useState();
+	const [isLoading, setIsLoading] =useState(false)
 	//  hold the response of the pdf
 	// const [ mapIds, setMapId ] = useState([]);
 
@@ -29,12 +30,17 @@ const SendMapForm = ({ setShowFormMap }) => {
 	const handleUpload = async () => {
 		const formData = new FormData();
 		selectedFiles.forEach((file) => {
-			formData.append('pdf', file);
-			formData.append('userId', userId);
-		});
-
+			if (file.type === 'application/pdf') {
+				formData.append('pdf', file);
+				formData.append('userId', userId);
+			} else {
+				toast.error('file lazima liwe pdf form');
+				return; // Skip appending this file and move to the next one
+			}
+		})
 		try {
-			const res = await axios.post('http://localhost:5000/upload-pdf', formData, {
+			setIsLoading(true);
+			const res = await axios.post('https://backendboq.onrender.com/upload-pdf', formData, {
 				headers: {
 					'Content-Type': 'multipart/form-data'
 				}
@@ -42,7 +48,7 @@ const SendMapForm = ({ setShowFormMap }) => {
 			if (res.data) {
 				const { maps } = res.data;
 				setMapData(maps);
-				
+				setIsLoading(false);
 				setShowForm(true);
 			}
 		} catch (error) {
@@ -94,7 +100,7 @@ const SendMapForm = ({ setShowFormMap }) => {
 	};
 	return (
 		<Box display="flex" justifyContent="center" alignItems="center">
-			<Box p="20px" backgroundColor="#ddd" borderRadius="10px" maxWidth="800px" minWidth="500px">
+			<Box p="20px" backgroundColor="#ddd" borderRadius="10px" maxWidth="800px" minWidth="400px">
 				<Box py="10px" textAlign="center" marginBottom="20px">
 					<Typography variant="h3">Tuma ramani</Typography>
 				</Box>
@@ -107,9 +113,10 @@ const SendMapForm = ({ setShowFormMap }) => {
 					my="0.2rem"
 					zIndex="99"
 				>
+					<label style={{color:"red", textAlign:"start", marginBottom:"5px"}}> upload pdf only</label>
 					<input type="file" multiple onChange={handleFileChange} />
 					<Button color="success" onClick={handleUpload} variant="contained">
-						Upload
+					{isLoading ? <CircularProgress/>: <>Upload</>}
 					</Button>
 				</Box>
 				{showForm && (

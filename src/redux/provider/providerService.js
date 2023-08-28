@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/providers/';
+const API_URL = 'https://backendboq.onrender.com/api/providers/';
 
 // add new provider
 const AddProvider = async (data) => {

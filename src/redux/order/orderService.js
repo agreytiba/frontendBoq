@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/orders/';
+const API_URL = 'https://backendboq.onrender.com/api/orders/';
 
 // add new order
 const addOrder = async (orderData) => {

@@ -8,11 +8,11 @@ function PDFFetcher() {
   const [pdfs, setPdfs] = useState([]);
   const location = useLocation()
   const {mapIds}  = location.state
-console.log(mapIds)
+
   useEffect(() => {
     async function fetchPDFs() {
       const pdfDataPromises = mapIds.map((id) =>
-        axios.get(`http://localhost:5000/upload-pdf?pdfId=${id}`)
+        axios.get(`https://backendboq.onrender.com/upload-pdf?pdfId=${id}`)
       );
 
       try {
@@ -33,7 +33,7 @@ console.log(mapIds)
 const handleView = async (pdfId) => {
     try {
       // Fetch the PDF file data
-      const response = await axios.get(`http://localhost:5000/get-pdf/${pdfId}`, {
+      const response = await axios.get(`https://backendboq.onrender.com/get-pdf/${pdfId}`, {
         responseType: 'blob',
       });
 
@@ -57,7 +57,7 @@ const handleView = async (pdfId) => {
   
   const handleDownload = (pdfId, filename) => {
     axios
-      .get(`http://localhost:5000/get-pdf/${pdfId}`, { responseType: 'blob' })
+      .get(`https://backendboq.onrender.com/get-pdf/${pdfId}`, { responseType: 'blob' })
       .then((response) => {
         const blob = new Blob([response.data], { type: 'application/pdf' });
         saveAs(blob, filename);

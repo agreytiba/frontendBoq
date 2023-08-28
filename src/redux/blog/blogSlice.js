@@ -13,8 +13,8 @@ const initialState = {
 // add new blogPost details
 export const createBlogPost = createAsyncThunk('blogPosts/create', async (blogPostData, thunkAPI) => {
 	try {
-		//   const token = thunkAPI.getState().auth.user.token
-		return await blogService.createBlogPost(blogPostData);
+		  const token = thunkAPI.getState().auth.user.token
+		return await blogService.createBlogPost(blogPostData,token);
 	} catch (error) {
 		const message =
 			'error'(error.response && error.response.data && error.response.data.message) ||
@@ -27,8 +27,8 @@ export const createBlogPost = createAsyncThunk('blogPosts/create', async (blogPo
 // Get all blogPosts
 export const getBlogPosts = createAsyncThunk('blogPosts/getAll', async (_, thunkAPI) => {
 	try {
-		//   const token = thunkAPI.getState().auth.user.token
-		return await blogService.getBlogPosts();
+		  const token = thunkAPI.getState().auth.user.token
+		return await blogService.getBlogPosts(token);
 	} catch (error) {
 		const message =
 			(error.response && error.response.data && error.response.data.message) || error.message || error.toString();
@@ -36,10 +36,10 @@ export const getBlogPosts = createAsyncThunk('blogPosts/getAll', async (_, thunk
 	}
 });
 // Get single blogPost
-export const getBlogPost = createAsyncThunk('blogPosts/getOne', async (appointId, thunkAPI) => {
+export const getBlogPost = createAsyncThunk('blogPosts/getOne', async (id, thunkAPI) => {
 	try {
-		//   const token = thunkAPI.getState().auth.user.token
-		return await blogService.getBlogPost(appointId);
+		  const token = thunkAPI.getState().auth.user.token
+		return await blogService.getBlogPost(id,token);
 	} catch (error) {
 		const message =
 			(error.response && error.response.data && error.response.data.message) || error.message || error.toString();
@@ -47,10 +47,10 @@ export const getBlogPost = createAsyncThunk('blogPosts/getOne', async (appointId
 	}
 });
 //edit  blogPost details
-export const updateBlogPost = createAsyncThunk('blogPosts/edit', async (appointId, thunkAPI) => {
+export const updateBlogPost = createAsyncThunk('blogPosts/edit', async (id, thunkAPI) => {
 	try {
-		//   const token = thunkAPI.getState().auth.user.token
-		return await blogService.updateBlogPost(appointId);
+		  const token = thunkAPI.getState().auth.user.token
+		return await blogService.updateBlogPost(id,token);
 	} catch (error) {
 		const message =
 			(error.response && error.response.data && error.response.data.message) || error.message || error.toString();
@@ -58,10 +58,10 @@ export const updateBlogPost = createAsyncThunk('blogPosts/edit', async (appointI
 	}
 });
 // Delete blogPost details
-export const deleteBlogPost = createAsyncThunk('blogPosts/delete', async (appointId, thunkAPI) => {
+export const deleteBlogPost = createAsyncThunk('blogPosts/delete', async (id, thunkAPI) => {
 	try {
-		//   const token = thunkAPI.getState().auth.user.token
-		return await blogService.deleteBlogPost(appointId);
+		  const token = thunkAPI.getState().auth.user.token
+		return await blogService.deleteBlogPost(id,token);
 	} catch (error) {
 		const message =
 			(error.response && error.response.data && error.response.data.message) || error.message || error.toString();

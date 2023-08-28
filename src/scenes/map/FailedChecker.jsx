@@ -66,9 +66,11 @@ const FailedChecker = () => {
 
   // pass to boq
   const handleMoveToBoq = async (id) => {
-    const newStatus = "boq";
+    
     try {
-      const res = await axios.put(`http://localhost:5000/api/maps/${id}`, {
+      window.confirm("unataka kupitisha ramani ?")
+      const newStatus = "boq";
+      const res = await axios.put(`https://backendboq.onrender.com/api/maps/${id}`, {
         status: newStatus,
       });
 
@@ -99,7 +101,7 @@ const FailedChecker = () => {
       if (!suggestionOnMap) {
         toast.error("weka suggestion");
       }
-      const res = await axios.put(`http://localhost:5000/api/maps/${mapId}`, {
+      const res = await axios.put(`https://backendboq.onrender.com/api/maps/${mapId}`, {
         suggestionOnMap,
       });
       if (res.data) {
@@ -121,7 +123,7 @@ const FailedChecker = () => {
   const showUser = async (userid) => {
     try {
       setUserPopupOpen(true);
-      const res = await axios.get(`http://localhost:5000/api/users/${userid}`);
+      const res = await axios.get(`https://backendboq.onrender.com/api/users/${userid}`);
       // Handle successful update (e.g., show a success message or update the state)
       if (res.data) {
         setUseInfo(res.data);
@@ -187,7 +189,7 @@ const FailedChecker = () => {
         return (
           <Box>
             {(user?.accessLevel === "admin" ||
-              user?.accessLevel === "user") && (
+            user?.accessLevel === "failedchecker") && (
               <Button
                 onClick={() => handleAllMap(params.row)}
                 type="submit"
@@ -211,7 +213,7 @@ const FailedChecker = () => {
           <Box>
             <div>
               {(user?.accessLevel === "admin" ||
-                user?.accessLevel === "typechecker") && (
+                user?.accessLevel === "failedchecker") && (
                 <>
                   <Button
                     onClick={() => handleMoveToBoq(params.row._id)}

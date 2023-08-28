@@ -48,11 +48,17 @@ const UnitCheker = () => {
 
   // passs unit check
   const handleMoveToBoq = async (id) => {
-	  try {
+    try {
+      window.confirm('unataka kupitisha  vipimo vya ramani?')
+        const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        }
+      }
 		  const newStatus = 'boq';
-      const res = await axios.put(`http://localhost:5000/api/maps/${id}`, {
+      const res = await axios.put(`https://backendboq.onrender.com/api/maps/${id}`, {
         status: newStatus,
-      });
+      },config);
 
       // Handle successful update (e.g., show a success message or update the state)
       if (res.data) {
@@ -76,7 +82,7 @@ const UnitCheker = () => {
       if (!unitComment) {
         toast.error("weka comment")
       }
-      const res = await axios.put(`http://localhost:5000/api/maps/${mapId}`, { unitComment });
+      const res = await axios.put(`https://backendboq.onrender.com/api/maps/${mapId}`, { unitComment });
       if (res.data) {
         setComment('');
         setCommentPopupOpen(false);
@@ -90,7 +96,7 @@ const UnitCheker = () => {
   // const handleReturnBack = async (id) => {
   //   try {
   //   const newStatus= 'imetumwa';
-  //     const res = await axios.put(`http://localhost:5000/api/maps/${id}`, {
+  //     const res = await axios.put(`https://backendboq.onrender.com/api/maps/${id}`, {
   //       status: newStatus,
   //     });
 
@@ -112,12 +118,20 @@ const UnitCheker = () => {
 
   // header arrangement in data grid
   const columns = [
-    {
-      field: "_id",
-      headerName: "Ramani no",
-      flex: 1,
-      cellClassName: "name-column--cell",
-    },
+      	{
+			field: '_id',
+			headerName: 'Ramani No',
+            flex: 0.5,
+            textAlign:'center',
+			renderCell: (params) => {
+			
+				return (
+					<Typography component={"p"} >
+						Rama1{(params.row._id).slice(-3)}
+					</Typography>
+				);
+			}
+		},
 
     {
       field: "startConstruction",
@@ -136,8 +150,8 @@ const UnitCheker = () => {
       renderCell: (params) => {
         return (
           <Box>
-            {(user?.accessLevel === "admin" ||
-              user?.accessLevel === "user") && (
+            {(user?.accessLevel === "admin"
+              || user?.accessLevel === "user" || user?.accessLevel === "unitchecker") && (
               <Button
                 onClick={() => handleAllMap(params.row)}
                 type="submit"
@@ -161,7 +175,7 @@ const UnitCheker = () => {
           <Box>
             <div>
               {(user?.accessLevel === "admin" ||
-                user?.accessLevel === "typechecker") && (
+                user?.accessLevel === "unitchecker") && (
                 <>
                
                   {/* <Button

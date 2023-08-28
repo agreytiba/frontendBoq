@@ -45,7 +45,7 @@ const Login = () => {
       navigate('/suggestion')
     }
     if ((isSuccess || user?.token)&&( (user?.accessLevel) === "pricetag")) {
-      navigate('/bidhaa')
+      navigate('/boq')
     }
     if ((isSuccess || user?.token)&&( (user?.accessLevel) === "seller")) {
       navigate('/mtoahuduma')
