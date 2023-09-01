@@ -1,7 +1,4 @@
-import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import axios from "axios";
-import { Edit } from "@mui/icons-material";
+import React, { useState,useEffect} from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -11,7 +8,9 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Box, Typography } from "@mui/material";
-
+import { Edit } from "@mui/icons-material";
+import { toast } from "react-toastify"
+import axios from "axios";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -35,10 +34,12 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-const Finishing = () => {
-  //  use state to get data
-  const [finishingRows, setFinishingRows] = useState([]);
-  // edit rate useState
+const SkimmingInside = () => {
+// get data from response
+  const [skimmingInsideRows, setSkimmingInsideRows] = useState([])
+  const [skimmingOutsideRows, setSkimmingOutsideRows] = useState([])
+   const[allData, setAllData] = useState([])
+   // edit rate useState
   const [editingRate, setEditingRate] = useState(null);
   const [newRate, setNewRate] = useState(null);
   // use state to get savedpre data
@@ -46,45 +47,46 @@ const Finishing = () => {
   // get  quantity
   const [editingQuantity, setEditingQuantity] = useState(null); // Add state for editing quantity
   const [quantity, setQuantity] = useState(""); // Add state for new quantity
-  //  get user from session store
-  //  get user from session store
+  
+    //  get user from session store
   const user = JSON.parse(sessionStorage.getItem("user"));
-
-  // useEffect to enable fetching  of data
+//  useEffect to get data from database
   useEffect(() => {
-    // Fetch data using axios
-    axios
-      .get("https://backendboq.onrender.com/api/finishing")
-      .then((response) => {
-        setFinishingRows(response.data);
-      })
-      .catch((error) => {
-        toast.error("Error fetching data:", error);
-        toast.error("Error fetching data from the server");
-      });
+    fetchData();
   }, []);
-  // get data after success
-  const fetchUpdatedData = async () => {
+
+  //function to fetch data from the database
+  const fetchData = async () => {
     try {
-      const response = await axios.get("https://backendboq.onrender.com/api/finishing");
-      setFinishingRows(response.data);
+      const response = await axios.get('https://backendboq.onrender.com/api/skimming'); 
+      if (response.data) {
+        setAllData(response.data)
+        //  file data according to property  of "type" from data
+         const filteredInside = response.data.filter((entry) => entry.type.includes('inside'));
+        setSkimmingInsideRows(filteredInside)
+         const filteredOutside = response.data.filter((entry) => entry.type.includes('outside'));
+        setSkimmingOutsideRows(filteredOutside)
+   
+      }
+     
+      
     } catch (error) {
-      toast.error("Failed to fetch updated data");
+      console.error('Error fetching data:', error);
     }
   };
 
-  // handle update rate
+   // handle update rate
   const handleRateUpdate = async (materialId) => {
     if (newRate !== null) {
       try {
         const response = await axios.put(
-          `https://backendboq.onrender.com/api/finishing/${materialId}`,
+          `https://backendboq.onrender.com/api/skimming/${materialId}`,
           { newRate: newRate }
         );
         setNewRate(null);
         if (response.data) {
           setEditingRate(null);
-          await fetchUpdatedData();
+          await fetchData();
         } else {
           toast.error("Failed to update rate in the backend");
         }
@@ -95,13 +97,14 @@ const Finishing = () => {
     }
   };
 
+
    const savedInfo = JSON.parse(localStorage.getItem("savedData"));
   // fetch SavedPre by Id
   const fetchSavedData = async () => {
     try {
       if (savedInfo.savedPreId) {
         const response = await axios.get(
-          `https://backendboq.onrender.com/api/savedfinishing/${savedInfo.savedPreId}`
+          `https://backendboq.onrender.com/api/savedskiminside/${savedInfo.savedPreId}`
         );
         setSavedData(response.data);
       }
@@ -119,7 +122,7 @@ const Finishing = () => {
     if (quantity !== "") {
       try {
         const response = await axios.put(
-          `https://backendboq.onrender.com/api/savedfinishing/${savedInfo.savedPreId}`,
+          `https://backendboq.onrender.com/api/savedskiminside/${savedInfo.savedPreId}`,
           {
             quantity: Number(quantity), // Convert to number
             materialId,
@@ -140,8 +143,8 @@ const Finishing = () => {
   };
 
   // Calculate the total amount of the pre items
-  const totalAmount = savedData?.finishData.reduce((total, data) => {
-    const material = finishingRows.find((row) => row._id === data.materialId);
+  const totalAmount = savedData?.skimData.reduce((total, data) => {
+    const material = skimmingInsideRows.find((row) => row._id === data.materialId);
     if (material) {
       const amount = material.rate * data.quantity;
       return total + amount;
@@ -162,6 +165,82 @@ const Finishing = () => {
   };
   return (
     <Box mt={"2rem"}>
+      {user.accessLevel === "pricetag" ? <Box>
+          <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <Typography
+                variant={"h3"}
+                paddingY="10px"
+                fontWeight="bold"
+                color={"primary"}
+              >
+                 WALL SKIMMING
+              </Typography>
+            </TableRow>
+            <TableRow style={{ marginBottom: "5px" }}>
+              <StyledTableCell>material</StyledTableCell>
+              <StyledTableCell align="right">unit</StyledTableCell>
+              <StyledTableCell align="right">rate&nbsp;(tsh)</StyledTableCell>
+            
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <TableRow>
+              <Typography  variant={"h5"}
+                fontWeight="bold"
+                color={"primary"}
+                paddingTop="10px">
+                Wall skimming materials
+              </Typography>
+            </TableRow>
+            {skimmingInsideRows.map((row) => (
+              <StyledTableRow
+                key={row.material}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <StyledTableCell component="th" scope="row">
+                  {row.material}
+                </StyledTableCell>
+                <StyledTableCell align="right">{row.unit}</StyledTableCell>
+                 <StyledTableCell align="right">
+                  {editingRate === row.material ? (
+                    <div>
+                      <input
+                        type="number"
+                        value={newRate}
+                        onChange={(e) => setNewRate(e.target.value)}
+                        style={{ height: "50px", width: "50px" }}
+                      />
+                      {row.quantity}
+                      <button onClick={() => handleRateUpdate(row._id)}>
+                        Submit
+                      </button>
+                    </div>
+                  ) : (
+                    <span
+                      style={{
+                        display: "flex",
+                        justifyContent: "right",
+                        columnGap: "10px",
+                      }}
+                    >
+                      {formatCurrency(row.rate)}
+                      {(user?.accessLevel === "admin" ||
+                        user?.accessLevel === "pricetag") && (
+                        <Edit onClick={() => setEditingRate(row.material)} />
+                      )}
+                    </span>
+                  )}
+                </StyledTableCell>
+              </StyledTableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+</Box> :
+      <Box>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -172,7 +251,7 @@ const Finishing = () => {
                 fontWeight="bold"
                 color={"primary"}
               >
-                H.FINISHING PAINT OUTSIDE & INSIDE
+                G. WALL SKIMMING
               </Typography>
             </TableRow>
             <TableRow style={{ marginBottom: "5px" }}>
@@ -184,7 +263,15 @@ const Finishing = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {finishingRows.map((row) => (
+            <TableRow>
+              <Typography  variant={"h5"}
+                fontWeight="bold"
+                color={"primary"}
+                paddingTop="10px">
+                1. Wall Skimming Inside
+              </Typography>
+            </TableRow>
+            {skimmingInsideRows.map((row) => (
               <StyledTableRow
                 key={row.material}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -193,11 +280,11 @@ const Finishing = () => {
                   {row.material}
                 </StyledTableCell>
                 <StyledTableCell align="right">{row.unit}</StyledTableCell>
-                <StyledTableCell align="right">
-                  {savedData?.finishData !== null ? (
+                 <StyledTableCell align="right">
+                  {savedData?.skimData !== null ? (
                     <Box>
           
-                      {savedData?.finishData.map((data) => {
+                      {savedData?.skimData.map((data) => {
                         if (row._id === data.materialId) {
                           return (
                             <>
@@ -229,7 +316,7 @@ const Finishing = () => {
                   </Box>}</>
                   )}
                 </StyledTableCell>
-                <StyledTableCell align="right">
+                 <StyledTableCell align="right">
                   {editingRate === row.material ? (
                     <div>
                       <input
@@ -247,11 +334,11 @@ const Finishing = () => {
                     <span
                       style={{
                         display: "flex",
-                        justifyContent: "center",
+                        justifyContent: "right",
                         columnGap: "10px",
                       }}
                     >
-                    {formatCurrency(row.rate)}
+                      {formatCurrency(row.rate)}
                       {(user?.accessLevel === "admin" ||
                         user?.accessLevel === "pricetag") && (
                         <Edit onClick={() => setEditingRate(row.material)} />
@@ -259,9 +346,8 @@ const Finishing = () => {
                     </span>
                   )}
                 </StyledTableCell>
-
-             <StyledTableCell align="right">
-                  {savedData?.finishData.map((data) => {
+  <StyledTableCell align="right">
+                  {savedData?.skimData.map((data) => {
                     if (row._id === data.materialId) {
                       return (
                         <span key={data.materialId}>
@@ -294,9 +380,9 @@ const Finishing = () => {
             </StyledTableRow>
           </TableBody>
         </Table>
-      </TableContainer>
+      </TableContainer></Box>}
     </Box>
   );
 };
 
-export default Finishing;
+export default SkimmingInside;

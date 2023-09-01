@@ -9,7 +9,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
 import { login, reset } from '../../redux/auth/authSlice';
 import { toast } from 'react-toastify';
-
+import Spinner from "../../components/Spinner"
 const Login = () => {
 	const isNonMobile = useMediaQuery('(min-width:600px)');
   const navigate = useNavigate()
@@ -64,7 +64,7 @@ const Login = () => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 if (isLoading) {
-	return <h1>loading ....</h1>
+	return <Spinner/>
 }
 	return (
 		<Box m="20px" display="flex" justifyContent="center" alignItems="center" minHeight="100vh">

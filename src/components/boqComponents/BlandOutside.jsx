@@ -80,13 +80,19 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-const Blandering = () => {
+const BlanderingOutside = () => {
   // get data from database
   const [blanderRows, setBlanderRows] = useState([])
    // edit rate useState
   const [editingRate, setEditingRate] = useState(null);
   const [newRate, setNewRate] = useState(null);
 
+      // use state to get savedpre data
+  const [savedData, setSavedData] = useState(null);
+  // get  quantity
+  const [editingQuantity, setEditingQuantity] = useState(null); // Add state for editing quantity
+  const [quantity, setQuantity] = useState(""); // Add state for new quantity
+ 
     //  get user from session store
   const user = JSON.parse(sessionStorage.getItem("user"));
 
@@ -127,8 +133,63 @@ const Blandering = () => {
     }
   };
 
-  // format number int currency format
-  const formatCurrency = (value) => {
+ const savedInfo = JSON.parse(localStorage.getItem("savedData"));
+  // fetch SavedPre by Id
+  const fetchSavedData = async () => {
+    try {
+      if (savedInfo.savedPreId) {
+        const response = await axios.get(
+          `https://backendboq.onrender.com/api/savedblandoutside/${savedInfo.savedPreId}`
+        );
+        setSavedData(response.data);
+      }
+    } catch (error) {
+      toast.error("Error fetching savedData:", error);
+    }
+  };
+
+    //  use effect to get savedData by id
+  useEffect(() => {
+    fetchSavedData();
+  }, [savedInfo.savedPreId]);
+
+  const handleQuantityUpdate = async (materialId) => {
+    if (quantity !== "") {
+      try {
+        const response = await axios.put(
+          `https://backendboq.onrender.com/api/savedblandoutside/${savedInfo.savedPreId}`,
+          {
+            quantity: Number(quantity), // Convert to number
+            materialId,
+          }
+        );
+
+        if (response.data) {
+          setQuantity(""); // Reset the quantity input
+          setEditingQuantity(false);
+          fetchSavedData();
+        } else {
+          toast.error("Failed to update quantity in the backend");
+        }
+      } catch (error) {
+        toast.error(`Error updating quantity: ${error}`);
+      }
+    }
+  };
+
+  // Calculate the total amount of the pre items
+  const totalAmount = savedData?.outsideData.reduce((total, data) => {
+    const material = blanderRows.find((row) => row._id === data.materialId);
+    if (material) {
+      const amount = material.rate * data.quantity;
+      return total + amount;
+    }
+    return total;
+  }, 0);
+
+  // currency formatter
+   // currency format
+ const formatCurrency = (value) => {
     const formattedValue = new Intl.NumberFormat( {
       style: 'currency',
       currency: 'TZS', // Tanzanian Shillings
@@ -180,7 +241,42 @@ const Blandering = () => {
                   {row.material}
                 </StyledTableCell>
                 <StyledTableCell align="right">{row.unit}</StyledTableCell>
-                <StyledTableCell align="right">{row.quantity}</StyledTableCell>
+<StyledTableCell align="right">
+                  {savedData?.outsideData !== null ? (
+                    <Box>
+          
+                      {savedData?.outsideData.map((data) => {
+                        if (row._id === data.materialId) {
+                          return (
+                            <>
+                              <span key={data._id}>{data.quantity}</span>
+                            </>
+                          );
+                        }
+                      })}
+                    </Box>
+                  ) : (
+                    <span> 0 </span>
+                  )}
+                  {editingQuantity === row.material ? (
+                    <div>
+                      <input
+                        type="number"
+                        value={quantity}
+                        onChange={(e) => setQuantity(e.target.value)}
+                        style={{ height: "50px", width: "50px" }}
+                      />
+                      <button onClick={() => handleQuantityUpdate(row._id)}>
+                        Submit
+                      </button>
+                    </div>
+                  ) :  (<>{(user?.accessLevel === "admin" || user?.accessLevel === "boq") &&
+                  <Box onClick={() => setEditingQuantity(row.material)}>
+                    <Edit />
+                     
+                  </Box>}</>
+                  )}
+                </StyledTableCell>
                     <StyledTableCell align="right">
                   {editingRate === row.material ? (
                     <div>
@@ -211,62 +307,52 @@ const Blandering = () => {
                     </span>
                   )}
                 </StyledTableCell>
-                <StyledTableCell align="right">{row.amount}</StyledTableCell>
+
+             <StyledTableCell align="right">
+                  {savedData?.outsideData.map((data) => {
+                    if (row._id === data.materialId) {
+                      return (
+                        <span key={data.materialId}>
+                          {formatCurrency(row.rate * data.quantity)}
+                        </span>
+                      );
+                    }
+                    return null; // Return null for non-matching rows
+                  })}
+                </StyledTableCell>
+                 <StyledTableCell align="right">
+                  {savedData?.outsideData.map((data) => {
+                    if (row._id === data.materialId) {
+                      return (
+                        <span key={data.materialId}>
+                          {formatCurrency(row.rate * data.quantity)}
+                        </span>
+                      );
+                    }
+                    return null; // Return null for non-matching rows
+                  })}
+                      </StyledTableCell>
               </StyledTableRow>
             ))}
-            <TableRow>
-              <Typography
-                variant={"h5"}
-                fontWeight="bold"
-                color={"primary"}
-                paddingTop="10px"
-              >
-                2. Blandering Outside
-              </Typography>
-            </TableRow>
-            {blanderRows.map((row) => (
-              <StyledTableRow
-                key={row.material}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <StyledTableCell component="th" scope="row">
-                  {row.material}
-                </StyledTableCell>
-                <StyledTableCell align="right">{row.unit}</StyledTableCell>
-                <StyledTableCell align="right">{row.quantity}</StyledTableCell>
-                  <StyledTableCell align="right">
-                  {editingRate === row.material ? (
-                    <div>
-                      <input
-                        type="number"
-                        value={newRate}
-                        onChange={(e) => setNewRate(e.target.value)}
-                        style={{ height: "50px", width: "50px" }}
-                      />
-                      {row.quantity}
-                      <button onClick={() => handleRateUpdate(row._id)}>
-                      Save
-                      </button>
-                    </div>
-                  ) : (
-                    <span
-                      style={{
-                        display: "flex",
-                        justifyContent: "right",
-                        columnGap: "10px",
-                      }}
-                    >
-                      {formatCurrency(row.rate)}
-                      {(user?.accessLevel === "admin" ||
-                        user?.accessLevel === "pricetag") && (
-                        <Edit onClick={() => setEditingRate(row.material)} />
-                      )}
-                    </span>
-                  )}
-                </StyledTableCell>
-                <StyledTableCell align="right">{row.amount}</StyledTableCell>
-              </StyledTableRow>
-            ))}
+         
+                       <StyledTableRow
+              style={{ border: "4px solid #333", marginBlock: "10px" }}
+            >
+              <StyledTableCell variant="dark">
+                <Typography variant="h4" color={"primary"}>
+                  {" "}
+                  Total Amount
+                </Typography>
+              </StyledTableCell>
+
+              <StyledTableCell align="center"></StyledTableCell>
+
+              <StyledTableCell align="center"></StyledTableCell>
+
+              <StyledTableCell align="center"></StyledTableCell>
+
+              <StyledTableCell fontWeight="800" align="right">{formatCurrency(totalAmount)}</StyledTableCell>
+            </StyledTableRow>
           </TableBody>
         </Table>
       </TableContainer>
@@ -274,4 +360,4 @@ const Blandering = () => {
   );
 };
 
-export default Blandering;
+export default BlanderingOutside;

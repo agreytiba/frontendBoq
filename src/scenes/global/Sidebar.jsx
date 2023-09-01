@@ -133,7 +133,7 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-
+          <Typography variant="h3" align="center" mt="10px">Watumiaji</Typography>
         <SubMenu title="Watumiaji"  style={{color:"#333"}}  icon={<People />}>
         <Item
               title="wateja"
@@ -195,7 +195,7 @@ const Sidebar = () => {
               setSelected={setSelected}
             />
       
-               
+            <Typography variant="h3" align="center" mt="10px">Ramani</Typography>             
            <SubMenu title="Ramani"  style={{color:"#333"}}  icon={<MapOutlined/>}>
         <Item
               title="pdfs"
@@ -223,7 +223,7 @@ const Sidebar = () => {
               setSelected={setSelected}
             />
              
-                     
+      
       </SubMenu>
             {/* <Item
               title="Ramani"

@@ -8,6 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { register, reset } from "../../redux/auth/authSlice";
 import {toast} from "react-toastify"
 import Header from "../../components/Header";
+import Spinner from "../../components/Spinner";
 
 const Register = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
@@ -41,7 +42,7 @@ const Register = () => {
 
   };
   if (isLoading) {
-    return <h1>loading ....</h1>
+    return <Spinner/>
   }
 
   return (

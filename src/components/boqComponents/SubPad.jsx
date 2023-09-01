@@ -1,7 +1,4 @@
-import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import axios from "axios";
-import { Edit } from "@mui/icons-material";
+import {useState,useEffect} from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -11,14 +8,15 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Box, Typography } from "@mui/material";
+import axios from 'axios'
+import { toast } from 'react-toastify'
+import { Edit } from "@mui/icons-material";
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
-    fontWeight: "bolder",
-    fontSize: "14px",
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
@@ -35,56 +33,56 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-const Finishing = () => {
-  //  use state to get data
-  const [finishingRows, setFinishingRows] = useState([]);
-  // edit rate useState
+const SubPad = () => {
+
+    const [padRows,setPadRows] = useState([]);
+    const [allData,setAllData] = useState([]);
+  
+   // edit rate useState
   const [editingRate, setEditingRate] = useState(null);
   const [newRate, setNewRate] = useState(null);
-  // use state to get savedpre data
-  const [savedData, setSavedData] = useState(null);
+
+  
+   const [savedData, setSavedData] = useState(null);
   // get  quantity
   const [editingQuantity, setEditingQuantity] = useState(null); // Add state for editing quantity
   const [quantity, setQuantity] = useState(""); // Add state for new quantity
-  //  get user from session store
-  //  get user from session store
+    //  get user from session store
   const user = JSON.parse(sessionStorage.getItem("user"));
-
-  // useEffect to enable fetching  of data
+//  useEffect to get data from database
   useEffect(() => {
-    // Fetch data using axios
-    axios
-      .get("https://backendboq.onrender.com/api/finishing")
-      .then((response) => {
-        setFinishingRows(response.data);
-      })
-      .catch((error) => {
-        toast.error("Error fetching data:", error);
-        toast.error("Error fetching data from the server");
-      });
+    fetchData();
   }, []);
-  // get data after success
-  const fetchUpdatedData = async () => {
+
+  //function to fetch data from the database
+  const fetchData = async () => {
     try {
-      const response = await axios.get("https://backendboq.onrender.com/api/finishing");
-      setFinishingRows(response.data);
+      const response = await axios.get('https://backendboq.onrender.com/api/substructure'); // Replace with your API endpoint
+      if (response.data) {
+      setAllData(response.data)
+      const filteredPad = response.data.filter((entry) => entry.type.includes('pad'));
+      setPadRows(filteredPad)
+     
+      }
+     
+      
     } catch (error) {
-      toast.error("Failed to fetch updated data");
+      console.error('Error fetching data:', error);
     }
   };
 
-  // handle update rate
+   // handle update rate
   const handleRateUpdate = async (materialId) => {
     if (newRate !== null) {
       try {
         const response = await axios.put(
-          `https://backendboq.onrender.com/api/finishing/${materialId}`,
+          `https://backendboq.onrender.com/api/substructure/${materialId}`,
           { newRate: newRate }
         );
         setNewRate(null);
         if (response.data) {
           setEditingRate(null);
-          await fetchUpdatedData();
+          await fetchData();
         } else {
           toast.error("Failed to update rate in the backend");
         }
@@ -101,7 +99,7 @@ const Finishing = () => {
     try {
       if (savedInfo.savedPreId) {
         const response = await axios.get(
-          `https://backendboq.onrender.com/api/savedfinishing/${savedInfo.savedPreId}`
+          `https://backendboq.onrender.com/api/savedpads/${savedInfo.savedPreId}`
         );
         setSavedData(response.data);
       }
@@ -119,7 +117,7 @@ const Finishing = () => {
     if (quantity !== "") {
       try {
         const response = await axios.put(
-          `https://backendboq.onrender.com/api/savedfinishing/${savedInfo.savedPreId}`,
+          `https://backendboq.onrender.com/api/savedpads/${savedInfo.savedPreId}`,
           {
             quantity: Number(quantity), // Convert to number
             materialId,
@@ -140,8 +138,8 @@ const Finishing = () => {
   };
 
   // Calculate the total amount of the pre items
-  const totalAmount = savedData?.finishData.reduce((total, data) => {
-    const material = finishingRows.find((row) => row._id === data.materialId);
+  const totalAmount = savedData?.padData.reduce((total, data) => {
+    const material = padRows.find((row) => row._id === data.materialId);
     if (material) {
       const amount = material.rate * data.quantity;
       return total + amount;
@@ -160,31 +158,39 @@ const Finishing = () => {
 
     return `${formattedValue}`; // Concatenate the "TSh" sign
   };
+
   return (
-    <Box mt={"2rem"}>
-      <TableContainer component={Paper}>
+    <Box >
+      {user.accessLevel === "pricetag" ? <Box marginTop={"10px"}>
+         <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
-            <TableRow>
-              <Typography
-                variant={"h3"}
-                paddingY="10px"
-                fontWeight="bold"
-                color={"primary"}
-              >
-                H.FINISHING PAINT OUTSIDE & INSIDE
-              </Typography>
-            </TableRow>
-            <TableRow style={{ marginBottom: "5px" }}>
+              <TableRow>
+                <Typography
+                 variant={"h3"} paddingY="10px" fontWeight="bold"
+                  color={"primary"}
+                  textAlign={"center"}
+                >
+                   SUBSTRUCTURE MATERIALS
+                </Typography>
+              </TableRow>
+       
+            
+            <TableRow
+              style={{
+                fontWeight: "bold",
+                border: "2px solid #333",
+                marginBottom: "5px",
+              }}
+            >
               <StyledTableCell>material</StyledTableCell>
               <StyledTableCell align="right">unit</StyledTableCell>
-              <StyledTableCell align="right">quantity</StyledTableCell>
-              <StyledTableCell align="right">rate&nbsp;(tsh)</StyledTableCell>
-              <StyledTableCell align="right">Amount&nbsp;(tsh)</StyledTableCell>
-            </TableRow>
+              <StyledTableCell align="center">rate&nbsp;(tsh)</StyledTableCell>
+                          </TableRow>
+                      
           </TableHead>
-          <TableBody>
-            {finishingRows.map((row) => (
+                  <TableBody>
+            {allData.map((row) => (
               <StyledTableRow
                 key={row.material}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -193,11 +199,99 @@ const Finishing = () => {
                   {row.material}
                 </StyledTableCell>
                 <StyledTableCell align="right">{row.unit}</StyledTableCell>
-                <StyledTableCell align="right">
-                  {savedData?.finishData !== null ? (
+               
+                 <StyledTableCell align="right">
+                  {editingRate === row.material ? (
+                    <div>
+                      <input
+                        type="number"
+                        value={newRate}
+                        onChange={(e) => setNewRate(e.target.value)}
+                        style={{ height: "50px", width: "50px" }}
+                      />
+                      {row.quantity}
+                      <button onClick={() => handleRateUpdate(row._id)}>
+                        Save
+                      </button>
+                    </div>
+                  ) : (
+                    <span
+                      style={{
+                        display: "flex",
+                        justifyContent: "right",
+                        columnGap: "10px",
+                      }}
+                    >
+                      {formatCurrency(row.rate)}
+                      {(user?.accessLevel === "admin" ||
+                        user?.accessLevel === "pricetag") && (
+                        <Edit onClick={() => setEditingRate(row.material)} />
+                      )}
+                    </span>
+                  )}
+                </StyledTableCell>
+              </StyledTableRow>
+            ))}             
+          </TableBody>
+        </Table>
+        </TableContainer>
+</Box>:
+      <Box>
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+              <TableRow>
+                <Typography
+                 variant={"h3"} paddingY="10px" fontWeight="bold"
+                  color={"primary"}
+                >
+                  B. SUBSTRUCTURE
+                </Typography>
+              </TableRow>
+       
+            
+            <TableRow
+              style={{
+                fontWeight: "bold",
+                border: "2px solid #333",
+                marginBottom: "5px",
+              }}
+            >
+              <StyledTableCell>material</StyledTableCell>
+              <StyledTableCell align="right">unit</StyledTableCell>
+              <StyledTableCell align="right">quantity</StyledTableCell>
+              <StyledTableCell align="center">rate&nbsp;(tsh)</StyledTableCell>
+              <StyledTableCell align="right">Amount&nbsp;(tsh)</StyledTableCell>
+                          </TableRow>
+                      
+          </TableHead>
+                  <TableBody>
+          
+             {/* PAD FOUNDATION AND COLUMNS */}
+            <TableRow>
+                <Typography
+                    variant={"h5"}
+                  fontWeight="bold"
+                color={"primary"}
+                paddingTop={"10px"}
+                >
+                  3. Pad foundation and columns
+                </Typography>
+              </TableRow>
+            {padRows.map((row) => (
+              <StyledTableRow
+                key={row.material}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <StyledTableCell component="th" scope="row">
+                  {row.material}
+                </StyledTableCell>
+                <StyledTableCell align="right">{row.unit}</StyledTableCell>
+ <StyledTableCell align="right">
+                  {savedData?.padData !== null ? (
                     <Box>
           
-                      {savedData?.finishData.map((data) => {
+                      {savedData?.padData.map((data) => {
                         if (row._id === data.materialId) {
                           return (
                             <>
@@ -251,7 +345,7 @@ const Finishing = () => {
                         columnGap: "10px",
                       }}
                     >
-                    {formatCurrency(row.rate)}
+                      {formatCurrency(row.rate)}
                       {(user?.accessLevel === "admin" ||
                         user?.accessLevel === "pricetag") && (
                         <Edit onClick={() => setEditingRate(row.material)} />
@@ -259,9 +353,8 @@ const Finishing = () => {
                     </span>
                   )}
                 </StyledTableCell>
-
-             <StyledTableCell align="right">
-                  {savedData?.finishData.map((data) => {
+ <StyledTableCell align="right">
+                  {savedData?.padData.map((data) => {
                     if (row._id === data.materialId) {
                       return (
                         <span key={data.materialId}>
@@ -274,7 +367,8 @@ const Finishing = () => {
                 </StyledTableCell>
               </StyledTableRow>
             ))}
-            <StyledTableRow
+           
+                       <StyledTableRow
               style={{ border: "4px solid #333", marginBlock: "10px" }}
             >
               <StyledTableCell variant="dark">
@@ -290,13 +384,14 @@ const Finishing = () => {
 
               <StyledTableCell align="center"></StyledTableCell>
 
-              <StyledTableCell fontWeight="800">{formatCurrency(totalAmount)}</StyledTableCell>
-            </StyledTableRow>
+              <StyledTableCell fontWeight="800" align="right">{formatCurrency(totalAmount)}</StyledTableCell>
+            </StyledTableRow>       
           </TableBody>
         </Table>
-      </TableContainer>
+        </TableContainer>
+      </Box>}
     </Box>
   );
 };
 
-export default Finishing;
+export default SubPad;

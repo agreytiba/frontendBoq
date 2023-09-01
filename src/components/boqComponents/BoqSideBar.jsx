@@ -9,6 +9,7 @@ import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { tokens } from "../../theme";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
+import { People } from "@mui/icons-material";
 import axios from "axios";
 import {toast} from 'react-toastify'
 
@@ -60,6 +61,20 @@ const createSavedBoq = async (name) => {
     pvc: "savedpvcs",
     electric: "savedelectrical",
     plaster: "savedplastering",
+    blind: "savedblinding",
+    strip: "savedStrips",
+    foundwall: "savedwallfoundations",
+    pad: "savedpads",
+    beam: "savedBeams",
+    concrete: "savedconcretes",
+    blandout: "savedblandoutside",
+    blandin: "savedblandinside",
+    skimin: "savedskiminside",
+    skimout: "savedskimoutside",
+    grill: "savedgrills",
+    panel: "savedpanels",
+    frame: "savedframes",
+    shutter:"savedshutters"
   };
 
   // if (!endpoints[name]) {
@@ -70,8 +85,9 @@ const createSavedBoq = async (name) => {
   try {
     const mapData = JSON.parse(localStorage.getItem("mapData"));
     const mapId = mapData._id;
+    console.log(mapId)
     const response = await axios.post(`https://backendboq.onrender.com/api/${endpoints[name]}`, { mapId });
-
+    console.log(response.data)
     if (response.data) {
       const combinedData = {
         mapId,
@@ -161,16 +177,65 @@ const createSavedBoq = async (name) => {
               setShowComponent={setShowComponent}
              createSavedBoq={createSavedBoq}
               name={"pre"} />
-
-            <Item
-              title="SUBSTRUCTURE"
+              
+             <Typography  variant="h5"ml={"10px"}>SUBSTRUCTURE</Typography>
+            <SubMenu title="Substructure"  style={{color:"#333", backgroundColor:"#fff"}}>
+        <Item
+              title="Blinding"
               selected={selected}
               setSelected={setSelected}
               setShowComponent={setShowComponent}
-              state={"sub"}
+              state={"blind"}
                createSavedBoq={createSavedBoq}
-              name={"sub"}
+              name={"blind"}
             />
+              <Item
+                 title="Strip foundation"
+              selected={selected}
+              setSelected={setSelected}
+              setShowComponent={setShowComponent}
+              state={"strip"}
+               createSavedBoq={createSavedBoq}
+              name={"strip"}
+            />
+              <Item
+                title="Pad Foundation"
+              selected={selected}
+              setSelected={setSelected}
+              setShowComponent={setShowComponent}
+              state={"pad"}
+               createSavedBoq={createSavedBoq}
+              name={"pad"}
+            />
+              <Item
+              title="Foundation Wall"
+              selected={selected}
+              setSelected={setSelected}
+              setShowComponent={setShowComponent}
+              state={"foundwall"}
+               createSavedBoq={createSavedBoq}
+              name={"foundwall"}
+            />
+              <Item
+                 title="Ground Beam"
+              selected={selected}
+              setSelected={setSelected}
+              setShowComponent={setShowComponent}
+              state={"beam"}
+               createSavedBoq={createSavedBoq}
+              name={"beam"}
+              />
+              <Item
+                
+              title="Site Concrete"
+              selected={selected}
+              setSelected={setSelected}
+              setShowComponent={setShowComponent}
+              state={"concrete"}
+               createSavedBoq={createSavedBoq}
+              name={"concrete"}
+            />
+      </SubMenu>
 
             <Item
               title="WALLING"
@@ -190,15 +255,31 @@ const createSavedBoq = async (name) => {
                createSavedBoq={createSavedBoq}
               name={"roof"}
             />
-            <Item
-              title="BLANDERING"
+
+            <Typography  variant="h5"ml={"10px"}>BLANDERING</Typography>
+        <SubMenu title="Blandering"  style={{color:"#333", backgroundColor:"#fff"}}>
+        <Item
+              title="Blandering Inside"
               selected={selected}
               setSelected={setSelected}
               setShowComponent={setShowComponent}
-              state={"blandering"}
+              state={"blandin"}
                createSavedBoq={createSavedBoq}
-              name={"blander"}
+              name={"blandin"}
             />
+              <Item
+                 title="Blandering Outside"
+              selected={selected}
+              setSelected={setSelected}
+              setShowComponent={setShowComponent}
+              state={"blandout"}
+               createSavedBoq={createSavedBoq}
+              name={"blandout"}
+            />
+           
+             
+        
+      </SubMenu>
             <Item
               title="GYPSUM CEILING"
               selected={selected}
@@ -217,15 +298,31 @@ const createSavedBoq = async (name) => {
                createSavedBoq={createSavedBoq}
               name={"pvc"}
             />
-            <Item
-              title="WALL SKIMMING"
+       
+               <Typography  variant="h5"ml={"10px"}>WALL SKIMMING</Typography>
+                   <SubMenu title="Wall skimming"  style={{color:"#333", backgroundColor:"#fff"}}>
+        <Item
+              title="Wall Skimming Inside"
               selected={selected}
               setSelected={setSelected}
               setShowComponent={setShowComponent}
-              state={"skimming"}
+              state={"skimin"}
                createSavedBoq={createSavedBoq}
-              name={"skim"}
+              name={"skimin"}
             />
+              <Item
+                 title="Wall Skimming Outside"
+              selected={selected}
+              setSelected={setSelected}
+              setShowComponent={setShowComponent}
+              state={"skimout"}
+               createSavedBoq={createSavedBoq}
+              name={"skimout"}
+            />
+           
+             
+        
+      </SubMenu>
             <Item
               title="FINISHING PAINT"
               selected={selected}
@@ -236,24 +333,57 @@ const createSavedBoq = async (name) => {
               name={"finish"}
             />
 
-            <Item
-              title="WINDOWS"
+        
+
+               <Typography  variant="h5"ml={"10px"}>WINDOWS</Typography>
+                   <SubMenu title="Blandering"  style={{color:"#333", backgroundColor:"#fff"}}>
+        <Item
+              title="Window Grills"
               selected={selected}
               setSelected={setSelected}
               setShowComponent={setShowComponent}
-              state={"windows"}
+              state={"grill"}
                createSavedBoq={createSavedBoq}
-              name={"window"}
+              name={"grill"}
             />
-            <Item
-              title="DOORS"
+              <Item
+                 title="Aluminium Panels"
               selected={selected}
               setSelected={setSelected}
               setShowComponent={setShowComponent}
-              state={"doors"}
+              state={"panel"}
                createSavedBoq={createSavedBoq}
-              name={"door"}
+              name={"panel"}
             />
+           
+             
+        
+      </SubMenu>
+        
+               <Typography  variant="h5"ml={"10px"}>DOORS</Typography>
+                   <SubMenu title="Blandering"  style={{color:"#333", backgroundColor:"#fff"}}>
+        <Item
+              title="Door Frames"
+              selected={selected}
+              setSelected={setSelected}
+              setShowComponent={setShowComponent}
+              state={"frame"}
+               createSavedBoq={createSavedBoq}
+              name={"frame"}
+            />
+              <Item
+                 title="Door Shutters"
+              selected={selected}
+              setSelected={setSelected}
+              setShowComponent={setShowComponent}
+              state={"shutter"}
+               createSavedBoq={createSavedBoq}
+              name={"shutter"}
+            />
+           
+             
+        
+      </SubMenu>
             <Item
               title="PLUMBING"
               selected={selected}
