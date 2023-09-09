@@ -1,4 +1,4 @@
-import {useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -11,7 +11,6 @@ import { Box, Typography } from "@mui/material";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { Edit } from "@mui/icons-material";
-
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -36,7 +35,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const DoorFrames = () => {
-
   const [doorFramesRows, setDoorFramesRows] = useState([]);
   const [doorShutterRows, setDoorShutterRows] = useState([]);
   const [allData, setAllData] = useState([]);
@@ -45,14 +43,19 @@ const DoorFrames = () => {
   const [editingRate, setEditingRate] = useState(null);
   const [newRate, setNewRate] = useState(null);
 
- // use state to get savedpre data
+  // use state to get savedpre data
   const [savedData, setSavedData] = useState(null);
   // get  quantity
   const [editingQuantity, setEditingQuantity] = useState(null); // Add state for editing quantity
   const [quantity, setQuantity] = useState(""); // Add state for new quantity
-  
+
   //  get user from session store
   const user = JSON.parse(sessionStorage.getItem("user"));
+   const config = {
+	    headers: {
+	      Authorization: `Bearer ${user?.token}`,
+	    },
+	  }
   //  useEffect to get data from database
   useEffect(() => {
     fetchData();
@@ -61,15 +64,16 @@ const DoorFrames = () => {
   //function to fetch data from the database
   const fetchData = async () => {
     try {
-      const response = await axios.get("https://backendboq.onrender.com/api/doors");
+      const response = await axios.get(
+        "https://backendboq.onrender.com/api/doors",config
+      );
       if (response.data && user.accessLevel !== "pricetag") {
         const filteredframes = response.data.filter((entry) =>
           entry.type.includes("frame")
         );
         setDoorFramesRows(filteredframes);
-       
       }
-     
+
       setAllData(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -82,7 +86,7 @@ const DoorFrames = () => {
       try {
         const response = await axios.put(
           `https://backendboq.onrender.com/api/doors/${materialId}`,
-          { newRate: newRate }
+          { newRate: newRate },config
         );
         setNewRate(null);
         if (response.data) {
@@ -98,13 +102,13 @@ const DoorFrames = () => {
     }
   };
 
- const savedInfo = JSON.parse(localStorage.getItem("savedData"));
+  const savedInfo = JSON.parse(localStorage.getItem("savedData"));
   // fetch SavedPre by Id
   const fetchSavedData = async () => {
     try {
       if (savedInfo.savedPreId) {
         const response = await axios.get(
-          `https://backendboq.onrender.com/api/savedframes/${savedInfo.savedPreId}`
+          `https://backendboq.onrender.com/api/savedframes/${savedInfo.savedPreId}`,config
         );
         setSavedData(response.data);
       }
@@ -113,7 +117,7 @@ const DoorFrames = () => {
     }
   };
 
-    //  use effect to get savedData by id
+  //  use effect to get savedData by id
   useEffect(() => {
     fetchSavedData();
   }, [savedInfo.savedPreId]);
@@ -126,7 +130,7 @@ const DoorFrames = () => {
           {
             quantity: Number(quantity), // Convert to number
             materialId,
-          }
+          },config
         );
 
         if (response.data) {
@@ -153,11 +157,11 @@ const DoorFrames = () => {
   }, 0);
 
   // currency formatter
-   // currency format
- const formatCurrency = (value) => {
-    const formattedValue = new Intl.NumberFormat( {
-      style: 'currency',
-      currency: 'TZS', // Tanzanian Shillings
+  // currency format
+  const formatCurrency = (value) => {
+    const formattedValue = new Intl.NumberFormat({
+      style: "currency",
+      currency: "TZS", // Tanzanian Shillings
       minimumFractionDigits: 0, // Display whole numbers
     }).format(value);
 
@@ -207,10 +211,9 @@ const DoorFrames = () => {
                   {row.material}
                 </StyledTableCell>
                 <StyledTableCell align="right">{row.unit}</StyledTableCell>
-<StyledTableCell align="right">
+                <StyledTableCell align="right">
                   {savedData?.frameData !== null ? (
                     <Box>
-          
                       {savedData?.frameData.map((data) => {
                         if (row._id === data.materialId) {
                           return (
@@ -236,46 +239,48 @@ const DoorFrames = () => {
                         Submit
                       </button>
                     </div>
-                  ) :  (<>{(user?.accessLevel === "admin" || user?.accessLevel === "boq") &&
-                  <Box onClick={() => setEditingQuantity(row.material)}>
-                    <Edit />
-                     
-                  </Box>}</>
+                  ) : (
+                    <>
+                      {(user?.accessLevel === "admin" ||
+                        user?.accessLevel === "boq") && (
+                        <Box onClick={() => setEditingQuantity(row.material)}>
+                          <Edit />
+                        </Box>
+                      )}
+                    </>
                   )}
                 </StyledTableCell>
-               <StyledTableCell align="right">
-                      {editingRate === row.material ? (
-                        <div>
-                          <input
-                            type="number"
-                            value={newRate}
-                            onChange={(e) => setNewRate(e.target.value)}
-                            style={{ height: "50px", width: "50px" }}
-                          />
-                          {row.quantity}
-                          <button onClick={() => handleRateUpdate(row._id)}>
-                            Save
-                          </button>
-                        </div>
-                      ) : (
-                        <span
-                          style={{
-                            display: "flex",
-                            justifyContent: "right",
-                            columnGap: "10px",
-                          }}
-                        >
-                          {formatCurrency(row.rate)}
-                          {(user?.accessLevel === "admin" ||
-                            user?.accessLevel === "pricetag") && (
-                            <Edit
-                              onClick={() => setEditingRate(row.material)}
-                            />
-                          )}
-                        </span>
+                <StyledTableCell align="right">
+                  {editingRate === row.material ? (
+                    <div>
+                      <input
+                        type="number"
+                        value={newRate}
+                        onChange={(e) => setNewRate(e.target.value)}
+                        style={{ height: "50px", width: "50px" }}
+                      />
+                      {row.quantity}
+                      <button onClick={() => handleRateUpdate(row._id)}>
+                        Save
+                      </button>
+                    </div>
+                  ) : (
+                    <span
+                      style={{
+                        display: "flex",
+                        justifyContent: "right",
+                        columnGap: "10px",
+                      }}
+                    >
+                      {formatCurrency(row.rate)}
+                      {(user?.accessLevel === "admin" ||
+                        user?.accessLevel === "pricetag") && (
+                        <Edit onClick={() => setEditingRate(row.material)} />
                       )}
-                    </StyledTableCell>
- <StyledTableCell align="right">
+                    </span>
+                  )}
+                </StyledTableCell>
+                <StyledTableCell align="right">
                   {savedData?.frameData.map((data) => {
                     if (row._id === data.materialId) {
                       return (
@@ -305,7 +310,9 @@ const DoorFrames = () => {
 
               <StyledTableCell align="center"></StyledTableCell>
 
-              <StyledTableCell fontWeight="800" align="right">{formatCurrency(totalAmount)}</StyledTableCell>
+              <StyledTableCell fontWeight="800" align="right">
+                {formatCurrency(totalAmount)}
+              </StyledTableCell>
             </StyledTableRow>
           </TableBody>
         </Table>

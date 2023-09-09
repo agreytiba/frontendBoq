@@ -47,12 +47,16 @@ const ElectricalInstallation = () => {
   const [quantity, setQuantity] = useState(""); // Add state for new quantity
   //  get user from session store
   const user = JSON.parse(sessionStorage.getItem("user"));
-
+ const config = {
+	    headers: {
+	      Authorization: `Bearer ${user?.token}`,
+	    },
+	  }
   // useEffect to enable fetching  of data
   useEffect(() => {
     // Fetch data using axios
     axios
-      .get("https://backendboq.onrender.com/api/electrical")
+      .get("https://backendboq.onrender.com/api/electrical",config)
       .then((response) => {
         setElectricalRows(response.data);
       })
@@ -64,7 +68,7 @@ const ElectricalInstallation = () => {
   // get data after success
   const fetchUpdatedData = async () => {
     try {
-      const response = await axios.get("https://backendboq.onrender.com/api/electrical");
+      const response = await axios.get("https://backendboq.onrender.com/api/electrical",config);
       setElectricalRows(response.data);
     } catch (error) {
       toast.error("Failed to fetch updated data");
@@ -77,7 +81,7 @@ const ElectricalInstallation = () => {
       try {
         const response = await axios.put(
           `https://backendboq.onrender.com/api/electrical/${materialId}`,
-          { newRate: newRate }
+          { newRate: newRate },config
         );
         setNewRate(null);
         if (response.data) {
@@ -99,7 +103,7 @@ const ElectricalInstallation = () => {
     try {
       if (savedInfo.savedPreId) {
         const response = await axios.get(
-          `https://backendboq.onrender.com/api/savedelectrical/${savedInfo.savedPreId}`
+          `https://backendboq.onrender.com/api/savedelectrical/${savedInfo.savedPreId}`,config
         );
         setSavedData(response.data);
       }
@@ -121,7 +125,7 @@ const ElectricalInstallation = () => {
           {
             quantity: Number(quantity), // Convert to number
             materialId,
-          }
+          },config
         );
 
         if (response.data) {

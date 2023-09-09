@@ -12,26 +12,6 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Box, Typography } from "@mui/material";
 
-// const plasteringRows = [
-
-//   {
-//     material: "Cement",
-//     unit: "Bags",
-//     quantity: 2,
-//     rate: 20000,
-//     amount: 40000,
-//   },
- 
-//   {
-//     material: "sand",
-//     unit: "Trips",
-//     quantity: 2,
-//     rate: 20000,
-//     amount: 40000,
-//   },
-  
-  
-// ];
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -68,7 +48,12 @@ const Plastering = () => {
   //  get user from session store
   //  get user from session store
   const user = JSON.parse(sessionStorage.getItem("user"));
-
+ 
+  const config = {
+	    headers: {
+	      Authorization: `Bearer ${user?.token}`,
+	    },
+	  }
   // useEffect to enable fetching  of data
   useEffect(() => {
     // Fetch data using axios
@@ -77,7 +62,7 @@ const Plastering = () => {
   // get data after success
   const fetchUpdatedData = async () => {
     try {
-      const response = await axios.get("https://backendboq.onrender.com/api/plastering");
+      const response = await axios.get("https://backendboq.onrender.com/api/plastering",config);
       setPlasteringRows(response.data);
     } catch (error) {
       toast.error("Failed to fetch updated data");
@@ -90,7 +75,7 @@ const Plastering = () => {
       try {
         const response = await axios.put(
           `https://backendboq.onrender.com/api/plastering/${materialId}`,
-          { newRate: newRate }
+          { newRate: newRate },config
         );
         setNewRate(null);
         if (response.data) {
@@ -111,7 +96,7 @@ const Plastering = () => {
     try {
       if (savedInfo.savedPreId) {
         const response = await axios.get(
-          `https://backendboq.onrender.com/api/savedplastering/${savedInfo.savedPreId}`
+          `https://backendboq.onrender.com/api/savedplastering/${savedInfo.savedPreId}`,config
         );
         setSavedData(response.data);
       }
@@ -133,7 +118,7 @@ const Plastering = () => {
           {
             quantity: Number(quantity), // Convert to number
             materialId,
-          }
+          },config
         );
 
         if (response.data) {

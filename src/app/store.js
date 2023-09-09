@@ -21,8 +21,6 @@ export const store = configureStore({
     found: foundationReducer,
     order: orderReducer,
     pre: preReducer,
-    savedpre: savedPreReducer,
-
-   
+    savedpre: savedPreReducer, 
   }
 })

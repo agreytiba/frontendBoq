@@ -12,71 +12,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Box, Typography } from "@mui/material";
 
-// const gypsumRows = [
-//   {
-//     material: "Gypsum boards",
-//     unit: "Pcs",
-//     quantity: 4,
-//     rate: 4000,
-//     amount: 160000,
-//   },
-//   {
-//     material: "Gypsum Screws",
-//     unit: "box",
-//     quantity: 1,
-//     rate: 10000,
-//     amount: 10000,
-//   },
-//   {
-//     material: "Deco flower",
-//     unit: "Pcs",
-//     quantity: 4,
-//     rate: 3500,
-//     amount: 14000,
-//   },
-//   {
-//     material: "Deco flower",
-//     unit: "Trip",
-//     quantity: 2,
-//     rate: 20000,
-//     amount: 40000,
-//   },
-//   {
-//     material: "Deco corners",
-//     unit: "Pcs",
-//     quantity: 1,
-//     rate: 50000,
-//     amount: 50000,
-//   },
-//   {
-//     material: "Deco stick",
-//     unit: "Pcs",
-//     quantity: 1,
-//     rate: 50000,
-//     amount: 50000,
-//   },
-//   {
-//     material: "Corner moulding(mikanda",
-//     unit: "Pcs",
-//     quantity: 1,
-//     rate: 50000,
-//     amount: 50000,
-//   },
-//   {
-//     material: "Fiber tape(90M)",
-//     unit: "Pcs",
-//     quantity: 1,
-//     rate: 50000,
-//     amount: 50000,
-//   },
-//   {
-//     material: "Gypsum Powder(Andika)",
-//     unit: "Pcs",
-//     quantity: 1,
-//     rate: 50000,
-//     amount: 50000,
-//   },
-// ];
+
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -113,12 +49,17 @@ const GypsumCeiling = () => {
   // 
   //  get user from session store
   const user = JSON.parse(sessionStorage.getItem("user"));
+   const config = {
+	    headers: {
+	      Authorization: `Bearer ${user?.token}`,
+	    },
+	  }
 
   // useEffect to enable fetching  of data
   useEffect(() => {
     // Fetch data using axios
     axios
-      .get("https://backendboq.onrender.com/api/gypsum")
+      .get("https://backendboq.onrender.com/api/gypsum",config)
       .then((response) => {
         setGypsumRows(response.data);
       })
@@ -130,7 +71,7 @@ const GypsumCeiling = () => {
   // get data after success
   const fetchUpdatedData = async () => {
     try {
-      const response = await axios.get("https://backendboq.onrender.com/api/gypsum");
+      const response = await axios.get("https://backendboq.onrender.com/api/gypsum",config);
       setGypsumRows (response.data);
     } catch (error) {
       toast.error("Failed to fetch updated data");
@@ -143,7 +84,7 @@ const GypsumCeiling = () => {
       try {
         const response = await axios.put(
           `https://backendboq.onrender.com/api/gypsum/${materialId}`,
-          { newRate: newRate }
+          { newRate: newRate },config
         );
         setNewRate(null);
         if (response.data) {
@@ -164,7 +105,7 @@ const GypsumCeiling = () => {
     try {
       if (savedInfo.savedPreId) {
         const response = await axios.get(
-          `https://backendboq.onrender.com/api/savedgypsum/${savedInfo.savedPreId}`
+          `https://backendboq.onrender.com/api/savedgypsum/${savedInfo.savedPreId}`,config
         );
         setSavedData(response.data);
       }
@@ -186,7 +127,7 @@ const GypsumCeiling = () => {
           {
             quantity: Number(quantity), // Convert to number
             materialId,
-          }
+          },config
         );
 
         if (response.data) {

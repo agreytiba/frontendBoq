@@ -26,7 +26,11 @@ const Boq = () => {
 
 // get user from local
 const user = JSON.parse(sessionStorage.getItem('user'));
-
+ const config = {
+	    headers: {
+	      Authorization: `Bearer ${user?.token}`,
+	    },
+	  }
 //useSelector  containe properties from authSlice
   const {maps, isLoading, isError, isSuccess, message } = useSelector(
     (state) => state.map
@@ -49,7 +53,7 @@ const user = JSON.parse(sessionStorage.getItem('user'));
 const createBoq =async (data) => {
 	try {
 		const mapId = data._id
-      const response = await axios.post("https://backendboq.onrender.com/api/savedpres",{ mapId});
+      const response = await axios.post("https://backendboq.onrender.com/api/savedpres",{ mapId},config);
 		if (response.data) {
 		    const combinedData = {...data,savedPreId: response.data._id // Add the savedPreId to the combined data
 			};

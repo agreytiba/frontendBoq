@@ -53,6 +53,11 @@ const DoorShutters = () => {
  
   //  get user from session store
   const user = JSON.parse(sessionStorage.getItem("user"));
+   const config = {
+	    headers: {
+	      Authorization: `Bearer ${user?.token}`,
+	    },
+	  }
   //  useEffect to get data from database
   useEffect(() => {
     fetchData();
@@ -61,7 +66,7 @@ const DoorShutters = () => {
   //function to fetch data from the database
   const fetchData = async () => {
     try {
-      const response = await axios.get("https://backendboq.onrender.com/api/doors");
+      const response = await axios.get("https://backendboq.onrender.com/api/doors",config);
       if (response.data && user.accessLevel !== "pricetag") {
 
          const filteredAl = response.data.filter((entry) =>
@@ -82,7 +87,7 @@ const DoorShutters = () => {
       try {
         const response = await axios.put(
           `https://backendboq.onrender.com/api/doors/${materialId}`,
-          { newRate: newRate }
+          { newRate: newRate },config
         );
         setNewRate(null);
         if (response.data) {
@@ -104,7 +109,7 @@ const DoorShutters = () => {
     try {
       if (savedInfo.savedPreId) {
         const response = await axios.get(
-          `https://backendboq.onrender.com/api/savedshutters/${savedInfo.savedPreId}`
+          `https://backendboq.onrender.com/api/savedshutters/${savedInfo.savedPreId}`,config
         );
         setSavedData(response.data);
       }
@@ -126,7 +131,7 @@ const DoorShutters = () => {
           {
             quantity: Number(quantity), // Convert to number
             materialId,
-          }
+          },config
         );
 
         if (response.data) {

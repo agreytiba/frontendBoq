@@ -52,8 +52,13 @@ const Preliminilaries = ({setIsSidebar}) => {
   // initiliaze useDispatch && useNavigate
   const dispatch = useDispatch();
   const navigate = useNavigate();
+ const user = JSON.parse(sessionStorage.getItem("user"));
 
-
+   const config = {
+	    headers: {
+	      Authorization: `Bearer ${user?.token}`,
+	    },
+	  }
 const mapData = JSON.parse(localStorage.getItem("mapData"))
   //useSelector  containe properties from pre
   const {pres, isLoadingPre, isErrorPre, isSuccessPre, messagePre } = useSelector(
@@ -84,7 +89,7 @@ const mapData = JSON.parse(localStorage.getItem("mapData"))
       try {
       
         if (mapData.savedPreId) {
-          const response = await axios.get(`https://backendboq.onrender.com/api/savedpres/${mapData.savedPreId}`);
+          const response = await axios.get(`https://backendboq.onrender.com/api/savedpres/${mapData.savedPreId}`,config);
           setSavedPre(response.data);
         }
       } catch (error) {
@@ -102,7 +107,7 @@ const mapData = JSON.parse(localStorage.getItem("mapData"))
     if (newRate !== null) {
     
       try {
-        const response = await axios.put(`https://backendboq.onrender.com/api/pre/${materialId}`,{newRate:newRate})
+        const response = await axios.put(`https://backendboq.onrender.com/api/pre/${materialId}`,{newRate:newRate},config)
        setNewRate(null)
         if (response.data) {
           dispatch(getAllPre())
@@ -119,7 +124,6 @@ const mapData = JSON.parse(localStorage.getItem("mapData"))
   };
 
 
- const user = JSON.parse(sessionStorage.getItem("user"));
 
   const handleQuantityUpdate = async (materialId) => {
     if (quantity !== "" ) {
@@ -127,7 +131,7 @@ const mapData = JSON.parse(localStorage.getItem("mapData"))
         const response = await axios.put(`https://backendboq.onrender.com/api/savedpres/${mapData?.savedPreId}`, {
           quantity: Number(quantity), // Convert to number
           materialId
-        });
+        },config);
 
         if (response.data) {
           setQuantity(""); // Reset the quantity input

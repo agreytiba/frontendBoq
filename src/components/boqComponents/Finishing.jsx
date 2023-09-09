@@ -49,12 +49,16 @@ const Finishing = () => {
   //  get user from session store
   //  get user from session store
   const user = JSON.parse(sessionStorage.getItem("user"));
-
+  const config = {
+	    headers: {
+	      Authorization: `Bearer ${user?.token}`,
+	    },
+	  }
   // useEffect to enable fetching  of data
   useEffect(() => {
     // Fetch data using axios
     axios
-      .get("https://backendboq.onrender.com/api/finishing")
+      .get("https://backendboq.onrender.com/api/finishing",config)
       .then((response) => {
         setFinishingRows(response.data);
       })
@@ -66,7 +70,7 @@ const Finishing = () => {
   // get data after success
   const fetchUpdatedData = async () => {
     try {
-      const response = await axios.get("https://backendboq.onrender.com/api/finishing");
+      const response = await axios.get("https://backendboq.onrender.com/api/finishing",config);
       setFinishingRows(response.data);
     } catch (error) {
       toast.error("Failed to fetch updated data");
@@ -79,7 +83,7 @@ const Finishing = () => {
       try {
         const response = await axios.put(
           `https://backendboq.onrender.com/api/finishing/${materialId}`,
-          { newRate: newRate }
+          { newRate: newRate },config
         );
         setNewRate(null);
         if (response.data) {
@@ -101,7 +105,7 @@ const Finishing = () => {
     try {
       if (savedInfo.savedPreId) {
         const response = await axios.get(
-          `https://backendboq.onrender.com/api/savedfinishing/${savedInfo.savedPreId}`
+          `https://backendboq.onrender.com/api/savedfinishing/${savedInfo.savedPreId}`,config
         );
         setSavedData(response.data);
       }
@@ -123,7 +127,7 @@ const Finishing = () => {
           {
             quantity: Number(quantity), // Convert to number
             materialId,
-          }
+          },config
         );
 
         if (response.data) {

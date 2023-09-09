@@ -50,7 +50,12 @@ const Item = ({
 const BoqSideBar = ({ setShowComponent }) => {
   // initialize dispatch
   const dispatch = useDispatch();
-
+ const user = JSON.parse(sessionStorage.getItem("user"));
+ const config = {
+	    headers: {
+	      Authorization: `Bearer ${user?.token}`,
+	    },
+	  }
 const createSavedBoq = async (name) => {
   const endpoints = {
     wall: "savedwalling",
@@ -85,9 +90,9 @@ const createSavedBoq = async (name) => {
   try {
     const mapData = JSON.parse(localStorage.getItem("mapData"));
     const mapId = mapData._id;
-    console.log(mapId)
-    const response = await axios.post(`https://backendboq.onrender.com/api/${endpoints[name]}`, { mapId });
-    console.log(response.data)
+ 
+    const response = await axios.post(`https://backendboq.onrender.com/api/${endpoints[name]}`, { mapId },config);
+    
     if (response.data) {
       const combinedData = {
         mapId,

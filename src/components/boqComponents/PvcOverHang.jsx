@@ -12,30 +12,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { Edit } from "@mui/icons-material";
 
-// const pvcs = [
-//   {
-//     material: "PVC boards",
-//     unit: "Pcs",
-//     quantity: 4,
-//     rate: 4000,
-//     amount: 160000,
-//   },
-//   {
-//     material: "PVC Rails",
-//     unit: "Pcs",
-//     quantity: 1,
-//     rate: 1,
-//     amount: 1,
-//   },
-//   {
-//     material: "Shoetax",
-//     unit: "Boxs",
-//     quantity: 4,
-//     rate: 3500,
-//     amount: 14000,
-//   },
 
-// ];
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -73,11 +50,16 @@ const PvcOverHang = () => {
   //  get user from session store
   const user = JSON.parse(sessionStorage.getItem("user"));
 
+     const config = {
+	    headers: {
+	      Authorization: `Bearer ${user?.token}`,
+	    },
+	  }
   // useEffect to enable fetching  of data
   useEffect(() => {
     // Fetch data using axios
     axios
-      .get("https://backendboq.onrender.com/api/pvc")
+      .get("https://backendboq.onrender.com/api/pvc",config)
       .then((response) => {
         setPvcs(response.data);
       })
@@ -89,7 +71,7 @@ const PvcOverHang = () => {
   // get data after success
   const fetchUpdatedData = async () => {
     try {
-      const response = await axios.get("https://backendboq.onrender.com/api/pvc");
+      const response = await axios.get("https://backendboq.onrender.com/api/pvc",config);
       setPvcs(response.data);
     } catch (error) {
       toast.error("Failed to fetch updated data");
@@ -102,7 +84,7 @@ const PvcOverHang = () => {
       try {
         const response = await axios.put(
           `https://backendboq.onrender.com/api/pvc/${materialId}`,
-          { newRate: newRate }
+          { newRate: newRate },config
         );
         setNewRate(null);
         if (response.data) {
@@ -123,7 +105,7 @@ const fetchSavedData = async () => {
     try {
       if (savedInfo.savedPreId) {
         const response = await axios.get(
-          `https://backendboq.onrender.com/api/savedpvcs/${savedInfo.savedPreId}`
+          `https://backendboq.onrender.com/api/savedpvcs/${savedInfo.savedPreId}`,config
         );
         setSavedData(response.data);
       }
@@ -145,7 +127,7 @@ const fetchSavedData = async () => {
           {
             quantity: Number(quantity), // Convert to number
             materialId,
-          }
+          },config
         );
 
         if (response.data) {
