@@ -28,7 +28,7 @@ const Dashboard = () => {
 		try {
 		const config = {
 	    headers: {
-	      Authorization: `Bearer ${user.token}`,
+	      Authorization: `Bearer ${user.token}`
 	    },
 	  }
         const response = await axios.get('https://backendboq.onrender.com/api/maps',config); // Adjust the API endpoint accordingly

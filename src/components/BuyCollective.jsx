@@ -190,15 +190,15 @@ const BuyCollective = () => {
             >
               weka oda
             </Button>
-            <Button
-              onClick={()=>handleAllOrders(params.row._id)}
+            {user?.accessLevel === "admin" && <Button
+              onClick={() => handleAllOrders(params.row._id)}
               type="submit"
               color="warning"
               variant="contained"
               style={{ marginRight: "3px", width: "50%" }}
             >
               orders
-            </Button>
+            </Button>}
           </Box>
         );
       },

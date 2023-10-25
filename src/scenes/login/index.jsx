@@ -1,13 +1,6 @@
 
-
-
-
-
-
-
 import { useState, useEffect } from 'react';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import {useNavigate} from "react-router-dom"
 import { Box, Button, TextField, Typography, IconButton, InputAdornment } from '@mui/material';
 import { Formik } from 'formik';
 import * as yup from 'yup';
@@ -17,7 +10,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { login, reset } from '../../redux/auth/authSlice';
 import { toast } from 'react-toastify';
 import Spinner from "../../components/Spinner";
-
+import { Link, useNavigate } from "react-router-dom";
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -76,6 +69,7 @@ const Login = () => {
 
   return (
     <Box m="20px" display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+    <Box>
       <Formik
         onSubmit={handleFormSubmit}
         initialValues={initialValues}
@@ -153,6 +147,8 @@ const Login = () => {
           </form>
         )}
       </Formik>
+       <Typography fontSize='20px' fontWeight={'400'} > kama hauna account? <Link to="/register" style={{fontWeight:"bold", textDecoration:"none", color:"blue"}}>Jisajiri</Link></Typography>
+      </Box>
     </Box>
   );
 };

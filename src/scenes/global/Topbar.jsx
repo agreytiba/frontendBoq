@@ -39,12 +39,12 @@ const user = JSON.parse(sessionStorage.getItem('user'));
       {user ?
          <Box display="flex">
     
-        <IconButton>
+        {/* <IconButton>
           <NotificationsOutlinedIcon />
         </IconButton>
         <IconButton>
           <SettingsOutlinedIcon />
-        </IconButton>
+        </IconButton> */}
         <IconButton onClick={()=>setShowProfile(!showProfile) }>
             <PersonOutlinedIcon  />
         </IconButton>
