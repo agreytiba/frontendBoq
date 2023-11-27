@@ -11,6 +11,7 @@ import { Box, Typography } from "@mui/material";
 import axios from "axios";
 import { toast } from "react-toastify"
 import { Edit } from "@mui/icons-material";
+import { API_BASE_URL } from "../../confing.js/baseUrl";
 // const blanderingInsideRows = [
 //   {
 //     material: "2x2 Treated Timber",
@@ -90,6 +91,11 @@ const Blandering = () => {
     //  get user from session store
   const user = JSON.parse(sessionStorage.getItem("user"));
 
+   const config = {
+	    headers: {
+	      Authorization: `Bearer ${user?.token}`,
+	    },
+	  }
     // useEffect to enable fetching  of data
   useEffect(() => {
     // Fetch data using axios
@@ -98,7 +104,7 @@ const Blandering = () => {
   // get data after success
   const fetchUpdatedData = async () => {
     try {
-      const response = await axios.get("https://backendboq.onrender.com/api/blandering");
+      const response = await axios.get(API_BASE_URL + "/api/blandering",config);
       setBlanderRows(response.data);
     } catch (error) {
       toast.error("Failed to fetch updated data");
@@ -110,7 +116,7 @@ const Blandering = () => {
     if (newRate !== null) {
       try {
         const response = await axios.put(
-          `https://backendboq.onrender.com/api/blandering/${materialId}`,
+         API_BASE_URL +  `/api/blandering/${materialId}`,
           { newRate: newRate }
         );
         setNewRate(null);

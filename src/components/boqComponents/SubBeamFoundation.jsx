@@ -11,6 +11,7 @@ import { Box, Typography } from "@mui/material";
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import { Edit } from "@mui/icons-material";
+import { API_BASE_URL } from "../../confing.js/baseUrl";
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -49,6 +50,12 @@ const SubBeamFoundation = () => {
   
     //  get user from session store
   const user = JSON.parse(sessionStorage.getItem("user"));
+
+     const config = {
+	    headers: {
+	      Authorization: `Bearer ${user?.token}`,
+	    },
+	  }
 //  useEffect to get data from database
   useEffect(() => {
     fetchData();
@@ -57,7 +64,7 @@ const SubBeamFoundation = () => {
   //function to fetch data from the database
   const fetchData = async () => {
     try {
-      const response = await axios.get('https://backendboq.onrender.com/api/substructure'); // Replace with your API endpoint
+      const response = await axios.get(API_BASE_URL + '/api/substructure',config); // Replace with your API endpoint
       if (response.data) {
       setAllData(response.data)
      
@@ -77,8 +84,8 @@ const SubBeamFoundation = () => {
     if (newRate !== null) {
       try {
         const response = await axios.put(
-          `https://backendboq.onrender.com/api/substructure/${materialId}`,
-          { newRate: newRate }
+          API_BASE_URL + `/api/substructure/${materialId}`,
+          { newRate: newRate },config
         );
         setNewRate(null);
         if (response.data) {
@@ -99,7 +106,7 @@ const SubBeamFoundation = () => {
     try {
       if (savedInfo.savedPreId) {
         const response = await axios.get(
-          `https://backendboq.onrender.com/api/savedBeams/${savedInfo.savedPreId}`
+          API_BASE_URL + `/api/savedBeams/${savedInfo.savedPreId}`,config
         );
         setSavedData(response.data);
       }
@@ -117,11 +124,11 @@ const SubBeamFoundation = () => {
     if (quantity !== "") {
       try {
         const response = await axios.put(
-          `https://backendboq.onrender.com/api/savedBeams/${savedInfo.savedPreId}`,
+          API_BASE_URL + `/api/savedBeams/${savedInfo.savedPreId}`,
           {
             quantity: Number(quantity), // Convert to number
             materialId,
-          }
+          },config
         );
 
         if (response.data) {

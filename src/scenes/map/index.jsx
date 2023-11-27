@@ -21,7 +21,7 @@ const Maps = () => {
   const {maps, isLoading, isError, isSuccess, message } = useSelector(
     (state) => state.map
   )
-console.log(maps)
+
   //useEffect to fetch all users
   useEffect(() => {
     if (isError) {

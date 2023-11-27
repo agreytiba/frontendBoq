@@ -4,10 +4,19 @@ import Button from '@mui/material/Button';
 import { saveAs } from 'file-saver';
 import { Typography,Box,List,ListItem,ListItemText, ListItemButton } from '@mui/material';
 import PopupForm from '../../components/CommentForm';
+import { API_BASE_URL } from '../../confing.js/baseUrl';
 
 const AllPdf = () => {
   // ... (existing code)
+    //  get user from session store
+  const user = JSON.parse(sessionStorage.getItem("user"));
 
+
+     const config = {
+	    headers: {
+	      Authorization: `Bearer ${user?.token}`,
+	    },
+	  }
   const [allPDFs, setAllPDFs] = useState([]);
 
   useEffect(() => {
@@ -16,7 +25,7 @@ const AllPdf = () => {
 
   const fetchAllPDFs = async () => {
     try {
-      const response = await axios.get('https://backendboq.onrender.com/upload-pdf');
+      const response = await axios.get(API_BASE_URL + '/upload-pdf',config);
       setAllPDFs(response.data);
     } catch (error) {
       console.error('Error fetching all PDFs:', error);
@@ -42,9 +51,9 @@ const AllPdf = () => {
   const handleDownload = async (pdfId) => {
     try {
       // Fetch the PDF file data
-      const response = await axios.get(`https://backendboq.onrender.com/get-pdf/${pdfId}`, {
+      const response = await axios.get(API_BASE_URL + `/get-pdf/${pdfId}`, {
         responseType: 'blob',
-      });
+      }, config);
 
       // Create a Blob from the response data
       const pdfBlob = new Blob([response.data], { type: 'application/pdf' });

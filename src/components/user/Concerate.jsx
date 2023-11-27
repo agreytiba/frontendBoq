@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import { useLocation } from 'react-router-dom';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import { API_BASE_URL } from '../../confing.js/baseUrl';
 
 const Concrete = () => {
   const [savedPres, setSavedPres] = useState([]);
@@ -14,10 +15,18 @@ const Concrete = () => {
   const location = useLocation();
   const mapId = location.state;
 
+    //  get user from session store
+  const user = JSON.parse(sessionStorage.getItem("user"));
+     const config = {
+	    headers: {
+	      Authorization: `Bearer ${user?.token}`,
+	    },
+	  }
+
   useEffect(() => {
     const fetchSavedPres = async () => {
       try {
-        const response = await axios.get('https://backendboq.onrender.com/api/savedconcretes');
+        const response = await axios.get(API_BASE_URL + '/api/savedconcretes',config);
         // Filter the data by mapId
         const filteredData = response.data.filter((item) => item.mapId === mapId);
 

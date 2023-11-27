@@ -14,6 +14,7 @@ import { getAllPre, reset, updatePre } from '../../redux/pre/preSlice';
 import { toast } from "react-toastify";
 import axios from 'axios';
 import { Edit } from '@mui/icons-material';
+import { API_BASE_URL } from '../../confing.js/baseUrl';
 
 
 
@@ -89,7 +90,7 @@ const mapData = JSON.parse(localStorage.getItem("mapData"))
       try {
       
         if (mapData.savedPreId) {
-          const response = await axios.get(`https://backendboq.onrender.com/api/savedpres/${mapData.savedPreId}`,config);
+          const response = await axios.get(API_BASE_URL + `/api/savedpres/${mapData.savedPreId}`,config);
           setSavedPre(response.data);
         }
       } catch (error) {
@@ -107,7 +108,7 @@ const mapData = JSON.parse(localStorage.getItem("mapData"))
     if (newRate !== null) {
     
       try {
-        const response = await axios.put(`https://backendboq.onrender.com/api/pre/${materialId}`,{newRate:newRate},config)
+        const response = await axios.put(API_BASE_URL + `/api/pre/${materialId}`,{newRate:newRate},config)
        setNewRate(null)
         if (response.data) {
           dispatch(getAllPre())
@@ -128,7 +129,7 @@ const mapData = JSON.parse(localStorage.getItem("mapData"))
   const handleQuantityUpdate = async (materialId) => {
     if (quantity !== "" ) {
       try {
-        const response = await axios.put(`https://backendboq.onrender.com/api/savedpres/${mapData?.savedPreId}`, {
+        const response = await axios.put(API_BASE_URL + `/api/savedpres/${mapData?.savedPreId}`, {
           quantity: Number(quantity), // Convert to number
           materialId
         },config);

@@ -11,6 +11,7 @@ import { Box, Typography } from "@mui/material";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { Edit } from "@mui/icons-material";
+import { API_BASE_URL } from "../../confing.js/baseUrl";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -65,7 +66,7 @@ const DoorFrames = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        "https://backendboq.onrender.com/api/doors",config
+        API_BASE_URL + "/api/doors",config
       );
       if (response.data && user.accessLevel !== "pricetag") {
         const filteredframes = response.data.filter((entry) =>
@@ -85,7 +86,7 @@ const DoorFrames = () => {
     if (newRate !== null) {
       try {
         const response = await axios.put(
-          `https://backendboq.onrender.com/api/doors/${materialId}`,
+         API_BASE_URL + `/api/doors/${materialId}`,
           { newRate: newRate },config
         );
         setNewRate(null);
@@ -108,7 +109,7 @@ const DoorFrames = () => {
     try {
       if (savedInfo.savedPreId) {
         const response = await axios.get(
-          `https://backendboq.onrender.com/api/savedframes/${savedInfo.savedPreId}`,config
+         API_BASE_URL + `/api/savedframes/${savedInfo.savedPreId}`,config
         );
         setSavedData(response.data);
       }
@@ -126,7 +127,7 @@ const DoorFrames = () => {
     if (quantity !== "") {
       try {
         const response = await axios.put(
-          `https://backendboq.onrender.com/api/savedframes/${savedInfo.savedPreId}`,
+          API_BASE_URL + `/api/savedframes/${savedInfo.savedPreId}`,
           {
             quantity: Number(quantity), // Convert to number
             materialId,

@@ -1,6 +1,7 @@
 import axios from 'axios';
+import { API_BASE_URL } from '../../confing.js/baseUrl';
 
-const API_URL = 'hhttps://backendboq.onrender.com/api/savedpres/';
+const API_URL =  API_BASE_URL + '/api/savedpres/';
 
 // add new saved pre
 const setSavedPre = async (mapId) => {

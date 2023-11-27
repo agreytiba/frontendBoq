@@ -11,6 +11,7 @@ import { Box, Typography } from "@mui/material";
 import { Edit } from "@mui/icons-material";
 import { toast } from "react-toastify"
 import axios from "axios";
+import { API_BASE_URL } from "../../confing.js/baseUrl";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -50,6 +51,12 @@ const SkimmingInside = () => {
   
     //  get user from session store
   const user = JSON.parse(sessionStorage.getItem("user"));
+
+     const config = {
+	    headers: {
+	      Authorization: `Bearer ${user?.token}`,
+	    },
+	  }
 //  useEffect to get data from database
   useEffect(() => {
     fetchData();
@@ -58,7 +65,7 @@ const SkimmingInside = () => {
   //function to fetch data from the database
   const fetchData = async () => {
     try {
-      const response = await axios.get('https://backendboq.onrender.com/api/skimming'); 
+      const response = await axios.get(API_BASE_URL + '/api/skimming',config); 
       if (response.data) {
         setAllData(response.data)
         //  file data according to property  of "type" from data
@@ -80,8 +87,8 @@ const SkimmingInside = () => {
     if (newRate !== null) {
       try {
         const response = await axios.put(
-          `https://backendboq.onrender.com/api/skimming/${materialId}`,
-          { newRate: newRate }
+          API_BASE_URL + `/api/skimming/${materialId}`,
+          { newRate: newRate },config
         );
         setNewRate(null);
         if (response.data) {
@@ -104,7 +111,7 @@ const SkimmingInside = () => {
     try {
       if (savedInfo.savedPreId) {
         const response = await axios.get(
-          `https://backendboq.onrender.com/api/savedskiminside/${savedInfo.savedPreId}`
+          API_BASE_URL + `/api/savedskiminside/${savedInfo.savedPreId}`,config
         );
         setSavedData(response.data);
       }
@@ -122,11 +129,11 @@ const SkimmingInside = () => {
     if (quantity !== "") {
       try {
         const response = await axios.put(
-          `https://backendboq.onrender.com/api/savedskiminside/${savedInfo.savedPreId}`,
+          API_BASE_URL + `/api/savedskiminside/${savedInfo.savedPreId}`,
           {
             quantity: Number(quantity), // Convert to number
             materialId,
-          }
+          },config
         );
 
         if (response.data) {

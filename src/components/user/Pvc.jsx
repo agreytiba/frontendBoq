@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import { useLocation } from 'react-router-dom'
 import jsPDF from 'jspdf';
 import 'jspdf-autotable'
+import { API_BASE_URL } from '../../confing.js/baseUrl';
 const Pvc = () => {
   
 const [savedPres, setSavedPres] = useState([]);
@@ -16,7 +17,7 @@ const [savedPres, setSavedPres] = useState([]);
   useEffect(() => {
     const fetchSavedPres = async () => {
       try {
-        const response = await axios.get('https://backendboq.onrender.com/api/savedpvcs');
+        const response = await axios.get(API_BASE_URL + '/api/savedpvcs');
         // Filter the data by mapId
         const filteredData = response.data.filter((item) => item.mapId === mapId);
         

@@ -1,21 +1,21 @@
 import axios from 'axios'
+import { API_BASE_URL } from '../../confing.js/baseUrl'
 
-const API_URL = 'https://backendboq.onrender.com/api/users/'
 
 // get all user user
 const allUsers = async () => {
-  const response = await axios.get(API_URL)
+  const response = await axios.get(API_BASE_URL + '/api/users/')
   return response.data
 }
 // Register user
 const register = async (userData) => {
-  const response = await axios.post(API_URL, userData)
+  const response = await axios.post(API_BASE_URL + '/api/users/', userData)
 
   return response.data
 }
 // create user
 const createUser = async (userData) => {
-  const response = await axios.post(API_URL, userData)
+  const response = await axios.post(API_BASE_URL + '/api/users/', userData)
 
   return response.data
 }
@@ -23,7 +23,7 @@ const createUser = async (userData) => {
 
 // Login user
 const login = async (userData) => {
-  const response = await axios.post(API_URL + 'login', userData)
+  const response = await axios.post(API_BASE_URL + '/api/users/' + 'login', userData)
   if (response.data) {
     sessionStorage.setItem('user', JSON.stringify(response.data))
   }

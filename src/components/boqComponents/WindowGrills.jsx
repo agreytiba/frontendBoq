@@ -11,6 +11,7 @@ import { Box, Typography } from "@mui/material";
 import { Edit } from "@mui/icons-material";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { API_BASE_URL } from "../../confing.js/baseUrl";
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -50,6 +51,13 @@ const WindowGrills = () => {
  
   //  get user from session store
   const user = JSON.parse(sessionStorage.getItem("user"));
+
+
+     const config = {
+	    headers: {
+	      Authorization: `Bearer ${user?.token}`,
+	    },
+	  }
   //  useEffect to get data from database
   useEffect(() => {
     fetchData();
@@ -58,7 +66,7 @@ const WindowGrills = () => {
   //function to fetch data from the database
   const fetchData = async () => {
     try {
-      const response = await axios.get("https://backendboq.onrender.com/api/windows");
+      const response = await axios.get(API_BASE_URL + "/api/windows",config);
       if (response.data && user.accessLevel !== "pricetag") {
         const filteredGrills = response.data.filter((entry) =>
           entry.type.includes("grill")
@@ -78,7 +86,7 @@ const WindowGrills = () => {
     if (newRate !== null) {
       try {
         const response = await axios.put(
-          `https://backendboq.onrender.com/api/windows/${materialId}`,
+          API_BASE_URL + `/api/windows/${materialId}`,
           { newRate: newRate }
         );
         setNewRate(null);
@@ -101,7 +109,7 @@ const savedInfo = JSON.parse(localStorage.getItem("savedData"));
     try {
       if (savedInfo.savedPreId) {
         const response = await axios.get(
-          `https://backendboq.onrender.com/api/savedgrills/${savedInfo.savedPreId}`
+          API_BASE_URL + `/api/savedgrills/${savedInfo.savedPreId}`,config
         );
         setSavedData(response.data);
       }
@@ -119,11 +127,11 @@ const savedInfo = JSON.parse(localStorage.getItem("savedData"));
     if (quantity !== "") {
       try {
         const response = await axios.put(
-          `https://backendboq.onrender.com/api/savedgrills/${savedInfo.savedPreId}`,
+          API_BASE_URL + `/api/savedgrills/${savedInfo.savedPreId}`,
           {
             quantity: Number(quantity), // Convert to number
             materialId,
-          }
+          },config
         );
 
         if (response.data) {

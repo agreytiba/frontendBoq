@@ -11,6 +11,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Box, Typography } from "@mui/material";
+import { API_BASE_URL } from "../../confing.js/baseUrl";
 
 // const tilesRows = [
 //   {
@@ -92,12 +93,17 @@ const Tiles = () => {
   const [quantity, setQuantity] = useState(""); // Add state for new quantity
   //  get user from session store
   const user = JSON.parse(sessionStorage.getItem("user"));
-
+  
+     const config = {
+	    headers: {
+	      Authorization: `Bearer ${user?.token}`,
+	    },
+	  }
   // useEffect to enable fetching  of data
   useEffect(() => {
     // Fetch data using axios
     axios
-      .get("https://backendboq.onrender.com/api/tiles")
+      .get(API_BASE_URL + "/api/tiles",config)
       .then((response) => {
         setTilesRows(response.data);
       })
@@ -109,7 +115,7 @@ const Tiles = () => {
   // get data after success
   const fetchUpdatedData = async () => {
     try {
-      const response = await axios.get("https://backendboq.onrender.com/api/tiles");
+      const response = await axios.get(API_BASE_URL + "/api/tiles",config);
       setTilesRows(response.data);
     } catch (error) {
       toast.error("Failed to fetch updated data");
@@ -121,8 +127,8 @@ const Tiles = () => {
     if (newRate !== null) {
       try {
         const response = await axios.put(
-          `https://backendboq.onrender.com/api/tiles/${materialId}`,
-          { newRate: newRate }
+          API_BASE_URL + `/api/tiles/${materialId}`,
+          { newRate: newRate },config
         );
         setNewRate(null);
         if (response.data) {
@@ -143,7 +149,7 @@ const Tiles = () => {
     try {
       if (savedInfo.savedPreId) {
         const response = await axios.get(
-          `https://backendboq.onrender.com/api/savedtiles/${savedInfo.savedPreId}`
+          API_BASE_URL + `/api/savedtiles/${savedInfo.savedPreId}`,config
         );
         setSavedData(response.data);
       }
@@ -161,11 +167,11 @@ const Tiles = () => {
     if (quantity !== "") {
       try {
         const response = await axios.put(
-          `https://backendboq.onrender.com/api/savedtiles/${savedInfo.savedPreId}`,
+          API_BASE_URL + `/api/savedtiles/${savedInfo.savedPreId}`,
           {
             quantity: Number(quantity), // Convert to number
             materialId,
-          }
+          },config
         );
 
         if (response.data) {

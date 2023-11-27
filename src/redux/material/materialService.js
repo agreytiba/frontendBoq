@@ -1,6 +1,7 @@
 import axios from 'axios';
+import { API_BASE_URL } from '../../confing.js/baseUrl';
 
-const API_URL = 'https://backendboq.onrender.com/api/materials/';
+const API_URL = API_BASE_URL + '/api/materials/';
 
 // add new material
 const AddMaterial = async (materialData) => {

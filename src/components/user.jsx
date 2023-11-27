@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Spinner from '../components/Spinner';
 import axios from 'axios';
+import { API_BASE_URL } from '../confing.js/baseUrl';
 
 const UserChecker = ({ singleMap}) => {
 
@@ -20,7 +21,15 @@ const UserChecker = ({ singleMap}) => {
 
 	//useSelector  containe properties from authSlice
 	const { users, isLoading, isError, isSuccess, message } = useSelector((state) => state.auth);
+     //  get user from session store
+  const user = JSON.parse(sessionStorage.getItem("user"));
 
+
+     const config = {
+	    headers: {
+	      Authorization: `Bearer ${user?.token}`,
+	    },
+	  }
 	//useEffect to fetch all users
 	useEffect(() => {
 			if (isError) {
@@ -37,7 +46,7 @@ const UserChecker = ({ singleMap}) => {
 	);
 const handleAssigment = async(id) => {
 		try {
-            const res = await axios.put(`https://backendboq.onrender.com/api/maps/${singleMap._id}`,{assignTo:id})
+            const res = await axios.put(API_BASE_URL + `/api/maps/${singleMap._id}`,{assignTo:id},config)
         if (res.status === 200) {
             toast.success("successful assigned")
             }

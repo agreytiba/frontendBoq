@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import {toast} from "react-toastify"
 import { deleteMaterial, getAllMaterial, reset } from '../../redux/material/materialSlice';
+import { API_BASE_URL } from '../../confing.js/baseUrl';
 const Products = () => {
 
 	// useState to show form
@@ -17,7 +18,15 @@ const Products = () => {
 	// color themes
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
+    //  get user from session store
+  const user = JSON.parse(sessionStorage.getItem("user"));
 
+
+     const config = {
+	    headers: {
+	      Authorization: `Bearer ${user?.token}`,
+	    },
+	  }
 	 // initiliaze useDispatch && useNavigate
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -60,7 +69,7 @@ const Products = () => {
         body: JSON.stringify({ newPrice: parseFloat(newPrice) })
       };
 
-      fetch(`http://localhost:5000/api/materials/${item._id}`, requestOptions)
+      fetch(API_BASE_URL + `/api/materials/${item._id}`, requestOptions,config)
         .then(response => response.json())
         .then(data => {
           if (data) {

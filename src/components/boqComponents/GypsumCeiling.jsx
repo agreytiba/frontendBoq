@@ -11,6 +11,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Box, Typography } from "@mui/material";
+import { API_BASE_URL } from "../../confing.js/baseUrl";
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -59,7 +60,7 @@ const GypsumCeiling = () => {
   useEffect(() => {
     // Fetch data using axios
     axios
-      .get("https://backendboq.onrender.com/api/gypsum",config)
+      .get(API_BASE_URL + "/api/gypsum",config)
       .then((response) => {
         setGypsumRows(response.data);
       })
@@ -71,7 +72,7 @@ const GypsumCeiling = () => {
   // get data after success
   const fetchUpdatedData = async () => {
     try {
-      const response = await axios.get("https://backendboq.onrender.com/api/gypsum",config);
+      const response = await axios.get(API_BASE_URL + "/api/gypsum",config);
       setGypsumRows (response.data);
     } catch (error) {
       toast.error("Failed to fetch updated data");
@@ -83,7 +84,7 @@ const GypsumCeiling = () => {
     if (newRate !== null) {
       try {
         const response = await axios.put(
-          `https://backendboq.onrender.com/api/gypsum/${materialId}`,
+          API_BASE_URL + `/api/gypsum/${materialId}`,
           { newRate: newRate },config
         );
         setNewRate(null);
@@ -105,7 +106,7 @@ const GypsumCeiling = () => {
     try {
       if (savedInfo.savedPreId) {
         const response = await axios.get(
-          `https://backendboq.onrender.com/api/savedgypsum/${savedInfo.savedPreId}`,config
+          API_BASE_URL + `/api/savedgypsum/${savedInfo.savedPreId}`,config
         );
         setSavedData(response.data);
       }
@@ -123,7 +124,7 @@ const GypsumCeiling = () => {
     if (quantity !== "") {
       try {
         const response = await axios.put(
-          `https://backendboq.onrender.com/api/savedgypsum/${savedInfo.savedPreId}`,
+          API_BASE_URL + `/api/savedgypsum/${savedInfo.savedPreId}`,
           {
             quantity: Number(quantity), // Convert to number
             materialId,

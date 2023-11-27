@@ -14,6 +14,7 @@ import axios from "axios";
 import {toast} from 'react-toastify'
 
 import { useDispatch, useSelector } from "react-redux";
+import { API_BASE_URL } from "../../confing.js/baseUrl";
 
 const Item = ({
   title,
@@ -91,7 +92,7 @@ const createSavedBoq = async (name) => {
     const mapData = JSON.parse(localStorage.getItem("mapData"));
     const mapId = mapData._id;
  
-    const response = await axios.post(`https://backendboq.onrender.com/api/${endpoints[name]}`, { mapId },config);
+    const response = await axios.post(API_BASE_URL + `/api/${endpoints[name]}`, { mapId },config);
     
     if (response.data) {
       const combinedData = {

@@ -11,6 +11,7 @@ import { Box, Typography } from "@mui/material";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { Edit } from "@mui/icons-material";
+import { API_BASE_URL } from "../../confing.js/baseUrl";
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -66,7 +67,7 @@ const DoorShutters = () => {
   //function to fetch data from the database
   const fetchData = async () => {
     try {
-      const response = await axios.get("https://backendboq.onrender.com/api/doors",config);
+      const response = await axios.get(API_BASE_URL + "/api/doors",config);
       if (response.data && user.accessLevel !== "pricetag") {
 
          const filteredAl = response.data.filter((entry) =>
@@ -86,7 +87,7 @@ const DoorShutters = () => {
     if (newRate !== null) {
       try {
         const response = await axios.put(
-          `https://backendboq.onrender.com/api/doors/${materialId}`,
+          `/api/doors/${materialId}`,
           { newRate: newRate },config
         );
         setNewRate(null);
@@ -109,7 +110,7 @@ const DoorShutters = () => {
     try {
       if (savedInfo.savedPreId) {
         const response = await axios.get(
-          `https://backendboq.onrender.com/api/savedshutters/${savedInfo.savedPreId}`,config
+          API_BASE_URL + `/api/savedshutters/${savedInfo.savedPreId}`,config
         );
         setSavedData(response.data);
       }
@@ -127,7 +128,7 @@ const DoorShutters = () => {
     if (quantity !== "") {
       try {
         const response = await axios.put(
-          `https://backendboq.onrender.com/api/savedshutters/${savedInfo.savedPreId}`,
+          API_BASE_URL + `/api/savedshutters/${savedInfo.savedPreId}`,
           {
             quantity: Number(quantity), // Convert to number
             materialId,

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Box, useTheme, Button, Typography } from '@mui/material';
 import { tokens } from '../../theme';
-
 import BlogPosts from '../../components/BlogPosts';
 import ProviderInfoForm from "../../components/ProviderInfoForm"
 import { useState } from 'react';

@@ -3,6 +3,7 @@ import axios from 'axios';
 import Button from '@mui/material/Button';
 import { saveAs } from 'file-saver';
 import { Typography,Box,List,ListItem,ListItemText, ListItemButton } from '@mui/material';
+import { API_BASE_URL } from '../confing.js/baseUrl';
 
 const AllPdf = () => {
   // ... (existing code)
@@ -23,15 +24,23 @@ const AllPdf = () => {
 //     }
 //     };
 
+    //  get user from session store
+  const user = JSON.parse(sessionStorage.getItem("user"));
 
+
+     const config = {
+	    headers: {
+	      Authorization: `Bearer ${user?.token}`,
+	    },
+	  }
 
 
   const handleDownload = async (pdfId) => {
     try {
       // Fetch the PDF file data
-      const response = await axios.get(`https://backendboq.onrender.com/get-pdf/${pdfId}`, {
+      const response = await axios.get(API_BASE_URL + `/get-pdf/${pdfId}`, {
         responseType: 'blob',
-      });
+      },config);
 
       // Create a Blob from the response data
       const pdfBlob = new Blob([response.data], { type: 'application/pdf' });

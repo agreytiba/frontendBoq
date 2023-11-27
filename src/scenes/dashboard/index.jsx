@@ -7,6 +7,7 @@ import { Book, PagesOutlined, Topic } from '@mui/icons-material';
 import { useState } from 'react';
 import axios from 'axios'
 import {useNavigate} from "react-router-dom"
+import { API_BASE_URL } from '../../confing.js/baseUrl';
 
 const Dashboard = () => {
 	 const [mapCount, setMapCount] = useState(0);
@@ -20,8 +21,13 @@ const Dashboard = () => {
 //  initial use navigate
 	const navigate = useNavigate()
 	
-	// get user from local
-	const user = JSON.parse(sessionStorage.getItem('user'));
+	    //  get user from session store
+  const user = JSON.parse(sessionStorage.getItem("user"));
+     const config = {
+	    headers: {
+	      Authorization: `Bearer ${user?.token}`,
+	    },
+	  }
   useEffect(() => {
     // Fetch all maps and count them
     const fetchMaps = async () => {
@@ -31,7 +37,7 @@ const Dashboard = () => {
 	      Authorization: `Bearer ${user.token}`
 	    },
 	  }
-        const response = await axios.get('https://backendboq.onrender.com/api/maps',config); // Adjust the API endpoint accordingly
+        const response = await axios.get(API_BASE_URL + '/api/maps',config); // Adjust the API endpoint accordingly
         const maps = response.data;
         setMapCount(maps.length);
       } catch (error) {
@@ -45,7 +51,7 @@ const Dashboard = () => {
 	      Authorization: `Bearer ${user.token}`,
 	    },
 	  }
-        const response = await axios.get('https://backendboq.onrender.com/api/materials',config); // Adjust the API endpoint accordingly
+        const response = await axios.get(API_BASE_URL + '/api/materials',config); // Adjust the API endpoint accordingly
         const materials = response.data;
         setMatCount(materials.length);
       } catch (error) {
@@ -59,7 +65,7 @@ const Dashboard = () => {
 	      Authorization: `Bearer ${user.token}`,
 	    },
 	  }
-        const response = await axios.get('https://backendboq.onrender.com/api/users',config); // Adjust the API endpoint accordingly
+        const response = await axios.get(API_BASE_URL + '/api/users',config); // Adjust the API endpoint accordingly
         const users = response.data;
 		  setUsersCount(users.length);
 		//   get all customer

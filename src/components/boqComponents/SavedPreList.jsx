@@ -3,15 +3,26 @@ import { DataGrid } from '@mui/x-data-grid';
 import axios from 'axios';
 import { Box,Typography,Button,Dialog,DialogActions,DialogContent,DialogTitle,TableContainer,TableBody,TableCell,Table,TableRow,TableHead} from '@mui/material';
 import { toast } from 'react-toastify';
+import { API_BASE_URL } from '../../confing.js/baseUrl';
 const SavedPreList = () => {
   const [savedPres, setSavedPres] = useState([]);
    const [openDialog, setOpenDialog] = useState(false);
   const [selectedPreData, setSelectedPreData] = useState([]);
 
+
+    //  get user from session store
+  const user = JSON.parse(sessionStorage.getItem("user"));
+
+
+     const config = {
+	    headers: {
+	      Authorization: `Bearer ${user?.token}`,
+	    },
+	  }
   useEffect(() => {
     const fetchSavedPres = async () => {
       try {
-        const response = await axios.get('https://backendboq.onrender.com/api/savedpres');
+        const response = await axios.get(API_BASE_URL + '/api/savedpres',config);
         setSavedPres(response.data);
       } catch (error) {
         toast.error( error);

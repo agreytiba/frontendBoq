@@ -1,6 +1,7 @@
 import axios from 'axios';
+import { API_BASE_URL } from '../../confing.js/baseUrl';
 
-const API_URL = 'https://backendboq.onrender.com/api/providers/';
+const API_URL = API_BASE_URL + '/api/providers/';
 
 // add new provider
 const AddProvider = async (data) => {

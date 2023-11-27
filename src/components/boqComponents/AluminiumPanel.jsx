@@ -11,6 +11,7 @@ import { Box, Typography } from "@mui/material";
 import { Edit } from "@mui/icons-material";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { API_BASE_URL } from "../../confing.js/baseUrl";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -65,7 +66,7 @@ const AluminiumPanels = () => {
   //function to fetch data from the database
   const fetchData = async () => {
     try {
-      const response = await axios.get("https://backendboq.onrender.com/api/windows",config);
+      const response = await axios.get( API_BASE_URL + "/api/windows",config);
       if (response.data && user.accessLevel !== "pricetag") {
          const filteredAl = response.data.filter((entry) =>
           entry.type.includes("aluminium")
@@ -84,7 +85,7 @@ const AluminiumPanels = () => {
     if (newRate !== null) {
       try {
         const response = await axios.put(
-          `https://backendboq.onrender.com/api/windows/${materialId}`,
+          API_BASE_URL + `/api/windows/${materialId}`,
           { newRate: newRate },config
         );
         setNewRate(null);
@@ -109,7 +110,7 @@ const AluminiumPanels = () => {
     try {
       if (savedInfo.savedPreId) {
         const response = await axios.get(
-          `https://backendboq.onrender.com/api/savedpanels/${savedInfo.savedPreId}`,config
+          API_BASE_URL + `api/savedpanels/${savedInfo.savedPreId}`,config
         );
         setSavedData(response.data);
       }
@@ -132,7 +133,7 @@ const AluminiumPanels = () => {
 	    },
 	  }
         const response = await axios.put(
-          `https://backendboq.onrender.com/api/savedpanels/${savedInfo.savedPreId}`,
+          API_BASE_URL+ `api/savedpanels/${savedInfo.savedPreId}`,
           {
             quantity: Number(quantity), // Convert to number
             materialId,

@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import { useLocation } from 'react-router-dom';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import { API_BASE_URL } from '../../confing.js/baseUrl';
 
 const Skimout = () => {
   const [savedPres, setSavedPres] = useState([]);
@@ -17,7 +18,7 @@ const Skimout = () => {
   useEffect(() => {
     const fetchSavedPres = async () => {
       try {
-        const response = await axios.get('https://backendboq.onrender.com/api/savedskimoutside"');
+        const response = await axios.get(API_BASE_URL + '/api/savedskimoutside');
         // Filter the data by mapId
         const filteredData = response.data.filter((item) => item.mapId === mapId);
 

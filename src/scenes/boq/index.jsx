@@ -9,6 +9,7 @@ import {AppContext} from '../../useContextApi/AppContext'
 import { deleteMap, getAllMaps, reset } from '../../redux/maps/mapsSlice';
 import axios from 'axios';
 import Spinner from '../../components/Spinner';
+import { API_BASE_URL } from '../../confing.js/baseUrl';
 const Boq = () => {
 
 //   const [mapId, setMapId] = useState();
@@ -53,7 +54,7 @@ const user = JSON.parse(sessionStorage.getItem('user'));
 const createBoq =async (data) => {
 	try {
 		const mapId = data._id
-      const response = await axios.post("https://backendboq.onrender.com/api/savedpres",{ mapId},config);
+      const response = await axios.post(API_BASE_URL + "/api/savedpres",{ mapId},config);
 		if (response.data) {
 		    const combinedData = {...data,savedPreId: response.data._id // Add the savedPreId to the combined data
 			};

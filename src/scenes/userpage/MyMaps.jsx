@@ -4,15 +4,22 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Container, Paper, List, ListItem, ListItemText, Button, Typography } from '@mui/material';
 import { saveAs } from 'file-saver';
+import { API_BASE_URL } from '../../confing.js/baseUrl';
 function PDFFetcher() {
   const [pdfs, setPdfs] = useState([]);
   const location = useLocation()
   const {mapIds}  = location.state
-
+    //  get user from session store
+  const user = JSON.parse(sessionStorage.getItem("user"));
+     const config = {
+	    headers: {
+	      Authorization: `Bearer ${user?.token}`,
+	    },
+	  }
   useEffect(() => {
     async function fetchPDFs() {
       const pdfDataPromises = mapIds.map((id) =>
-        axios.get(`https://backendboq.onrender.com/upload-pdf?pdfId=${id}`)
+        axios.get(API_BASE_URL + `/upload-pdf?pdfId=${id}`,config)
       );
 
       try {
@@ -33,9 +40,9 @@ function PDFFetcher() {
 const handleView = async (pdfId) => {
     try {
       // Fetch the PDF file data
-      const response = await axios.get(`https://backendboq.onrender.com/get-pdf/${pdfId}`, {
+      const response = await axios.get(API_BASE_URL + `/get-pdf/${pdfId}`, {
         responseType: 'blob',
-      });
+      },config);
 
       // Create a Blob from the response data
       const pdfBlob = new Blob([response.data], { type: 'application/pdf' });
@@ -57,7 +64,7 @@ const handleView = async (pdfId) => {
   
   const handleDownload = (pdfId, filename) => {
     axios
-      .get(`https://backendboq.onrender.com/get-pdf/${pdfId}`, { responseType: 'blob' })
+      .get(API_BASE_URL + `/get-pdf/${pdfId}`, { responseType: 'blob' },config)
       .then((response) => {
         const blob = new Blob([response.data], { type: 'application/pdf' });
         saveAs(blob, filename);

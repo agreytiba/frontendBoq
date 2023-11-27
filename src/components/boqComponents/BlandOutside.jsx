@@ -11,6 +11,7 @@ import { Box, Typography } from "@mui/material";
 import axios from "axios";
 import { toast } from "react-toastify"
 import { Edit } from "@mui/icons-material";
+import { API_BASE_URL } from "../../confing.js/baseUrl";
 // const blanderingInsideRows = [
 //   {
 //     material: "2x2 Treated Timber",
@@ -108,7 +109,7 @@ const BlanderingOutside = () => {
   // get data after success
   const fetchUpdatedData = async () => {
     try {
-      const response = await axios.get("https://backendboq.onrender.com/api/blandering",config);
+      const response = await axios.get(API_BASE_URL + "/api/blandering",config);
       setBlanderRows(response.data);
     } catch (error) {
       toast.error("Failed to fetch updated data");
@@ -120,7 +121,7 @@ const BlanderingOutside = () => {
     if (newRate !== null) {
       try {
         const response = await axios.put(
-          `https://backendboq.onrender.com/api/blandering/${materialId}`,
+          API_BASE_URL + `/api/blandering/${materialId}`,
           { newRate: newRate },config
         );
         setNewRate(null);
@@ -143,7 +144,7 @@ const BlanderingOutside = () => {
     try {
       if (savedInfo.savedPreId) {
         const response = await axios.get(
-          `https://backendboq.onrender.com/api/savedblandoutside/${savedInfo.savedPreId}`,config
+          API_BASE_URL + `/api/savedblandoutside/${savedInfo.savedPreId}`,config
         );
         setSavedData(response.data);
       }
@@ -161,7 +162,7 @@ const BlanderingOutside = () => {
     if (quantity !== "") {
       try {
         const response = await axios.put(
-          `https://backendboq.onrender.com/api/savedblandoutside/${savedInfo.savedPreId}`,
+          API_BASE_URL + `/api/savedblandoutside/${savedInfo.savedPreId}`,
           {
             quantity: Number(quantity), // Convert to number
             materialId,

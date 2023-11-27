@@ -11,6 +11,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Box, Typography } from "@mui/material";
+import { API_BASE_URL } from "../../confing.js/baseUrl";
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -56,7 +57,7 @@ const ElectricalInstallation = () => {
   useEffect(() => {
     // Fetch data using axios
     axios
-      .get("https://backendboq.onrender.com/api/electrical",config)
+      .get(API_BASE_URL + "/api/electrical",config)
       .then((response) => {
         setElectricalRows(response.data);
       })
@@ -68,7 +69,7 @@ const ElectricalInstallation = () => {
   // get data after success
   const fetchUpdatedData = async () => {
     try {
-      const response = await axios.get("https://backendboq.onrender.com/api/electrical",config);
+      const response = await axios.get(API_BASE_URL + "/api/electrical",config);
       setElectricalRows(response.data);
     } catch (error) {
       toast.error("Failed to fetch updated data");
@@ -80,7 +81,7 @@ const ElectricalInstallation = () => {
     if (newRate !== null) {
       try {
         const response = await axios.put(
-          `https://backendboq.onrender.com/api/electrical/${materialId}`,
+          `/api/electrical/${materialId}`,
           { newRate: newRate },config
         );
         setNewRate(null);
@@ -103,7 +104,7 @@ const ElectricalInstallation = () => {
     try {
       if (savedInfo.savedPreId) {
         const response = await axios.get(
-          `https://backendboq.onrender.com/api/savedelectrical/${savedInfo.savedPreId}`,config
+         API_BASE_URL + `/api/savedelectrical/${savedInfo.savedPreId}`,config
         );
         setSavedData(response.data);
       }
@@ -121,7 +122,7 @@ const ElectricalInstallation = () => {
     if (quantity !== "") {
       try {
         const response = await axios.put(
-          `https://backendboq.onrender.com/api/savedelectrical/${savedInfo?.savedPreId}`,
+          API_BASE_URL + `/api/savedelectrical/${savedInfo?.savedPreId}`,
           {
             quantity: Number(quantity), // Convert to number
             materialId,

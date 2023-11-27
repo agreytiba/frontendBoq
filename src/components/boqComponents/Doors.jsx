@@ -11,6 +11,7 @@ import { Box, Typography } from "@mui/material";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { Edit } from "@mui/icons-material";
+import { API_BASE_URL } from "../../confing.js/baseUrl";
 
 const doorFramesRows = [
   {
@@ -119,10 +120,15 @@ const Doors = () => {
     fetchData();
   }, []);
 
+   const config = {
+	    headers: {
+	      Authorization: `Bearer ${user?.token}`,
+	    },
+	  }
   //function to fetch data from the database
   const fetchData = async () => {
     try {
-      const response = await axios.get("https://backendboq.onrender.com/api/doors");
+      const response = await axios.get(API_BASE_URL + "/api/doors",config);
       if (response.data && user.accessLevel !== "pricetag") {
         const filteredframes = response.data.filter((entry) =>
           entry.type.includes("frame")
@@ -145,8 +151,8 @@ const Doors = () => {
     if (newRate !== null) {
       try {
         const response = await axios.put(
-          `https://backendboq.onrender.com/api/doors/${materialId}`,
-          { newRate: newRate }
+          API_BASE_URL + `/doors/${materialId}`,
+          { newRate: newRate },config
         );
         setNewRate(null);
         if (response.data) {

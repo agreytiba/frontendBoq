@@ -11,6 +11,7 @@ import { Box, Typography } from "@mui/material";
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import { Edit } from "@mui/icons-material";
+import { API_BASE_URL } from "../../confing.js/baseUrl";
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -49,6 +50,13 @@ const SubPad = () => {
   const [quantity, setQuantity] = useState(""); // Add state for new quantity
     //  get user from session store
   const user = JSON.parse(sessionStorage.getItem("user"));
+    //  get user from session store
+  
+     const config = {
+	    headers: {
+	      Authorization: `Bearer ${user?.token}`,
+	    },
+	  }
 //  useEffect to get data from database
   useEffect(() => {
     fetchData();
@@ -57,7 +65,7 @@ const SubPad = () => {
   //function to fetch data from the database
   const fetchData = async () => {
     try {
-      const response = await axios.get('https://backendboq.onrender.com/api/substructure'); // Replace with your API endpoint
+      const response = await axios.get(API_BASE_URL + '/api/substructure',config); // Replace with your API endpoint
       if (response.data) {
       setAllData(response.data)
       const filteredPad = response.data.filter((entry) => entry.type.includes('pad'));
@@ -76,8 +84,8 @@ const SubPad = () => {
     if (newRate !== null) {
       try {
         const response = await axios.put(
-          `https://backendboq.onrender.com/api/substructure/${materialId}`,
-          { newRate: newRate }
+          API_BASE_URL + `/api/substructure/${materialId}`,
+          { newRate: newRate },config
         );
         setNewRate(null);
         if (response.data) {
@@ -99,7 +107,7 @@ const SubPad = () => {
     try {
       if (savedInfo.savedPreId) {
         const response = await axios.get(
-          `https://backendboq.onrender.com/api/savedpads/${savedInfo.savedPreId}`
+          API_BASE_URL + `/api/savedpads/${savedInfo.savedPreId}`,config
         );
         setSavedData(response.data);
       }
@@ -117,11 +125,11 @@ const SubPad = () => {
     if (quantity !== "") {
       try {
         const response = await axios.put(
-          `https://backendboq.onrender.com/api/savedpads/${savedInfo.savedPreId}`,
+          API_BASE_URL + `/api/savedpads/${savedInfo.savedPreId}`,
           {
             quantity: Number(quantity), // Convert to number
             materialId,
-          }
+          },config
         );
 
         if (response.data) {

@@ -11,6 +11,7 @@ import { Box, Typography } from "@mui/material";
 import { toast } from "react-toastify";
 import { Edit } from "@mui/icons-material";
 import axios from "axios";
+import { API_BASE_URL } from "../../confing.js/baseUrl";
 
 // const wallingRows = [
 //   {
@@ -133,11 +134,17 @@ const Walling = ({ setIsSidebar }) => {
   const [quantity, setQuantity] = useState(""); // Add state for new quantity
   //  get user from session store
   const user = JSON.parse(sessionStorage.getItem("user"));
+ 
+     const config = {
+	    headers: {
+	      Authorization: `Bearer ${user?.token}`,
+	    },
+	  }
   // useEffect to enable fetching  of data
   useEffect(() => {
     // Fetch data using axios
     axios
-      .get("https://backendboq.onrender.com/api/walling")
+      .get(API_BASE_URL + "/api/walling",config)
       .then((response) => {
         setWallingRows(response.data);
       })
@@ -150,7 +157,7 @@ const Walling = ({ setIsSidebar }) => {
   // get data after success
   const fetchUpdatedData = async () => {
     try {
-      const response = await axios.get("https://backendboq.onrender.com/api/walling");
+      const response = await axios.get(API_BASE_URL + "/api/walling",config);
       setWallingRows(response.data);
     } catch (error) {
       toast.error("Failed to fetch updated data");
@@ -162,8 +169,8 @@ const Walling = ({ setIsSidebar }) => {
     if (newRate !== null) {
       try {
         const response = await axios.put(
-          `https://backendboq.onrender.com/api/walling/${materialId}`,
-          { newRate: newRate }
+          API_BASE_URL + `/api/walling/${materialId}`,
+          { newRate: newRate },config
         );
         setNewRate(null);
         if (response.data) {
@@ -185,7 +192,7 @@ const Walling = ({ setIsSidebar }) => {
     try {
       if (savedInfo.savedPreId) {
         const response = await axios.get(
-          `https://backendboq.onrender.com/api/savedwalling/${savedInfo.savedPreId}`
+          API_BASE_URL + `/api/savedwalling/${savedInfo.savedPreId}`,config
         );
         setSavedData(response.data);
       }
@@ -203,11 +210,11 @@ const Walling = ({ setIsSidebar }) => {
     if (quantity !== "") {
       try {
         const response = await axios.put(
-          `https://backendboq.onrender.com/api/savedwalling/${savedInfo.savedPreId}`,
+          API_BASE_URL + `/api/savedwalling/${savedInfo.savedPreId}`,
           {
             quantity: Number(quantity), // Convert to number
             materialId,
-          }
+          },config
         );
 
         if (response.data) {

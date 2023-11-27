@@ -11,6 +11,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Box, Typography } from "@mui/material";
+import { API_BASE_URL } from "../../confing.js/baseUrl";
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -58,7 +59,7 @@ const Finishing = () => {
   useEffect(() => {
     // Fetch data using axios
     axios
-      .get("https://backendboq.onrender.com/api/finishing",config)
+      .get("/api/finishing",config)
       .then((response) => {
         setFinishingRows(response.data);
       })
@@ -70,7 +71,7 @@ const Finishing = () => {
   // get data after success
   const fetchUpdatedData = async () => {
     try {
-      const response = await axios.get("https://backendboq.onrender.com/api/finishing",config);
+      const response = await axios.get("/api/finishing",config);
       setFinishingRows(response.data);
     } catch (error) {
       toast.error("Failed to fetch updated data");
@@ -82,7 +83,7 @@ const Finishing = () => {
     if (newRate !== null) {
       try {
         const response = await axios.put(
-          `https://backendboq.onrender.com/api/finishing/${materialId}`,
+          API_BASE_URL + `/api/finishing/${materialId}`,
           { newRate: newRate },config
         );
         setNewRate(null);
@@ -105,7 +106,7 @@ const Finishing = () => {
     try {
       if (savedInfo.savedPreId) {
         const response = await axios.get(
-          `https://backendboq.onrender.com/api/savedfinishing/${savedInfo.savedPreId}`,config
+          API_BASE_URL + `/api/savedfinishing/${savedInfo.savedPreId}`,config
         );
         setSavedData(response.data);
       }
@@ -123,7 +124,7 @@ const Finishing = () => {
     if (quantity !== "") {
       try {
         const response = await axios.put(
-          `https://backendboq.onrender.com/api/savedfinishing/${savedInfo.savedPreId}`,
+         API_BASE_URL + `/api/savedfinishing/${savedInfo.savedPreId}`,
           {
             quantity: Number(quantity), // Convert to number
             materialId,

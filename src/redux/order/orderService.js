@@ -1,6 +1,7 @@
 import axios from 'axios';
+import { API_BASE_URL } from '../../confing.js/baseUrl';
 
-const API_URL = 'https://backendboq.onrender.com/api/orders/';
+const API_URL = API_BASE_URL + '/api/orders/';
 
 // add new order
 const addOrder = async (orderData) => {

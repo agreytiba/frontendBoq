@@ -19,6 +19,7 @@ import { toast } from "react-toastify";
 import { getAllMaps, reset } from "../../redux/maps/mapsSlice";
 import axios from "axios";
 import Spinner from "../../components/Spinner";
+import { API_BASE_URL } from "../../confing.js/baseUrl";
 const FailedChecker = () => {
   // show popup comment form
   const [commentPopupOpen, setCommentPopupOpen] = useState(false);
@@ -42,8 +43,13 @@ const FailedChecker = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // get user from local
+      //  get user from session store
   const user = JSON.parse(sessionStorage.getItem("user"));
+     const config = {
+	    headers: {
+	      Authorization: `Bearer ${user?.token}`,
+	    },
+	  }
 
   //useSelector  containe properties from authSlice
   const { maps, isLoading, isError, isSuccess, message } = useSelector(
@@ -70,9 +76,9 @@ const FailedChecker = () => {
     try {
       window.confirm("unataka kupitisha ramani ?")
       const newStatus = "boq";
-      const res = await axios.put(`https://backendboq.onrender.com/api/maps/${id}`, {
+      const res = await axios.put(API_BASE_URL + `/api/maps/${id}`, {
         status: newStatus,
-      });
+      },config);
 
       // Handle successful update (e.g., show a success message or update the state)
       if (res.data) {
@@ -101,9 +107,9 @@ const FailedChecker = () => {
       if (!suggestionOnMap) {
         toast.error("weka suggestion");
       }
-      const res = await axios.put(`https://backendboq.onrender.com/api/maps/${mapId}`, {
+      const res = await axios.put(API_BASE_URL + `/api/maps/${mapId}`, {
         suggestionOnMap,
-      });
+      },config);
       if (res.data) {
         setSuggestionOnMap("");
         setPopupOpen(false);
@@ -123,7 +129,7 @@ const FailedChecker = () => {
   const showUser = async (userid) => {
     try {
       setUserPopupOpen(true);
-      const res = await axios.get(`https://backendboq.onrender.com/api/users/${userid}`);
+      const res = await axios.get(API_BASE_URL + `/api/users/${userid}`,config);
       // Handle successful update (e.g., show a success message or update the state)
       if (res.data) {
         setUseInfo(res.data);

@@ -11,6 +11,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Box, Typography } from "@mui/material";
+import { API_BASE_URL } from "../../confing.js/baseUrl";
 
 // const roofingRows = [
 //   {
@@ -150,11 +151,17 @@ const Roofing = () => {
   //  get user from session store
   const user = JSON.parse(sessionStorage.getItem("user"));
 
+
+     const config = {
+	    headers: {
+	      Authorization: `Bearer ${user?.token}`,
+	    },
+	  }
   // useEffect to enable fetching  of data
   useEffect(() => {
     // Fetch data using axios
     axios
-      .get("https://backendboq.onrender.com/api/roofing")
+      .get(API_BASE_URL + "/api/roofing",config)
       .then((response) => {
         setRoofingRows(response.data);
       })
@@ -166,7 +173,7 @@ const Roofing = () => {
   // get data after success
   const fetchUpdatedData = async () => {
     try {
-      const response = await axios.get("https://backendboq.onrender.com/api/roofing");
+      const response = await axios.get(API_BASE_URL + "/api/roofing",config);
       setRoofingRows (response.data);
     } catch (error) {
       toast.error("Failed to fetch updated data");
@@ -178,8 +185,8 @@ const Roofing = () => {
     if (newRate !== null) {
       try {
         const response = await axios.put(
-          `https://backendboq.onrender.com/api/roofing/${materialId}`,
-          { newRate: newRate }
+          API_BASE_URL + `/api/roofing/${materialId}`,
+          { newRate: newRate },config
         );
         setNewRate(null);
         if (response.data) {
@@ -201,7 +208,7 @@ const Roofing = () => {
     try {
       if (savedInfo.savedPreId) {
         const response = await axios.get(
-          `https://backendboq.onrender.com/api/savedroofing/${savedInfo.savedPreId}`
+          API_BASE_URL + `/api/savedroofing/${savedInfo.savedPreId}`,config
         );
         setSavedData(response.data);
       }
@@ -219,11 +226,11 @@ const Roofing = () => {
     if (quantity !== "") {
       try {
         const response = await axios.put(
-          `https://backendboq.onrender.com/api/savedroofing/${savedInfo.savedPreId}`,
+          API_BASE_URL + `/api/savedroofing/${savedInfo.savedPreId}`,
           {
             quantity: Number(quantity), // Convert to number
             materialId,
-          }
+          },config
         );
 
         if (response.data) {

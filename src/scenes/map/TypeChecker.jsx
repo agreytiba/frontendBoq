@@ -20,6 +20,7 @@ import { DeleteOutlined } from "@mui/icons-material";
 import { EditOutlined } from "@mui/icons-material";
 import axios from "axios";
 import Spinner from "../../components/Spinner";
+import { API_BASE_URL } from "../../confing.js/baseUrl";
 const TypeChecker = () => {
   const [mapId, setMapId] = useState();
 	const [newStatus, setNewStatus] = useState("vipimo");
@@ -34,8 +35,14 @@ const TypeChecker = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // get user from local
+      //  get user from session store
   const user = JSON.parse(sessionStorage.getItem("user"));
+
+     const config = {
+	    headers: {
+	      Authorization: `Bearer ${user?.token}`,
+	    },
+	  }
 
   //useSelector  containe properties from authSlice
   const { maps, isLoading, isError, isSuccess, message } = useSelector(
@@ -69,7 +76,7 @@ const TypeChecker = () => {
       setNewStatus('vipimo')
     
       if (check) {
-         const res = await axios.put(`https://backendboq.onrender.com/api/maps/${id}`,{
+         const res = await axios.put(API_BASE_URL + `/api/maps/${id}`,{
         status: newStatus,
       },config);
 
@@ -97,7 +104,7 @@ const TypeChecker = () => {
       if (!checkComment) {
         toast.error("weka comment")
       }
-      const res = await axios.put(`https://backendboq.onrender.com/api/maps/${mapId}`, { checkComment });
+      const res = await axios.put(API_BASE_URL + `/api/maps/${mapId}`, { checkComment },config);
       if (res.data) {
         setComment('');
         setCommentPopupOpen(false);
