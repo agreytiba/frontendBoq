@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import { createMap, getAllMaps, reset } from '../redux/maps/mapsSlice';
+import { API_BASE_URL } from '../confing.js/baseUrl';
 const SendMapForm = ({ setShowFormMap }) => {
 	const isNonMobile = useMediaQuery('(min-width:600px)');
 
@@ -40,7 +41,7 @@ const SendMapForm = ({ setShowFormMap }) => {
 		})
 		try {
 			setIsLoading(true);
-			const res = await axios.post('https://backendboq.onrender.com/upload-pdf', formData, {
+			const res = await axios.post( API_BASE_URL + '/upload-pdf', formData, {
 				headers: {
 					'Content-Type': 'multipart/form-data'
 				}
