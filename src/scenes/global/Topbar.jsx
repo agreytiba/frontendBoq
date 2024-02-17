@@ -23,7 +23,7 @@ const user = JSON.parse(sessionStorage.getItem('user'));
 
   return (
     <Box display="flex" justifyContent="space-between" p={2} boxShadow="10px 0px 8px #555" position="relative" backgroundColor="#edae00">
-     BOQ BURE
+    <a href="/" style={{listStyle:`none`, color:`#333`, textDecoration:`none`}}> BOQ BURE</a>
       <Box
         display="flex"
         backgroundColor={colors.primary[400]}

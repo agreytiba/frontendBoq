@@ -10,12 +10,12 @@ const allUsers = async () => {
 // Register user
 const register = async (userData) => {
   const response = await axios.post(API_BASE_URL + '/api/users/', userData)
-
+console.log(response.data);
   return response.data
 }
 // create user
 const createUser = async (userData) => {
-  const response = await axios.post(API_BASE_URL + '/api/users/', userData)
+  const response = await axios.post(API_BASE_URL + '/api/users/admin', userData)
 
   return response.data
 }

@@ -1,278 +1,103 @@
-import { useState } from "react";
-import { Sidebar as ProSideBar, Menu, MenuItem,SubMenu } from "react-pro-sidebar";
-import { Box, Button, IconButton, Paper, Typography, useTheme } from "@mui/material";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { tokens } from "../../theme";
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import { AirlineSeatFlat, Book, BookOnlineRounded, Logout, MapOutlined, MessageOutlined, MessageRounded, PageviewSharp, People, ProductionQuantityLimits, SupervisorAccountOutlined, WorkOff, WorkOutlined } from "@mui/icons-material";
-import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../redux/auth/authSlice";
-
-const Item = ({ title, to, icon, selected, setSelected }) => {
-
-
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
-  return (
-    <MenuItem
-      active={selected === title}
-      style={{
-        color: colors.grey[100],
-      }}
-      onClick={() => setSelected(title)}
-      icon={icon}
-      component={ <Link to={to} />}
-    >
-      <Typography>{title}</Typography>
-     
-    </MenuItem>
-  );
-};
+import { ExpandMore, ExpandLess } from "@mui/icons-material";
+import "./sidebar.css";
 
 const Sidebar = () => {
-   // initialize dispatch
-  const dispatch = useDispatch()
-
-  // initializer navigation
-  const navigate = useNavigate()
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
+  const history = useNavigate();
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isRamaniOpen, setIsRamaniOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
 
-
- 
-    // handle logout user from the system
   const handleLogout = () => {
-    dispatch(logout())
-    navigate("/")
-    window.location.reload()
-  }
-  
+    // Implement your logout logic here
+    history("/");
+    // Reload the window if necessary
+    window.location.reload();
+  };
 
   return (
-    <Box
-      sx={{
+    <div className={`sidebar ${isCollapsed ? 'collapsed' : ''}`}>
+      {/* LOGO AND MENU ICON */}
+      <div className="menu-icon" onClick={() => setIsCollapsed(!isCollapsed)}>
+        {!isCollapsed && (
+          <div className="logo">
+            <span>BOQ</span>
+          </div>
+        )}
+        <div className="menu-toggle">
+          <span>{isCollapsed ? "+" : "-"}</span>
+        </div>
+      </div>
 
-        "& .ps-sidebar-container": {
-          background: `#edae00 !important`,
-          minHeight: `100vh !important`,
-          
-        },
-        "& .pro-sidebar-inner": {
-          background: `${colors.primary[200]} !important`,
-        },
-        "& .pro-icon-wrapper": {
-          backgroundColor: "transparent !important",
-        },
-        "& .pro-inner-item": {
-          padding: "5px 35px 5px 20px !important",
-           color:`${colors.redAccent[100]}!important `
-        },
-        "& .pro-inner-item:hover": {
-          color: "#868dfb !important",
-        },
-        "& .pro-menu-item.active": {
-          color: "#fff !important",
-        },
-        "& .ps-menu-button": {
-           color: `#000 !important`,
-        },
-        "& .ps-menu-button:hover": {
-           background: `${colors.greenAccent[400]} !important`,
-        },
-        "& .ps-open": {
-           background: `#eee !important`,
-        }
-      }}
-    >
-      <ProSideBar collapsed={isCollapsed} style={{   position: "fixed",
-              left:"0px", top:"0px",bottom:"0px"}}>
-        <Menu iconShape="square">
-          {/* LOGO AND MENU ICON */}
-          <MenuItem
-            onClick={() => setIsCollapsed(!isCollapsed)}
-            icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
-            style={{
-              margin: "10px 0 20px 0",
-              color: colors.grey[100],
-           
-            }}
-          >
-            {!isCollapsed && (
-              <Box
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-                ml="15px"
-              >
-                <Typography variant="h3" color="#fff" textTransform="uppercase">
-                  BOQ
-                </Typography>
-                <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
-                  <MenuOutlinedIcon  style={{color:" #fff"}}/>
-                </IconButton>
-              </Box>
-            )}
-          </MenuItem>
-
-          {!isCollapsed && (
-            <Box mb="25px">
-           
-            
-            </Box>
+      <div className="menu-items">
+        <h4>
+        <Link to="/dashboard" className={selected === "Dashboard" ? "active" : ""}>
+          DASHBOARD
+        </Link></h4>
+        <div className="dropdown-link submenu">
+          <h4 style={{position:`relative`}}onClick={() => setIsOpen(!isOpen)}><span >WATUMIAJI</span>
+             <p style={{textAlign:`right`,position:`absolute`,bottom:`-25px`,right:`50%`}}> {isOpen ? <ExpandLess /> : <ExpandMore />}</p></h4>
+          {isOpen && (
+            <ul type="none"className="drop-menu">
+              <li>
+                <Link to="/mteja">wateja</Link>
+              </li>
+              <li>
+                <Link to="/pangaramani">panga ramani</Link>
+              </li>
+              <li>
+                <Link to="/vipimo">angalia vipimo</Link>
+              </li>
+              <li>
+                <Link to="/suggestion">maboresho</Link>
+              </li>
+              <li>
+                <Link to="/mtoahuduma">mtoa huduma</Link>
+              </li>
+              <li>
+                <Link to="/watoahuduma">watoahuduma</Link>
+              </li>
+            </ul>)}
+        </div>
+        <div className="dropdown-link submenu" onClick={() => setIsRamaniOpen(!isRamaniOpen)}>
+          <h4 style={{position:`relative`}}><span>RAMANI</span>
+           <p style={{textAlign:`right`,position:`absolute`,bottom:`-25px`,right:`50%`}}> {isRamaniOpen ? <ExpandLess /> : <ExpandMore />}</p></h4>
+          {isRamaniOpen && (
+            <ul className="drop-menu"type="none">
+              <li><Link to="/allpdf">pdfs</Link></li>
+              <li><Link to="/maps">ramani zote</Link></li>
+              <li><Link to="/failed">zilizofail</Link></li>
+              <li><Link to="/passed">Zilizofanikiwa</Link></li>
+            </ul>
           )}
-
-          <Box paddingLeft={isCollapsed ? undefined : "10%"}>
-            <Item
-              title="Dashboard"
-              to="/dashboard"
-              icon={<HomeOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-          <Typography variant="h3" align="center" mt="10px">Watumiaji</Typography>
-        <SubMenu title="Watumiaji"  style={{color:"#333"}}  icon={<People />}>
-        <Item
-              title="wateja"
-              to="/mteja"
-              
-              selected={selected}
-              setSelected={setSelected}
-            />
-              <Item
-              title="panga ramani"
-              to="/pangaramani"
-               
-              selected={selected}
-              setSelected={setSelected}
-            />
-              <Item
-              title=" angalia vipimo"
-              to="/vipimo"
-              selected={selected}
-              setSelected={setSelected}
-            />
-              <Item
-              title="maboresho"
-              to="suggestion"
-             
-              selected={selected}
-              setSelected={setSelected}
-            />
-              <Item
-              title="mtoa huduma"
-              to="/mtoahuduma"
-            
-              selected={selected}
-              setSelected={setSelected}
-              />
-                      <Item
-              title="watoahuduma"
-              to="/watoahuduma"
-              
-              selected={selected}
-              setSelected={setSelected}
-            />
-      </SubMenu>
-       
-
-          
-              <Item
-              title="bidhaa"
-              to="/bidhaa"
-               icon={<ProductionQuantityLimits/>}
-              selected={selected}
-              setSelected={setSelected}
-            />
-              <Item
-              title="Completed Boq"
-              to="/completedboq"
-               icon={<PageviewSharp/>}
-              selected={selected}
-              setSelected={setSelected}
-            />
-      
-            <Typography variant="h3" align="center" mt="10px">Ramani</Typography>             
-           <SubMenu title="Ramani"  style={{color:"#333"}}  icon={<MapOutlined/>}>
-        <Item
-              title="pdfs"
-               to="/allpdf"
-              selected={selected}
-              setSelected={setSelected}
-            />
-              <Item
-              title="ramani zote"
-              to="/maps" 
-              selected={selected}
-              setSelected={setSelected}
-            />
-              <Item
-              title=" zilizofail"
-              to="/failed"
-              selected={selected}
-              setSelected={setSelected}
-            />
-              <Item
-              title="Zilizofanikiwa"
-              to="passed"
-             
-              selected={selected}
-              setSelected={setSelected}
-            />
-             
-      
-      </SubMenu>
-            {/* <Item
-              title="Ramani"
-              to="/allpdf"
-               icon={<MapOutlined />}
-              selected={selected}
-              setSelected={setSelected}
-            /> */}
-         
-              <Item
-              title="BOQ"
-              to="/boq"
-               icon={<Book />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Users"
-               icon={<PersonOutlinedIcon />}
-              to="/users"
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Blog"
-               icon={<PersonOutlinedIcon />}
-              to="/blog"
-              selected={selected}
-              setSelected={setSelected}
-            />
-       
-         
-              <MenuItem
-      active={selected === logout}
-      style={{
-        color: colors.grey[100],
-      }}
-    
-    icon={<Logout/>}
-  onClick={handleLogout}
-
-    >
-      <Typography>logout</Typography>
-     
-    </MenuItem>
-          </Box>
-        </Menu>
-      </ProSideBar>
-    </Box>
+        </div>
+        <h4>
+        <Link to="/bidhaa" className={selected === "bidhaa" ? "active" : ""}>
+          BIDHAA
+          </Link></h4>
+         <h4>
+        <Link to="/completedboq" className={selected === "completedboq" ? "active" : ""}>
+          COMPLETED BOQ
+        </Link></h4>
+         <h4>
+        <Link to="/boq" className={selected === "boq" ? "active" : ""}>
+          BOQ
+        </Link></h4>
+         <h4>
+        <Link to="/users" className={selected === "users" ? "active" : ""}>
+          USERS
+        </Link></h4>
+         <h4>
+        <Link to="/blog" className={selected === "blog" ? "active" : ""}>
+          BLOG
+        </Link></h4>
+        <h4 className="menu-item" onClick={handleLogout}>
+          Logout
+        </h4>
+      </div>
+    </div>
   );
 };
 
