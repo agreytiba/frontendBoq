@@ -116,9 +116,9 @@ const filtereData = maps.filter((map) => map.status === "failed");
 						color: colors.greenAccent[300]
 					},
 					'& .MuiDataGrid-columnHeaders': {
-						backgroundColor: colors.blueAccent[400],
+						backgroundColor: colors.grey[600],
 						borderBottom: 'none',
-						color: '#fff'
+						color: '#333'
 					},
 					'& .MuiDataGrid-virtualScroller': {
 						backgroundColor: colors.primary[400]

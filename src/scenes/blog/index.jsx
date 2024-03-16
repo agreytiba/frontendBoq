@@ -20,11 +20,11 @@ const Blog = () => {
 			   	<Box>
 				<Button
 					style={{
-						backgroundColor: 'blue',
-						color: '#fff',
+					
 						width: '150px',
                         marginBlock:"15px"
-					}}
+						}}
+						variant='outlined'
 					onClick={()=>setShowAddForm(true)}
 				>
 				weka post

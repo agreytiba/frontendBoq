@@ -86,7 +86,7 @@ const AllPdf = () => {
                 <ListItemText primary={pdf.filename}/>
                 <Button
                   variant="contained"
-                  color="firstColor"
+                  color="success"
                   onClick={() => handleDownload(pdf._id)}
                   style={{marginLeft:"1em"}}
                 >

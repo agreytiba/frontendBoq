@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { deleteMap, getAllMaps, reset } from "../../redux/maps/mapsSlice";
-import { DeleteOutlined } from "@mui/icons-material";
+import { DeleteOutlined, Padding } from "@mui/icons-material";
 import { EditOutlined } from "@mui/icons-material";
 import axios from "axios";
 import Spinner from "../../components/Spinner";
@@ -173,7 +173,7 @@ const TypeChecker = () => {
                 onClick={() => handleAllMap(params.row)}
                 type="submit"
                 color="primary"
-                variant="contained"
+                variant="outlined"
                 style={{ marginRight: "3px" }}
               >
                 Ramani
@@ -189,7 +189,7 @@ const TypeChecker = () => {
       flex: 1.5,
       renderCell: (params) => {
         return (
-          <Box>
+          <Box >
             <div>
               {(user?.accessLevel === "admin" ||
                 user?.accessLevel === "typechecker") && (
@@ -198,8 +198,8 @@ const TypeChecker = () => {
                   <Button
                     onClick={() => handleUpdateStatus(params.row._id)}
                     type="submit"
-                    color="secondary"
-                    variant="contained"
+                    color="success"
+                    variant="outlined"
                     style={{ marginRight: "3px" }}
                   >
                     zote zipo
@@ -208,8 +208,8 @@ const TypeChecker = () => {
                     onClick={() => toggleCommentPopup(params.row._id)}
                     type="submit"
                     color="danger"
-                    variant="contained"
-                    style={{ marginRight: "3px", color: "#fff" }}
+                    variant="outlined"
+                    style={{ marginRight: "3px", color: "red" }}
                   >
                     nyingine azipo
                   </Button>
@@ -230,7 +230,7 @@ const TypeChecker = () => {
   }
   return (
     <Box display="flex" justifyContent="center" alignItems="center">
-      <Box marginTop="2rem" width="90%">
+      <Box marginTop="2rem" width="100%" boxShadow={`0 4px 12px rgba(0,0,0,0.3)`} padding={`20px 10px`}>
         <Box marginY="1rem">
           <Typography variant="h3" textAlign="center">
             ukurasa wa kupanga ramani
@@ -248,8 +248,8 @@ const TypeChecker = () => {
               color: colors.greenAccent[300],
             },
             "& .MuiDataGrid-columnHeaders": {
-              backgroundColor: colors.blueAccent[400],
-              color: "#333",
+              backgroundColor: colors.grey[500],
+              color: "#fff",
               borderBottom: "none",
               textTransform: "uppercase",
             },

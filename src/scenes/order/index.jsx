@@ -13,7 +13,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Spinner from "../../components/Spinner";
 import { getAllorders } from "../../redux/order/orderSlice";
 
-
+import { ArrowBack } from "@mui/icons-material";
 const Orders = () => {
 
  
@@ -100,7 +100,8 @@ if (isLoading) {
   }
   return (
     <Box display="flex" justifyContent="center" alignItems="center" py="50px">
-    <Box width="90%" p="15px" boxShadow="0 0 5px #333" borderRadius="10px">
+      <Box width="90%" p="15px" boxShadow="0 0 5px #333" borderRadius="10px">
+          <Button onClick={() => navigate(-1)}  sx={{marginBlock:`10px`}}><ArrowBack style={{marginRight:`6px`}}/> back</Button>
         <Box textAlign={"center"}>
         <Header title="Orders" />
         </Box>
@@ -119,8 +120,8 @@ if (isLoading) {
             color: colors.greenAccent[300],
           },
           "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: colors.blueAccent[400],
-            color:"#fff",
+            backgroundColor: colors.grey[600],
+            color:"#333",
             borderBottom: "none",
           },
           "& .MuiDataGrid-virtualScroller": {
@@ -141,7 +142,7 @@ if (isLoading) {
           <DataGrid rows={orders} columns={columns} getRowId={getRowId} />
         )}
       </Box>
- 
+      
     </Box></Box>
   );
 };

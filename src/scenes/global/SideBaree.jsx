@@ -11,7 +11,8 @@ import Request from '@mui/icons-material/Receipt';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import { useDispatch } from 'react-redux';
-import './sidebar.css';
+import './css/sidebar.css';
+
 
 const DropdownArrow = styled('div')({
   position: 'absolute',
@@ -35,40 +36,33 @@ const NavigationBar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
-  const [openDropdown, setOpenDropdown] = useState({
-    report: false,
-    users: false,
-    // Add more dropdowns here if needed
-  });
+  const [openReport, setOpenReport] = useState(false);
 
   const navigationItems = [
-    { path: '/dashboard', icon: <HomeIcon />, text: 'Home' },
-    {
-      text: 'Watumiaji',
-      icon: <MailIcon />,
-      children: [
-        { path: '/mteja', text: 'wateja' },
-        { path: '/pangaramani', text: 'Panga Ramani' },
-        { path: '/vipimo', text: 'angalia vipimo' },
-        { path: '/suggestion', text: 'maboresho' },
-        { path: '/mtoahuduma', text: 'watoa huduma' },
-      ],
-    },
-    {
-      text: 'Ramani',
-      icon: <MailIcon />,
-      children: [
-        { path: '/allpdf', text: 'pdfs' },
-        { path: '/maps', text: 'ramani zote' },
-        { path: '/failed', text: 'zilizofail' },
-        { path: '/passed', text: 'Zilizofanikiwa' },
-      ],
-    },
+      { path: '/', icon: <HomeIcon />, text: 'Home' },
+     { text: 'Watumiaji', icon: <MailIcon />, children: [
+      { path: '/mteja', text: 'wateja' },
+      { path: '/pangaramani', text: 'Report in pdf' },
+      { path: '/vipimo', text: 'angalia vipimo' },
+      { path: '/suggestion', text: 'maboresho' },
+      { path: '/mtoahuduma', text: 'watoa huduma' },
+     
+      ]
+      },
+     { text: 'Ramani', icon: <MailIcon />, children: [
+      { path: '/allpdf', text: 'pdfs' },
+      { path: '/maps', text: 'ramani zote' },
+      { path: '/failed', text: 'zilizofail' },
+      { path: '/passed', text: 'Zilizofanikiwa' },
+      ]
+      },
+    
     { path: '/bidhaa', icon: <Request />, text: 'Bidhaa' },
-    { path: '/completedboq', icon: <InboxIcon />, text: 'zilizokamilika' },
+     { path: '/completedboq', icon: <InboxIcon />, text: 'zilizokamilika' },
     { path: '/boq', icon: <InboxIcon />, text: 'Boq' },
     { path: '/users', icon: <DoneIcon />, text: 'Users' },
     { path: '/blog', icon: <MailIcon />, text: 'Blog' },
+    { path: '', icon: <MailIcon />, text: 'Logout' },
   ];
 
   const handleListItemClick = (path) => {
@@ -80,54 +74,34 @@ const NavigationBar = () => {
     window.location.reload();
   };
 
-  const handleDropdownClick = (dropdownName) => {
-    setOpenDropdown((prevState) => ({
-      ...prevState,
-      [dropdownName]: !prevState[dropdownName],
-    }));
+  const handleReportClick = () => {
+    setOpenReport(!openReport);
   };
 
   return (
-    <Box
-      className="navbar-container"
-      sx={{
-        boxShadow: `0 4px 8px rgba(0,0,0,0.3)`,
-        position: `sticky`,
-        top: `50px`,
-        borderRadius: `10px`,
-        backgroundColor: `#fff`,
-        color: `#000`,
-        margin: `100px 10px 10px 10px`,
-        minHeight: `100vh`,
-        padding: `20px`,
-        maxWidth: `220px`,
-      }}
-    >
+    <Box className="navbar-container"  sx={{boxShadow:`0 4px 8px rgba(0,0,0,0.3)`,position:`sticky`,top:`50px`, borderRadius:`10px`, backgroundColor:`#fff`,color:`#000`, margin:`100px 10px 10px 10px`,minHeight:`80vh`,padding:`20px`, maxWidth:`220px`}}>
       <List className="navbar-list">
         {navigationItems.map((item, index) => {
           if (item.children) {
-            const isOpen = openDropdown[item.text.toLowerCase()];
             return (
               <React.Fragment key={index}>
                 <ListItem
                   button
-                  className={`navbar-item ${isOpen ? 'active' : ''}`}
-                  onClick={() => handleDropdownClick(item.text.toLowerCase())}
+                  className={`navbar-item ${openReport ? 'active' : ''}`}
+                  onClick={handleReportClick}
                 >
                   {item.icon && <ListItemIcon>{item.icon}</ListItemIcon>}
                   <ListItemText primary={item.text} style={{ color: '#000' }} />
-                  {isOpen ? <ExpandLess /> : <ExpandMore />}
+                  {openReport ? <ExpandLess /> : <ExpandMore />}
                 </ListItem>
-                <Collapse in={isOpen} timeout="auto" unmountOnExit>
+                <Collapse in={openReport} timeout="auto" unmountOnExit>
                   <DropdownBackground>
                     <List component="div" disablePadding>
                       {item.children.map((child, idx) => (
                         <ListItem
                           key={idx}
                           button
-                          className={`navbar-item ${
-                            location.pathname === child.path ? 'active' : ''
-                          }`}
+                          className={`navbar-item ${location.pathname === child.path ? 'active' : ''}`}
                           onClick={() => handleListItemClick(child.path)}
                           style={{ paddingLeft: '30px' }}
                         >
@@ -145,9 +119,7 @@ const NavigationBar = () => {
               <ListItem
                 key={index}
                 button
-                className={`navbar-item ${
-                  location.pathname === item.path ? 'active' : ''
-                }`}
+                className={`navbar-item ${location.pathname === item.path ? 'active' : ''}`}
                 onClick={() => handleListItemClick(item.path)}
               >
                 {item.icon && <ListItemIcon>{item.icon}</ListItemIcon>}
@@ -157,8 +129,12 @@ const NavigationBar = () => {
           }
         })}
         <Divider />
-        <ListItem button onClick={() => handleLogoutUser()} style={{ marginTop: `15px` }}>
-          <ListItemIcon><LogoutIcon /></ListItemIcon>
+        <ListItem
+          button
+          onClick={handleLogoutUser}
+          style={{marginTop:`15px`}}
+        >
+          <ListItemIcon><LogoutIcon/></ListItemIcon>
           <ListItemText primary={'Logout'} style={{ color: '#000' }} />
         </ListItem>
       </List>

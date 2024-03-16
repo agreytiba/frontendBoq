@@ -105,7 +105,7 @@ const BuyCollective = () => {
     {
       field: "material",
       headerName: "material",
-      flex: 0.5,
+      flex: 1,
         renderCell: (params) => {
         return (
           <Typography onClick={()=>handleShowAll(params.row)} >
@@ -140,13 +140,13 @@ const BuyCollective = () => {
     {
       field: "transport",
       headerName: "usafiri",
-      flex: 0.5,
+      flex: 1,
     },
 
     {
       field: "orderStatus",
       headerName: "updates",
-      flex: 0.5,
+      flex: 1,
     },
 
     {
@@ -162,9 +162,9 @@ const BuyCollective = () => {
                   onClick={() => handleDelete(params.row._id)}
                   type="submit"
                   color="danger"
-                  variant="contained"
+                  variant="outlined"
                 >
-                  <DeleteOutlined style={{ color: "#fff" }} />
+                  <DeleteOutlined style={{ color: "red" }} />
                 </Button>
               </div>
             )}
@@ -175,27 +175,43 @@ const BuyCollective = () => {
     {
       field: "action",
       headerName: "hali ya oda",
-      flex: 1.2,
+      flex: 1,
       textAlign: "center",
       renderCell: (params) => {
       
 
         return (
-          <Box display="flex" columnGap="10px">
+          <Box display="flex" columnGap="10px" width={`100vw`}>
             <Button
               onClick={() => handlePlaceOrder(params.row._id)}
               type="submit"
-              color="secondary"
-              variant="contained"
+              color="success"
+              variant="outlined"
             >
               weka oda
             </Button>
+
+          </Box>
+        );
+      },
+    },
+    {
+      field: "action2",
+      headerName: "zilizopo",
+      flex: 1,
+      textAlign: "center",
+      renderCell: (params) => {
+      
+
+        return (
+          <Box display="flex" columnGap="10px" width={`100vw`}>
+      
             {user?.accessLevel === "admin" && <Button
               onClick={() => handleAllOrders(params.row._id)}
               type="submit"
-              color="warning"
-              variant="contained"
-              style={{ marginRight: "3px", width: "50%" }}
+              color="primary"
+              variant="outlined"
+              style={{ marginRight: "3px"}}
             >
               orders
             </Button>}
@@ -237,9 +253,9 @@ const BuyCollective = () => {
             color: colors.greenAccent[300],
           },
           "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: colors.blueAccent[400],
+            backgroundColor: colors.grey[700],
             borderBottom: "none",
-            color: "#fff",
+            color: "#333",
           },
           "& .MuiDataGrid-virtualScroller": {
             backgroundColor: colors.primary[400],

@@ -5,12 +5,13 @@ import { logout } from '../redux/auth/authSlice';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-const Profile = () => {
+const Profile = ({setShowProfile}) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
      // handle logout user from the system
   const handleLogout = () => {
     dispatch(logout())
+    setShowProfile(false)
     navigate("/")
     window.location.reload()
   }

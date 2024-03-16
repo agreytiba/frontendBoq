@@ -123,10 +123,10 @@ const AddBlogPost = ({ setShowAddForm }) => {
          
             </Box>
             <Box display="flex" justifyContent="end" mt="20px" columnGap="10px">
-              <Button  color="primary" variant="contained" onClick={()=>window.location.reload()}>
+              <Button  color="primary" variant="outlined" onClick={()=>window.location.reload()}>
                 cancel
               </Button>
-              <Button type="submit" color="secondary" variant="contained">
+              <Button type="submit" color="success" variant="contained">
                 save
               </Button>
               

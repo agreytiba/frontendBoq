@@ -14,15 +14,17 @@ const SellerPage = () => {
 
 	return (
 		<Box  display="flex" justifyContent="center" alignItems="center" py="50px">
-		<Box width="90%" p="10px" boxShadow="0 0 5px #333">
+		<Box width="100%" p="10px" boxShadow={`0 4px 12px rgba(0,0,0,0.3)`} padding={`20px 10px`}>
 			   	<Box>
 				<Button
 					style={{
-						backgroundColor: 'blue',
-						color: '#fff',
+						
+						
 						width: '150px',
                         marginBlock:"15px"
-					}}
+						}}
+						color='success'
+						variant='contained'
 					onClick={()=>setShowSendForm(true)}
 				>
 					 Tuma taarifa

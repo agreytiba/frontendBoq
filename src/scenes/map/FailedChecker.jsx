@@ -145,7 +145,7 @@ const FailedChecker = () => {
     {
       field: "mapName",
       headerName: "Ramani No",
-      flex: 1,
+      flex: 0.5,
       textAlign: "center",
       renderCell: (params) => {
         return (
@@ -162,7 +162,7 @@ const FailedChecker = () => {
     {
       field: "startConstruction",
       headerName: "Itajengwa",
-      flex: 1,
+      flex: 0.7,
     },
     {
       field: "region",
@@ -200,7 +200,7 @@ const FailedChecker = () => {
                 onClick={() => handleAllMap(params.row)}
                 type="submit"
                 color="primary"
-                variant="contained"
+                variant="outlined"
                 style={{ marginRight: "3px" }}
               >
                 Ramani
@@ -224,8 +224,8 @@ const FailedChecker = () => {
                   <Button
                     onClick={() => handleMoveToBoq(params.row._id)}
                     type="submit"
-                    color="secondary"
-                    variant="contained"
+                    color="success"
+                    variant="outlined"
                     style={{ marginRight: "3px" }}
                   >
                     unaweza kufanya Boq
@@ -256,7 +256,7 @@ const FailedChecker = () => {
   }
   return (
     <Box display="flex" justifyContent="center" alignItems="center">
-      <Box marginTop="2rem" width="90%">
+      <Box marginTop="2rem" width="95%"  boxShadow={`0 4px 12px rgba(0,0,0,0.3)`} padding={`20px 10px`}>
         <Box marginY="1rem">
           <Typography variant="h3" textAlign="center">
             ukurusa wa maboresho
@@ -274,7 +274,7 @@ const FailedChecker = () => {
               color: colors.greenAccent[300],
             },
             "& .MuiDataGrid-columnHeaders": {
-              backgroundColor: colors.blueAccent[400],
+              backgroundColor: colors.grey[600],
               color: "#333",
               borderBottom: "none",
               textTransform: "uppercase",

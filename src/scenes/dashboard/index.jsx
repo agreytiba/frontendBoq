@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Box, Button, Typography, useTheme } from "@mui/material";
+import { Box, Button, Grid, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 import Header from "../../components/Header";
 import StatBox from "../../components/StatBox";
@@ -65,7 +65,7 @@ const Dashboard = () => {
       try {
         const config = {
           headers: {
-            Authorization: `Bearer ${user.token}`,
+            Authorization: `Bearer ${user?.token}`,
           },
         };
         const response = await axios.get(API_BASE_URL + "/api/users", config); // Adjust the API endpoint accordingly
@@ -90,56 +90,32 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <Box m="20px" position="relative">
+    <Box p="20px" position="relative" boxShadow={`0 4px 12px rgba(0,0,0,0.3)`} borderRadius={`10px`}>
       {/* HEADER */}
       <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Box mb="10px">
+        <Box mb="10px"  textAlign={`center`}>
           <Header title="DASHBOARD" subtitle="" />
           <Typography variant="h5">
             umeingia kwenye mfumo kwa jina{" "}
             <span style={{ color: "blue", textTransform: "uppercase" }}>
-              {user.name}
+              {user?.name}
             </span>
           </Typography>
         </Box>
       </Box>
 
-      {/* GRID & CHARTS */}
-      <Box
-        display="grid"
-        gridTemplateColumns="repeat(12, 1fr)"
-        gridAutoRows="140px"
-        gap="20px"
-        sx={{}}
-      >
-        {/* ROW 1 */}
-        <Box
-          gridColumn="span 3"
-          backgroundColor={colors.primary[400]}
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          onClick={() => {
-            navigate("/maps");
-          }}
-        >
+    
+      <Grid container gap={`15px`}>
+        <Grid sm={6} md={3.5}>
           <StatBox
             title={mapCount}
             subtitle="ramani"
 
             // icon={<PagesOutlined sx={{ color: colors.greenAccent[600], fontSize: '26px' }} />}
           />
-        </Box>
-        <Box
-          gridColumn="span 3"
-          backgroundColor={colors.primary[400]}
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          onClick={() => {
-            navigate("/bidhaa");
-          }}
-        >
+       
+        </Grid>
+         <Grid sm={6} md={3.5}>
           <StatBox
             title={matCount}
             subtitle="bidhaa"
@@ -149,23 +125,11 @@ const Dashboard = () => {
               />
             }
           />
-        </Box>
-        <Box
-          gridColumn="span 3"
-          backgroundColor={colors.primary[400]}
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-        >
+        </Grid>
+         <Grid sm={6} md={3.5}>
           <StatBox title={customerCount} subtitle="wateja" />
-        </Box>
-        <Box
-          gridColumn="span 3"
-          backgroundColor={colors.primary[400]}
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-        >
+        </Grid>
+         <Grid sm={6} md={3.5}>
           <StatBox
             title="3"
             subtitle="watoa huduma"
@@ -173,28 +137,9 @@ const Dashboard = () => {
               <Book sx={{ color: colors.greenAccent[600], fontSize: "26px" }} />
             }
           />
-        </Box>
-      </Box>
-      {/* row 2  BARCHART
-		      <Box height="300px" mt="10px">
-				<BarChart />
-				
-          </Box> */}
-      <Box
-        display="grid"
-        gridTemplateColumns="repeat(12, 1fr)"
-        gridAutoRows="140px"
-        gap="20px"
-        sx={{}}
-      >
-        {/* ROW  3*/}
-        <Box
-          gridColumn="span 3"
-          backgroundColor={colors.primary[400]}
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-        >
+    </Grid>
+   
+     <Grid sm={6} md={3.5}>
           <StatBox
             title="20"
             subtitle="BOQ"
@@ -204,14 +149,8 @@ const Dashboard = () => {
               />
             }
           />
-        </Box>
-        <Box
-          gridColumn="span 3"
-          backgroundColor={colors.primary[400]}
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-        >
+        </Grid>
+         <Grid sm={6} md={3.5}>
           <StatBox
             title={workersCount}
             subtitle="huduma kwa wateja"
@@ -221,37 +160,14 @@ const Dashboard = () => {
               />
             }
           />
-        </Box>
-        <Box
-          gridColumn="span 3"
-          backgroundColor={colors.primary[400]}
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          onClick={() => {
-            navigate("/users");
-          }}
-        >
+      </Grid>
+    <Grid sm={6} md={3.5}>
           <StatBox title={usersCount} subtitle="watumiaji  mfumo" />
-        </Box>
-        <Box
-          gridColumn="span 3"
-          backgroundColor={colors.primary[400]}
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-        >
+        </Grid>
+         <Grid sm={6} md={3.5}>
           <StatBox title="40" subtitle="fedha" />
-        </Box>
-
-        <Box
-          display="center"
-          justifyContent="flex-end"
-          alignItems="center"
-          mt="20px"
-          width="100px"
-        ></Box>
-      </Box>
+     </Grid>
+    </Grid>
     </Box>
   );
 };

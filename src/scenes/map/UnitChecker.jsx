@@ -162,7 +162,7 @@ const UnitCheker = () => {
                 onClick={() => handleAllMap(params.row)}
                 type="submit"
                 color="primary"
-                variant="contained"
+                variant="outlined"
                 style={{ marginRight: "3px" }}
               >
                 Ramani
@@ -196,8 +196,8 @@ const UnitCheker = () => {
                   <Button
                     onClick={() => handleMoveToBoq(params.row._id)}
                     type="submit"
-                    color="secondary"
-                    variant="contained"
+                    color="success"
+                    variant="outlined"
                     style={{ marginRight: "3px" }}
                   >
                   vipo sawa
@@ -206,8 +206,8 @@ const UnitCheker = () => {
                     onClick={() => toggleCommentPopup(params.row._id)}
                     type="submit"
                     color="danger"
-                    variant="contained"
-                    style={{ marginRight: "3px", color: "#fff" }}
+                    variant="outlined"
+                    style={{ marginRight: "3px", color: "red" }}
                   >
                     kuna tatizo
                   </Button>
@@ -229,12 +229,11 @@ const UnitCheker = () => {
   }
   return (
     <Box display="flex" justifyContent="center" alignItems="center">
-      <Box marginTop="2rem" width="90%">
+      <Box marginTop="2rem" width="95%"  boxShadow={`0 4px 12px rgba(0,0,0,0.3)`} padding={`20px 10px`}>
         <Box
           marginY="1rem"
-          backgroundColor={colors.blueAccent[400]}
           padding="20px 10px"
-          color="#fff"
+          color="#333"
         >
           <Typography variant="h3" textAlign="center" textTransform="uppercase">
             ukurasa wa kukangua vipimo
@@ -252,7 +251,7 @@ const UnitCheker = () => {
               color: colors.greenAccent[300],
             },
             "& .MuiDataGrid-columnHeaders": {
-              backgroundColor: "#333",
+              backgroundColor: colors.grey[500],
               color: "#fff",
               borderBottom: "none",
               textTransform: "uppercase",

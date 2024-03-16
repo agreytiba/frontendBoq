@@ -105,8 +105,14 @@ const CustomerDrawing = () => {
     {
       field: "createdAt",
       headerName: "ULITUMA",
-      flex: 0.5,
-      cellClassName: "name-column--cell",
+      flex: 1,
+       renderCell: (params) => {
+        return (
+          <Box>
+          {params.value.slice(0,10)}
+          </Box>
+        );
+      },
     },
 
     {
@@ -127,12 +133,12 @@ const CustomerDrawing = () => {
     {
       field: "ward",
       headerName: "mtaa",
-      flex: 1,
+      flex: 0.7,
     },
     {
       field: "status",
       headerName: "status",
-      flex: 1,
+      flex: 0.7,
       // action  to be done on click status button
       renderCell: (params) => {
         const handleStatusClick = () => {
@@ -172,7 +178,7 @@ const CustomerDrawing = () => {
             <Button
               onClick={handleStatusClick}
               color={params.value ==="maboresho" ? "danger" : "success"}
-              variant="contained"
+            
             >
             {params.value}
             </Button>
@@ -184,7 +190,7 @@ const CustomerDrawing = () => {
     {
       field: "actions",
       headerName: "Actions",
-      flex: 1.5,
+      flex: 1.7,
       // actions to be performed 
       renderCell: (params) => {
         return (
@@ -198,7 +204,7 @@ const CustomerDrawing = () => {
                     onClick={() => handleAllMap(params.row)}
                     type="submit"
                     color="primary"
-                    variant="contained"
+                    variant="outlined"
                     style={{ marginRight: "3px" }}
                   >
                     Ramani
@@ -206,8 +212,8 @@ const CustomerDrawing = () => {
                   <Button
                     onClick={()=>handleGetBoq(params.row._id)}
                     type="submit"
-                    color="secondary"
-                    variant="contained"
+                    color="primary"
+                    variant="outlined"
                     style={{ marginRight: "3px" }}
                   >
                     boq
@@ -219,9 +225,9 @@ const CustomerDrawing = () => {
                   onClick={() => handleDelete(params.row._id)}
                   type="submit"
                   color="danger"
-                  variant="contained"
+                  variant="outlined"
                 >
-                  <DeleteOutlined style={{ color: "#fff" }} />
+                  <DeleteOutlined style={{ color: "red" }} />
                 </Button>
               )}
             </div>
@@ -259,7 +265,7 @@ const CustomerDrawing = () => {
             color: colors.greenAccent[300],
           },
           "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: colors.blueAccent[400],
+            backgroundColor: colors.grey[700],
             color: "#333",
             borderBottom: "none",
             textTransform: "uppercase",

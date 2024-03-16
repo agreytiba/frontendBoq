@@ -117,7 +117,7 @@ const createBoq =async (data) => {
 							onClick={()=>handleAllMap(params.row)}
 							type="submit"
 							color="primary"
-							variant="contained"
+							variant="outlined"
 							style={{ marginRight: '3px' }}
 							>
 						 Ramani
@@ -142,7 +142,7 @@ const createBoq =async (data) => {
 						<>	<Button
 							onClick={()=>createBoq(params.row)}
 							type="submit"
-							color="secondary"
+							color="success"
 							variant="contained"
 							style={{ marginRight: '3px' }}
 							>
@@ -171,7 +171,7 @@ const createBoq =async (data) => {
 		<Box display="flex" justifyContent="center" alignItems="center" >
 			
 			<Box   marginTop="2rem"
-        width="90%">
+        width="90%" boxShadow={`0 4px 12px rgba(0,0,0,0.3)`} padding={`20px 10px`} borderRadius={`10px`}>
         <Box marginY="1rem">
         <Typography variant='h3' textAlign="center" >
            ukurasa wa kupanga ramani
@@ -192,8 +192,8 @@ const createBoq =async (data) => {
 						color: colors.greenAccent[300]
 					},
 					'& .MuiDataGrid-columnHeaders': {
-						backgroundColor: colors.blueAccent[400],
-						color: '#333',
+						backgroundColor: colors.grey[400],
+						color: '#fff',
             borderBottom: 'none',
             textTransform:"uppercase"
 					},

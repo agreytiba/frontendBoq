@@ -22,7 +22,7 @@ const Topbar = () => {
 const user = JSON.parse(sessionStorage.getItem('user'));
 
   return (
-    <Box display="flex" justifyContent="space-between" p={2} boxShadow="10px 0px 8px #555" position="relative" backgroundColor="#edae00">
+    <Box display="flex" justifyContent="space-between" p={2} boxShadow="0 4px 12px rgba(0,0,0,0.3)" borderRadius={`10px`} position="relative" backgroundColor="#fff" marginTop={`10px`}>
     <a href="/" style={{listStyle:`none`, color:`#333`, textDecoration:`none`}}> BOQ BURE</a>
       <Box
         display="flex"
@@ -80,7 +80,7 @@ const user = JSON.parse(sessionStorage.getItem('user'));
         </Box>}
       { showProfile &&
       <Box position="absolute" top="60px" right="0"  zIndex="999">
-          <Profile />
+          <Profile setShowProfile={setShowProfile} />
         </Box>
       }
     </Box>

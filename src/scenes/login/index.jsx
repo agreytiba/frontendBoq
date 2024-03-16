@@ -137,9 +137,9 @@ const Login = () => {
             <Box display="flex" justifyContent="flex-end" mt="20px" padding="20px">
               <Button
                 type="submit"
-                color="secondary"
+             color='primary'
                 variant="contained"
-                style={{ width: '100%', height: '40px', color: '#000' }}
+                style={{ width: '100%', height: '40px', color: '#fff' }}
               >
                 Login
               </Button>
