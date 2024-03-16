@@ -159,13 +159,12 @@ const totalAmount = savedPre?.preData.reduce((total, data) => {
   
   // go back to boq
   const goBack = () => {
-    setIsSidebar(true)
-    window.history.back()
+    navigate(-1)
   }
   return (
     <Box mt={"2rem"} mb="3rem">
       <Box>
-    <Button color="primary" variant={"contained"}style={{marginBlock:"30px"}} onClick={goBack}> Go Back</Button>
+    <Button color="primary" variant={"outlined"}style={{marginBlock:"30px"}} onClick={goBack}> Go Back</Button>
     <TableContainer component={Paper} >
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>

@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom';
 const Home = () => {
 	return (
 		<Box display="flex" justifyContent="center" alignItems="center">
-			<Box width="80%"  >
+			<Box width="100%"  >
+				
 				<Box display="flex" justifyContent="space-between" my="25px" flexWrap="wrap" rowGap="2rem">
 					<Box>
 						<Typography variant="h3" style={{ fontWeight: 'bold' }}>
@@ -28,7 +29,7 @@ const Home = () => {
 					</Box>
 					<Box alignSelf="center">
 						<Link to="/register">
-							<Button color="primary" variant="contained" style={{ width: '150px', height: '50px' }}>
+							<Button color="success" variant="contained" style={{ width: '150px', height: '50px' }}>
 								JISAJIRI
 							</Button>
 						</Link>

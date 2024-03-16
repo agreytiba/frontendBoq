@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid, Container, Box, Typography } from "@mui/material";
-import NavigationBar from "../scenes/global/Sidebar";
-import AdminRoutes from "../Router/AdminRouter";
+import NavigationBar from "../../scenes/global/Sidebar";
+import AdminRoutes from "../../Router/AdminRouter";
 import { AppBar, Toolbar, Avatar } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";

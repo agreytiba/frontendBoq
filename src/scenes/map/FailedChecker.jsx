@@ -274,8 +274,8 @@ const FailedChecker = () => {
               color: colors.greenAccent[300],
             },
             "& .MuiDataGrid-columnHeaders": {
-              backgroundColor: colors.grey[600],
-              color: "#333",
+              backgroundColor: colors.grey[400],
+              color: "#fff",
               borderBottom: "none",
               textTransform: "uppercase",
             },

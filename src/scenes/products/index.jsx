@@ -121,8 +121,8 @@ const Products = () => {
 						<Button
 							onClick={() => handleEditPrice(params.row)}
 							type="submit"
-							color="secondary"
-							variant="contained"
+							color="success"
+							variant="outlined"
 							style={{ marginRight: '3px', width: '50%' }}
 						>
 							<EditOutlined />
@@ -147,12 +147,12 @@ const Products = () => {
 			<Box>
 				<Button
 					style={{
-						backgroundColor: 'goldenrod',
-						color: '#fff',
 						width: '150px',
 						marginBlock: '15px'
 					}}
-					onClick={()=>setShowAddForm(true)}
+						onClick={() => setShowAddForm(true)}
+						variant='contained'
+						color='success'
 				>
 					ongeza bidhaa
 				</Button>
@@ -170,7 +170,7 @@ const Products = () => {
 						color: colors.greenAccent[300]
 					},
 					'& .MuiDataGrid-columnHeaders': {
-						backgroundColor: colors.blueAccent[400],
+						backgroundColor: colors.grey[400],
 						borderBottom: 'none',
 						color: '#fff'
 					},

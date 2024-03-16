@@ -8,7 +8,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { API_BASE_URL } from "../../confing.js/baseUrl";
-
+import { Link } from "react-router-dom";
 const Dashboard = () => {
   const [mapCount, setMapCount] = useState(0);
   const [matCount, setMatCount] = useState(0);
@@ -107,15 +107,17 @@ const Dashboard = () => {
     
       <Grid container gap={`15px`}>
         <Grid sm={6} md={3.5}>
+          <Link to="/ramani" style={{textDecoration:`none`}}>
           <StatBox
             title={mapCount}
             subtitle="ramani"
 
             // icon={<PagesOutlined sx={{ color: colors.greenAccent[600], fontSize: '26px' }} />}
           />
-       
+       </Link>
         </Grid>
-         <Grid sm={6} md={3.5}>
+        <Grid sm={6} md={3.5}>
+           <Link to="/bidhaa" style={{textDecoration:`none`}}>
           <StatBox
             title={matCount}
             subtitle="bidhaa"
@@ -124,22 +126,27 @@ const Dashboard = () => {
                 sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
               />
             }
-          />
+          /></Link>
         </Grid>
-         <Grid sm={6} md={3.5}>
-          <StatBox title={customerCount} subtitle="wateja" />
+        <Grid sm={6} md={3.5}>
+           <Link to="/users" style={{textDecoration:`none`}}>
+            <StatBox title={customerCount} subtitle="wateja" />
+          </Link>
         </Grid>
-         <Grid sm={6} md={3.5}>
+        <Grid sm={6} md={3.5}>
+           <Link to="/dashboard" style={{textDecoration:`none`}}>
           <StatBox
             title="3"
             subtitle="watoa huduma"
             icon={
               <Book sx={{ color: colors.greenAccent[600], fontSize: "26px" }} />
             }
-          />
+            />
+          </Link>
     </Grid>
    
-     <Grid sm={6} md={3.5}>
+        <Grid sm={6} md={3.5}>
+           <Link to="/boq" style={{textDecoration:`none`}}>
           <StatBox
             title="20"
             subtitle="BOQ"
@@ -148,9 +155,10 @@ const Dashboard = () => {
                 sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
               />
             }
-          />
+          /></Link>
         </Grid>
-         <Grid sm={6} md={3.5}>
+        <Grid sm={6} md={3.5}>
+           <Link to="/users" style={{textDecoration:`none`}}>
           <StatBox
             title={workersCount}
             subtitle="huduma kwa wateja"
@@ -159,13 +167,16 @@ const Dashboard = () => {
                 sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
               />
             }
-          />
+          /></Link>
       </Grid>
-    <Grid sm={6} md={3.5}>
-          <StatBox title={usersCount} subtitle="watumiaji  mfumo" />
+        <Grid sm={6} md={3.5}>
+           <Link to="/dashboard" style={{textDecoration:`none`}}>
+            <StatBox title={usersCount} subtitle="watumiaji  mfumo" />
+          </Link>
         </Grid>
-         <Grid sm={6} md={3.5}>
-          <StatBox title="40" subtitle="fedha" />
+        <Grid sm={6} md={3.5}>
+           <Link to="/dashboard" style={{textDecoration:`none`}}>
+          <StatBox title="40" subtitle="fedha" /></Link>
      </Grid>
     </Grid>
     </Box>

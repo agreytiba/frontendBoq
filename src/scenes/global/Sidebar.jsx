@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Typography, List, ListItem, ListItemIcon, ListItemText, Divider, Collapse, styled } from '@mui/material';
+import { Box, Typography, List, ListItem, ListItemIcon, ListItemText, Divider, Collapse, styled, Paper } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home';
 import InboxIcon from '@mui/icons-material/Inbox';
@@ -12,6 +12,7 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import { useDispatch } from 'react-redux';
 import './sidebar.css';
+import { Book, Padding, Person2TwoTone, Person3Rounded, ScubaDiving } from '@mui/icons-material';
 
 const DropdownArrow = styled('div')({
   position: 'absolute',
@@ -45,7 +46,7 @@ const NavigationBar = () => {
     { path: '/dashboard', icon: <HomeIcon />, text: 'Home' },
     {
       text: 'Watumiaji',
-      icon: <MailIcon />,
+      icon: <Person2TwoTone/>,
       children: [
         { path: '/mteja', text: 'wateja' },
         { path: '/pangaramani', text: 'Panga Ramani' },
@@ -56,7 +57,7 @@ const NavigationBar = () => {
     },
     {
       text: 'Ramani',
-      icon: <MailIcon />,
+      icon: <Book />,
       children: [
         { path: '/allpdf', text: 'pdfs' },
         { path: '/maps', text: 'ramani zote' },
@@ -65,10 +66,10 @@ const NavigationBar = () => {
       ],
     },
     { path: '/bidhaa', icon: <Request />, text: 'Bidhaa' },
-    { path: '/completedboq', icon: <InboxIcon />, text: 'zilizokamilika' },
-    { path: '/boq', icon: <InboxIcon />, text: 'Boq' },
-    { path: '/users', icon: <DoneIcon />, text: 'Users' },
-    { path: '/blog', icon: <MailIcon />, text: 'Blog' },
+    { path: '/completedboq', icon: <DoneIcon/>, text: 'zilizokamilika' },
+    { path: '/boq', icon: <Padding />, text: 'Boq' },
+    { path: '/users', icon: <Person3Rounded />, text: 'Users' },
+    { path: '/blog', icon: <MailIcon/>, text: 'Blog' },
   ];
 
   const handleListItemClick = (path) => {

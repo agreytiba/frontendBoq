@@ -109,7 +109,7 @@ const MakeAnOffer = () => {
 							color: colors.greenAccent[300]
 						},
 						'& .MuiDataGrid-columnHeaders': {
-							backgroundColor: colors.grey[700],
+							backgroundColor: colors.grey[400],
 							borderBottom: 'none',
 							color: '#fff'
 						},

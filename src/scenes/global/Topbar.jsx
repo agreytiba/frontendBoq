@@ -22,7 +22,7 @@ const Topbar = () => {
 const user = JSON.parse(sessionStorage.getItem('user'));
 
   return (
-    <Box display="flex" justifyContent="space-between" p={2} boxShadow="0 4px 12px rgba(0,0,0,0.3)" borderRadius={`10px`} position="relative" backgroundColor="#fff" marginTop={`10px`}>
+    <Box display="flex" justifyContent="space-between" justifyItems={`center`} m={0} p={2} boxShadow={`0 3px 7px rgba(0,0,0,0.2)`} >
     <a href="/" style={{listStyle:`none`, color:`#333`, textDecoration:`none`}}> BOQ BURE</a>
       <Box
         display="flex"

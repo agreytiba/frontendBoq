@@ -1,79 +1,83 @@
-
-import { lazy,Suspense } from "react";
+import React, { lazy, Suspense } from "react";
+import { useSelector } from "react-redux";
 import Spinner from "../components/Spinner";
-import { useSelector } from "react-redux"
 import Topbar from "../scenes/global/Topbar";
 import LogNavbar from "../components/LogNavbar";
-const AdminApp = lazy(() => import("./Admin"));
+// import BoqUser from "./components/BoqUser";
+import { Box } from "@mui/material";
+
+const AdminApp = lazy(() => import("./components/Admin"));
 const PublicRouter = lazy(() => import("../Router/PublicRouter"));
 const RegularRouter = lazy(() => import("../Router/RegularRouter"));
 const MaboreshoRouter = lazy(() => import("../Router/maboreshoRouter"));
 const PangaRouter = lazy(() => import("../Router/pangaRouter"));
-
 const VipimoRouter = lazy(() => import("../Router/vipimoRouter"));
-const BoqRouter = lazy(() => import("../Router/boqRouter"));
-
+const PriceRouter = lazy(() => import("../Router/PriceRouter"));
+const BoqUser = lazy(() => import("./components/BoqUser"));
 
 const AppMain = () => {
-  
   const { user } = useSelector((state) => state.auth);
-  const isAdmin = user?.accessLevel === "admin";
-  const isTypecheker = user?.accessLevel === "typecheker";
-  const isUnitChecker = user?.accessLevel === "unitchecker";
-  const isSeller = user?.accessLevel === "seller";
-  const isBoq = user?.accessLevel === "boq";
-  const isFailed = user?.accessLevel === "failed";
-  const isUser = user?.accessLevel === "user";
-  const isAuthenticated = user?.token;
-  if (isAuthenticated && isAdmin) {
-    return (
-      <Suspense fallback={<Spinner />}>
-        {/* <AdminApp /> */}
-        <LogNavbar/>
-       <BoqRouter/>
-      </Suspense>
-    )
+  const { accessLevel} = user || {};
+
+  switch (accessLevel) {
+    case "admin":
+      return <Suspense fallback={<Spinner />}><AdminApp /></Suspense>;
+      case "user":
+      return (
+        <Suspense fallback={<Spinner />}>
+          <LogNavbar />
+          <RegularRouter />
+        </Suspense>
+      );
+    case "boq":
+      return <Suspense fallback={<Spinner />}><BoqUser /></Suspense>;
+    case "pricetag":
+      return <Suspense fallback={<Spinner />}>  <LogNavbar />
+          <PriceRouter /></Suspense>;
+    case "unitchecker":
+      return (
+        <Suspense fallback={<Spinner />}>
+          <LogNavbar />
+          <VipimoRouter />
+        </Suspense>
+      );
+    case "typechecker":
+      return (
+        <Suspense fallback={<Spinner />}>
+          <LogNavbar />
+          <PangaRouter />
+        </Suspense>
+      );
+    case "failedchecker":
+      return (
+        <Suspense fallback={<Spinner />}>
+          <LogNavbar />
+          <MaboreshoRouter />
+        </Suspense>
+      );
+
+    default:
+      return (
+        <Suspense fallback={<Spinner />}>
+          <Box
+            display="flex"
+            justifyContent="center"
+            minHeight={`100vh`}
+            sx={{ backgroundColor: `grey` }}
+          >
+            <Box
+              width={`80%`}
+              boxShadow={`0 4px 12px rgba(0,0,0,0.3)`}
+              padding={`20px`}
+              sx={{ backgroundColor: `#fff` }}
+            >
+              <Topbar />
+              <PublicRouter />
+            </Box>
+          </Box>
+        </Suspense>
+      );
   }
-  if (isAuthenticated && isUnitChecker) {
-    return (
-      <Suspense fallback={<Spinner />}>
-        {/* <AdminApp /> */}
-        <LogNavbar/>
-       <VipimoRouter/>
-      </Suspense>
-    )
-  }
-  if (isAuthenticated && isTypecheker) {
-    return (
-      <Suspense fallback={<Spinner />}>
-        <LogNavbar/>
-       <PangaRouter/>
-      </Suspense>
-    )
-  }
-  if (isAuthenticated && isFailed) {
-    return (
-      <Suspense fallback={<Spinner />}>
-        <LogNavbar/>
-       <MaboreshoRouter/>
-      </Suspense>
-    )
-  }
-  if (isAuthenticated && isUser) {
-    return (
-      <Suspense fallback={<Spinner />}>
-     
-        <LogNavbar/>
-       <RegularRouter/>
-      </Suspense>
-    )
-  }
-  return (
-    <Suspense fallback={<Spinner />}>
-      <Topbar/>
-      <PublicRouter />
-    </Suspense>
-         
-  )
-}
-export default AppMain
+};
+
+export default AppMain;

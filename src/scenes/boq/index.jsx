@@ -59,7 +59,7 @@ const createBoq =async (data) => {
 		    const combinedData = {...data,savedPreId: response.data._id // Add the savedPreId to the combined data
 			};
 		 localStorage.setItem('mapData', JSON.stringify(combinedData));
-		 navigate("/createboq")
+		 navigate("/pre")
 			
 	  }
     } catch (error) {

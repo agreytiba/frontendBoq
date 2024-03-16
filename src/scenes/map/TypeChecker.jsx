@@ -248,7 +248,7 @@ const TypeChecker = () => {
               color: colors.greenAccent[300],
             },
             "& .MuiDataGrid-columnHeaders": {
-              backgroundColor: colors.grey[500],
+              backgroundColor: colors.grey[400],
               color: "#fff",
               borderBottom: "none",
               textTransform: "uppercase",

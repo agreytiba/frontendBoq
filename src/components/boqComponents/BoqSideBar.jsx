@@ -1,389 +1,198 @@
-import React, { useState } from "react";
-import { Box, IconButton, Typography, useTheme } from "@mui/material";
-import { Link } from "react-router-dom";
-import { Sidebar as ProSideBar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
-import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import axios from "axios";
-import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
-import { API_BASE_URL } from "../../confing.js/baseUrl";
-import { tokens } from "../../theme";
+import React, { useState } from 'react';
+import { Box, Typography, List, ListItem, ListItemIcon, ListItemText, Divider, Collapse, styled } from '@mui/material';
+import { useNavigate, useLocation } from 'react-router-dom';
+import HomeIcon from '@mui/icons-material/Home';
+import InboxIcon from '@mui/icons-material/Inbox';
+import DoneIcon from '@mui/icons-material/Done';
+import MailIcon from '@mui/icons-material/Mail';
+import UserIcon from '@mui/icons-material/People';
+import LogoutIcon from '@mui/icons-material/Logout';
+import Request from '@mui/icons-material/Receipt';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import { useDispatch } from 'react-redux';
 
-const Item = ({ title, to, selected, setSelected, setShowComponent, createSavedBoq, name }) => {
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
+const DropdownArrow = styled('div')({
+  position: 'absolute',
+  right: '10px',
+  top: '50%',
+  transform: 'translateY(-50%)',
+  border: 'solid #000',
+  borderWidth: '0 2px 2px 0',
+  display: 'inline-block',
+  padding: '3px',
+  cursor: 'pointer',
+});
 
-  const handleClick = () => {
-    setSelected(title);
-    setShowComponent(name);
-    createSavedBoq(name);
-  };
+const DropdownBackground = styled('div')({
+  backgroundColor: '#f0f0f0',
+  padding: '5px 0',
+  borderRadius: '0 0 5px 5px',
+});
 
-  return (
-    <MenuItem
-      active={selected === title}
-      style={{ color: colors.grey[500] }}
-      onClick={handleClick}
-      component={<Link to={to} />}
-    >
-      <Typography>{title}</Typography>
-    </MenuItem>
-  );
-};
-
-const SubItem = ({ title, selected, setSelected, setShowComponent, createSavedBoq, name }) => {
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
-
-  const handleClick = () => {
-    setSelected(title);
-    setShowComponent(name);
-    createSavedBoq(name);
-  };
-
-  return (
-    <Item
-      title={title}
-      selected={selected}
-      setSelected={setSelected}
-      setShowComponent={setShowComponent}
-      createSavedBoq={createSavedBoq}
-      name={name}
-    />
-  );
-};
-
-const BoqSideBar = ({ setShowComponent }) => {
+const BoqSideBar = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [selected, setSelected] = useState("Dashboard");
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const location = useLocation();
+  const [openDropdown, setOpenDropdown] = useState({
+    report: false,
+    users: false,
+    // Add more dropdowns here if needed
+  });
 
-  const createSavedBoq = async (name) => {
-    const endpoints = {
-      wall: "savedwalling",
-      roof: "savedroofing",
-      gyp: "savedgypsum",
-      finish: "savedfinishing",
-      tile: "savedtiles",
-      pvc: "savedpvcs",
-      electric: "savedelectrical",
-      plaster: "savedplastering",
-      blind: "savedblinding",
-      strip: "savedStrips",
-      foundwall: "savedwallfoundations",
-      pad: "savedpads",
-      beam: "savedBeams",
-      concrete: "savedconcretes",
-      blandout: "savedblandoutside",
-      blandin: "savedblandinside",
-      skimin: "savedskiminside",
-      skimout: "savedskimoutside",
-      grill: "savedgrills",
-      panel: "savedpanels",
-      frame: "savedframes",
-      shutter: "savedshutters",
-    };
+  const navigationItems = [
+    { path: '/pre', icon: <HomeIcon />, text: 'Preliminaries' },
+    
+    {
+      text: 'Substructure',
+      icon: <MailIcon />,
+      children: [
+        { path: '/blinding', text: 'blinding' },
+        { path: '/strip', text: 'Strip Foundation' },
+        { path: '/pad', text: 'Pad Foundation' },
+        { path: '/wallFound', text: 'Wall Foundation' },
+        { path: '/wallbeam', text: 'Ground Beam' },
+        { path: '/concrete', text: 'Over site Concrete' },
+      ],
+    },
+      { path: '/walling', icon: <HomeIcon />, text: 'Walling' },
+    
+      { path: '/roofing', icon: <HomeIcon />, text: 'Roofing' },
+    
+      // { path: '/blandering', icon: <HomeIcon />, text: 'Blandering' },
+    
+    {
+      text: 'Blandering',
+      icon: <MailIcon />,
+      children: [
+        { path: '/blandeOut', text: 'Blandering out' },
+        { path: '/blandeIn', text: 'Blandering In' },
+      ],
+    },
+    { path: '/ceiling', icon: <Request />, text: 'Gysum Ceiling' },
+    { path: '/pvcHang', icon: <InboxIcon />, text: 'Pvc Over Hang' },
+        {
+      text: 'Wall Skimming',
+      icon: <MailIcon />,
+      children: [
+        { path: '/skimInside', text: 'Skimming Inside' },
+        { path: '/skimOutside', text: 'Skimming Outside' },
+      ],
+    },
+    { path: '/finishing', icon: <InboxIcon />, text: 'Finishing' },
+         {
+      text: 'Windows',
+      icon: <MailIcon />,
+      children: [
+        { path: '/windowGrill', text: 'Window Grills' },
+        { path: '/panel', text: 'Aluminium Panel' },
+      ],
+    },
+         {
+      text: 'Doors',
+      icon: <MailIcon />,
+      children: [
+        { path: '/doorFrame', text: 'Door Frames' },
+        { path: '/doorShut', text: 'Door Shutters' },
+      ],
+    },
+    { path: '/Plumbing', icon: <DoneIcon />, text: 'Plumbing' },
+    { path: '/tiles', icon: <MailIcon />, text: 'Tiles' },
+    { path: '/plastering', icon: <MailIcon />, text: 'Plastering' },
+    { path: '/electrical', icon: <MailIcon />, text: 'Electricaal Installation' },
+  ];
 
-    try {
-      const mapData = JSON.parse(localStorage.getItem("mapData"));
-      const mapId = mapData._id;
+  const handleListItemClick = (path) => {
+    navigate(path);
+  };
 
-      const response = await axios.post(API_BASE_URL + `/api/${endpoints[name]}`, { mapId });
+  const handleLogoutUser = () => {
+    sessionStorage.removeItem('user');
+    window.location.reload();
+  };
 
-      if (response.data) {
-        const combinedData = {
-          mapId,
-          savedPreId: response.data._id,
-        };
-        localStorage.setItem("savedData", JSON.stringify(combinedData));
-      }
-    } catch (error) {
-      console.error("Error creating saved pre:", error.response?.data);
-    }
+  const handleDropdownClick = (dropdownName) => {
+    setOpenDropdown((prevState) => ({
+      ...prevState,
+      [dropdownName]: !prevState[dropdownName],
+    }));
   };
 
   return (
     <Box
+      className="navbar-container"
       sx={{
-        "& .ps-sidebar-container": {
-          background: `#fff !important`,
-          minHeight: `80vh !important`,
-          boxShadow: `0 4px 12px rgba(0,0,0,0.3)`,
-          borderRadius:`10px`
-        },
-        "& .pro-sidebar-inner": {
-          // background: `#fff !important`,
-        },
-        "& .pro-icon-wrapper": {
-          // backgroundColor: "transparent !important",
-        },
-        "& .pro-inner-item": {
-          // padding: "5px 35px 5px 20px !important",
-          // color: `${colors.redAccent[100]}!important `,
-        },
-        "& .pro-inner-item:hover": {
-          color: "#868dfb !important",
-        },
-        "& .pro-menu-item.active": {
-          color: "#fff !important",
-        },
-        "& .ps-menu-button": {
-          color: `#000 !important`,
-        },
-        "& .ps-menu-button:hover": {
-          // background: `${colors.greenAccent[400]} !important`,
-        },
-        "& .ps-open": {
-          background: `#eee !important`,
-        },
+        boxShadow: `0 4px 8px rgba(0,0,0,0.3)`,
+        position: `sticky`,
+        top: `50px`,
+        borderRadius: `10px`,
+        backgroundColor: `#fff`,
+        color: `#000`,
+        margin: `100px 10px 10px 10px`,
+        minHeight: `100vh`,
+        padding: `20px`,
+        maxWidth: `220px`,
       }}
     >
-      <ProSideBar
-        collapsed={isCollapsed}
-     
-      >
-        <Menu iconShape="square">
-          <MenuItem
-            onClick={() => setIsCollapsed(!isCollapsed)}
-            icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
-            style={{ color: colors.grey[100] }}
-          >
-            {!isCollapsed && (
-              <Box display="flex" justifyContent="space-between" alignItems="center" ml="15px">
-                <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
-                  <MenuOutlinedIcon style={{ color: " #fff" }} />
-                </IconButton>
-              </Box>
-            )}
-          </MenuItem>
-
-          <Box>
-            <Item
-              title="PRELIMINARIES"
-              to="/"
-              selected={selected}
-              setSelected={setSelected}
-              setShowComponent={setShowComponent}
-              createSavedBoq={createSavedBoq}
-              name="pre"
-            />
-
-            <SubMenu title="SUBSTRUCTURE">
-              <SubItem
-                title="Blinding"
-                selected={selected}
-                setSelected={setSelected}
-                setShowComponent={setShowComponent}
-                createSavedBoq={createSavedBoq}
-                name="blind"
-              />
-              <SubItem
-                title="Strip foundation"
-                selected={selected}
-                setSelected={setSelected}
-                setShowComponent={setShowComponent}
-                createSavedBoq={createSavedBoq}
-                name="strip"
-              />
-              <SubItem
-                title="Pad Foundation"
-                selected={selected}
-                setSelected={setSelected}
-                setShowComponent={setShowComponent}
-                createSavedBoq={createSavedBoq}
-                name="pad"
-              />
-              <SubItem
-                title="Foundation Wall"
-                selected={selected}
-                setSelected={setSelected}
-                setShowComponent={setShowComponent}
-                createSavedBoq={createSavedBoq}
-                name="foundwall"
-              />
-              <SubItem
-                title="Ground Beam"
-                selected={selected}
-                setSelected={setSelected}
-                setShowComponent={setShowComponent}
-                createSavedBoq={createSavedBoq}
-                name="beam"
-              />
-              <SubItem
-                title="Site Concrete"
-                selected={selected}
-                setSelected={setSelected}
-                setShowComponent={setShowComponent}
-                createSavedBoq={createSavedBoq}
-                name="concrete"
-              />
-            </SubMenu>
-
-            <Item
-              title="WALLING"
-              to="/"
-              selected={selected}
-              setSelected={setSelected}
-              setShowComponent={setShowComponent}
-              createSavedBoq={createSavedBoq}
-              name="wall"
-            />
-            <Item
-              title="ROOFING"
-              to="/"
-              selected={selected}
-              setSelected={setSelected}
-              setShowComponent={setShowComponent}
-              createSavedBoq={createSavedBoq}
-              name="roof"
-            />
-
-            <SubMenu title="BLANDERING">
-              <SubItem
-                title="Blandering Inside"
-                selected={selected}
-                setSelected={setSelected}
-                setShowComponent={setShowComponent}
-                createSavedBoq={createSavedBoq}
-                name="blandin"
-              />
-              <SubItem
-                title="Blandering Outside"
-                selected={selected}
-                setSelected={setSelected}
-                setShowComponent={setShowComponent}
-                createSavedBoq={createSavedBoq}
-                name="blandout"
-              />
-            </SubMenu>
-
-            <Item
-              title="GYPSUM CEILING"
-              to="/"
-              selected={selected}
-              setSelected={setSelected}
-              setShowComponent={setShowComponent}
-              createSavedBoq={createSavedBoq}
-              name="gyp"
-            />
-            <Item
-              title="PVC OVERHANG"
-              to="/"
-              selected={selected}
-              setSelected={setSelected}
-              setShowComponent={setShowComponent}
-              createSavedBoq={createSavedBoq}
-              name="pvc"
-            />
-
-            <SubMenu title="WALL SKIMMING">
-              <SubItem
-                title="Wall Skimming Inside"
-                selected={selected}
-                setSelected={setSelected}
-                setShowComponent={setShowComponent}
-                createSavedBoq={createSavedBoq}
-                name="skimin"
-              />
-              <SubItem
-                title="Wall Skimming Outside"
-                selected={selected}
-                setSelected={setSelected}
-                setShowComponent={setShowComponent}
-                createSavedBoq={createSavedBoq}
-                name="skimout"
-              />
-            </SubMenu>
-
-            <Item
-              title="FINISHING PAINT"
-              to="/"
-              selected={selected}
-              setSelected={setSelected}
-              setShowComponent={setShowComponent}
-              createSavedBoq={createSavedBoq}
-              name="finish"
-            />
-
-            <SubMenu title="WINDOWS">
-              <SubItem
-                title="Window Grills"
-                selected={selected}
-                setSelected={setSelected}
-                setShowComponent={setShowComponent}
-                createSavedBoq={createSavedBoq}
-                name="grill"
-              />
-              <SubItem
-                title="Aluminium Panels"
-                selected={selected}
-                setSelected={setSelected}
-                setShowComponent={setShowComponent}
-                createSavedBoq={createSavedBoq}
-                name="panel"
-              />
-            </SubMenu>
-
-            <SubMenu title="DOORS">
-              <SubItem
-                title="Door Frames"
-                selected={selected}
-                setSelected={setSelected}
-                setShowComponent={setShowComponent}
-                createSavedBoq={createSavedBoq}
-                name="frame"
-              />
-              <SubItem
-                title="Door Shutters"
-                selected={selected}
-                setSelected={setSelected}
-                setShowComponent={setShowComponent}
-                createSavedBoq={createSavedBoq}
-                name="shutter"
-              />
-            </SubMenu>
-
-            <Item
-              title="PLUMBING"
-              to="/"
-              selected={selected}
-              setSelected={setSelected}
-              setShowComponent={setShowComponent}
-              createSavedBoq={createSavedBoq}
-              name="plumb"
-            />
-            <Item
-              title="TILES"
-              to="/"
-              selected={selected}
-              setSelected={setSelected}
-              setShowComponent={setShowComponent}
-              createSavedBoq={createSavedBoq}
-              name="tile"
-            />
-            <Item
-              title="PLASTERING"
-              to="/"
-              selected={selected}
-              setSelected={setSelected}
-              setShowComponent={setShowComponent}
-              createSavedBoq={createSavedBoq}
-              name="plaster"
-            />
-            <Item
-              title="ELECTRICAL"
-              to="/"
-              selected={selected}
-              setSelected={setSelected}
-              setShowComponent={setShowComponent}
-              createSavedBoq={createSavedBoq}
-              name="electric"
-            />
-          </Box>
-        </Menu>
-      </ProSideBar>
+      <List className="navbar-list">
+        {navigationItems.map((item, index) => {
+          if (item.children) {
+            const isOpen = openDropdown[item.text.toLowerCase()];
+            return (
+              <React.Fragment key={index}>
+                <ListItem
+                  button
+                  className={`navbar-item ${isOpen ? 'active' : ''}`}
+                  onClick={() => handleDropdownClick(item.text.toLowerCase())}
+                >
+                  {item.icon && <ListItemIcon>{item.icon}</ListItemIcon>}
+                  <ListItemText primary={item.text} style={{ color: '#000' }} />
+                  {isOpen ? <ExpandLess /> : <ExpandMore />}
+                </ListItem>
+                <Collapse in={isOpen} timeout="auto" unmountOnExit>
+                  <DropdownBackground>
+                    <List component="div" disablePadding>
+                      {item.children.map((child, idx) => (
+                        <ListItem
+                          key={idx}
+                          button
+                          className={`navbar-item ${
+                            location.pathname === child.path ? 'active' : ''
+                          }`}
+                          onClick={() => handleListItemClick(child.path)}
+                          style={{ paddingLeft: '30px' }}
+                        >
+                          {child.icon && <ListItemIcon>{child.icon}</ListItemIcon>}
+                          <ListItemText primary={child.text} style={{ color: '#000' }} />
+                        </ListItem>
+                      ))}
+                    </List>
+                  </DropdownBackground>
+                </Collapse>
+              </React.Fragment>
+            );
+          } else {
+            return (
+              <ListItem
+                key={index}
+                button
+                className={`navbar-item ${
+                  location.pathname === item.path ? 'active' : ''
+                }`}
+                onClick={() => handleListItemClick(item.path)}
+              >
+                {item.icon && <ListItemIcon>{item.icon}</ListItemIcon>}
+                <ListItemText primary={item.text} style={{ color: '#000' }} />
+              </ListItem>
+            );
+          }
+        })}
+        <Divider />
+        <ListItem button onClick={() => handleLogoutUser()} style={{ marginTop: `15px` }}>
+          <ListItemIcon><LogoutIcon /></ListItemIcon>
+          <ListItemText primary={'Logout'} style={{ color: '#000' }} />
+        </ListItem>
+      </List>
     </Box>
   );
 };
