@@ -10,14 +10,14 @@ const ProgressCircle = ({ progress = "1", size = "60",icon }) => {
       sx={{
         background: `radial-gradient(${colors.blueAccent[100]} 55%, transparent 56%),
             conic-gradient(transparent 0deg ${angle}deg, ${colors.blueAccent[500]} ${angle}deg 360deg),
-            ${colors.greenAccent[100]}`,
+           #3498db`,
         borderRadius: "50%",
         width: `${size}px`,
         height: `${size}px`,
       }}
       display="flex" justifyContent="center" alignItems="center"
     >
-      <Box fontSize="20px" color="#fff">
+      <Box fontSize="20px" >
           {icon}
       </Box>
       

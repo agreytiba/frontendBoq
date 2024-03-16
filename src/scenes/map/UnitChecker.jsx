@@ -251,7 +251,7 @@ const UnitCheker = () => {
               color: colors.greenAccent[300],
             },
             "& .MuiDataGrid-columnHeaders": {
-              backgroundColor: colors.grey[500],
+              backgroundColor:`#3498db`,
               color: "#fff",
               borderBottom: "none",
               textTransform: "uppercase",

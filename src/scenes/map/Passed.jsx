@@ -93,7 +93,7 @@ const Passed = () => {
 						color: colors.greenAccent[300]
 					},
 					'& .MuiDataGrid-columnHeaders': {
-						backgroundColor: colors.grey[600],
+						backgroundColor: `#3498db`,
 						borderBottom: 'none',
 						color: '#fff'
 					},

@@ -61,7 +61,7 @@ function LogNavbar() {
     <AppBar position="static" style={{backgroundColor:`#fff`,boxShadow:`0 4px 14px rgba(0,0,0,0.3)`,margin:`10px 0`, paddingInline:`10px`}}>
       <Toolbar disableGutters>
                   
-          <Typography
+          <Box
             variant="h6"
             noWrap
             component={Link} // Use Link component for the logo
@@ -74,10 +74,11 @@ function LogNavbar() {
               letterSpacing: '.3rem',
               color: '#000',
               textDecoration: 'none',
+              width:`80px`, height:`100px`
             }}
           >
-            LOGO
-          </Typography>
+         <img src="image/logo.png" alt="logo"/>
+          </Box>
   
             
               

@@ -92,9 +92,9 @@ const Maps = () => {
 						color: colors.greenAccent[300]
 					},
 					'& .MuiDataGrid-columnHeaders': {
-						backgroundColor: colors.grey[600],
+						backgroundColor: `#3498db`,
 						borderBottom: 'none',
-						color: '#333'
+						color: '#fff'
 					},
 					'& .MuiDataGrid-virtualScroller': {
 						backgroundColor: colors.primary[400]

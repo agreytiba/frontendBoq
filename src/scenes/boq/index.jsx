@@ -192,7 +192,7 @@ const createBoq =async (data) => {
 						color: colors.greenAccent[300]
 					},
 					'& .MuiDataGrid-columnHeaders': {
-						backgroundColor: colors.grey[400],
+						backgroundColor: `#3498db`,
 						color: '#fff',
             borderBottom: 'none',
             textTransform:"uppercase"

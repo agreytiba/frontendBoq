@@ -22,8 +22,19 @@ const Topbar = () => {
 const user = JSON.parse(sessionStorage.getItem('user'));
 
   return (
-    <Box display="flex" justifyContent="space-between" justifyItems={`center`} m={0} p={2} boxShadow={`0 3px 7px rgba(0,0,0,0.2)`} >
-    <a href="/" style={{listStyle:`none`, color:`#333`, textDecoration:`none`}}> BOQ BURE</a>
+    <Box display="flex" justifyContent="space-between" justifyItems={`center`} m={0}  boxShadow={`0 3px 7px rgba(0,0,0,0.2)`} >
+     <Box
+          color={`#000`}
+          sx={{
+            fontFamily: "monospace",
+          
+              textDecoration: "none",
+          }}
+          component={Link} // Use Link component for the logo
+          to="/"
+        >
+          <img  src="image/logo.png" style={{width:`80px`,height:`80px`}}/>
+        </Box>
       <Box
         display="flex"
         backgroundColor={colors.primary[400]}
@@ -37,7 +48,7 @@ const user = JSON.parse(sessionStorage.getItem('user'));
 
       {/* ICONS */}
       {user ?
-         <Box display="flex">
+         <Box display="flex" textAlign={`center`}>
     
         {/* <IconButton>
           <NotificationsOutlinedIcon />
@@ -49,7 +60,7 @@ const user = JSON.parse(sessionStorage.getItem('user'));
             <PersonOutlinedIcon  />
         </IconButton>
         </Box> :
-        <Box display="flex" columnGap="15px">
+        <Box display="flex" columnGap="15px" p={`20px`}>
           <Link to={"/"} style={{textDecoration:"none", color:"#222"}}>
         <Typography variant="h5" textAlign="center">
 							Home

@@ -10,28 +10,24 @@ const Navbar = () => {
   return (
     <AppBar position="fixed" sx={{ backgroundColor: `#fff`, width: `100%` }}>
       <Toolbar>
-        <Typography
+        <Box
           color={`#000`}
           sx={{
             fontFamily: "monospace",
-            fontWeight: 700,
-            letterSpacing: ".3rem",
-            color: "#000",
+          
               textDecoration: "none",
-              border: `1px dotted #000`,
-            padding:`5px`
           }}
           component={Link} // Use Link component for the logo
           to="/"
         >
-          BOQ BURE
-        </Typography>
+          <img  src="image/logo.png" style={{width:`80px`,height:`80px`}}/>
+        </Box>
         <Avatar
           sx={{ marginLeft: "auto" }}
           alt="User Avatar"
           src=""
           onClick={() => {
-            navigate("/profile");
+            navigate("/Profile");
           }}
         />
       </Toolbar>

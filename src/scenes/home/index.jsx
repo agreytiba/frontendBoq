@@ -1,90 +1,110 @@
-import { List, ListItem, ListItemText, Typography, Box, Button } from '@mui/material';
-import React from 'react';
-import CustomerDrawing from '../../components/CustomerDrawing';
-import { Link } from 'react-router-dom';
+import React from "react";
+import {
+  Box,
+  Button,
+  Typography,
+  Grid,
+  List,
+  ListItem,
+  ListItemText,
+} from "@mui/material";
+
 const Home = () => {
-	return (
-		<Box display="flex" justifyContent="center" alignItems="center">
-			<Box width="100%"  >
-				
-				<Box display="flex" justifyContent="space-between" my="25px" flexWrap="wrap" rowGap="2rem">
-					<Box>
-						<Typography variant="h3" style={{ fontWeight: 'bold' }}>
-							KUPATA MAKADILIO(BOQ)
-						</Typography>
-						<List>
-							<ListItem>
-								<ListItemText primary="1. JISAJIRI" />
-							</ListItem>
-							<ListItem>
-								<ListItemText primary="2. TUMA RAMANI" />
-							</ListItem>
-							<ListItem>
-								<ListItemText primary="3. SUBIRI BOQ IKAMILIKE" />
-							</ListItem>
-						</List>
-						<Typography variant="h5" style={{ fontWeight: 'bold' }}>
-							HUDUMA HII NI BURE
-						</Typography>
-					</Box>
-					<Box alignSelf="center">
-						<Link to="/register">
-							<Button color="success" variant="contained" style={{ width: '150px', height: '50px' }}>
-								JISAJIRI
-							</Button>
-						</Link>
-					</Box>
-					<Box>
-						<Typography variant="h3" style={{ fontWeight: 'bold' }}>
-							KUTOA HUDUMA
-						</Typography>
-						<List>
-							<ListItem>
-								<ListItemText primary="1. JISAJIRI" />
-							</ListItem>
-							<ListItem>
-								<ListItemText primary="2. TUMA TAARIFA ZA HUDUMA" />
-							</ListItem>
-							<ListItem>
-								<ListItemText primary="3. SUBIRI KAZI IKIPATIKANA" />
-							</ListItem>
-						</List>
-						<Typography variant="h5" style={{ fontWeight: 'bold' }}>
-							HUDUMA HII NI BURE
-						</Typography>
-					</Box>
-				</Box>
-				{/* <Box>
-					<Box py="3rem" border="1px solid #333" px="10px" borderRadius="10px">
-						<Typography variant="h3" textAlign="center" style={{ marginBlock: '5px' }}>
-							Ramani zilizotumwa
-						</Typography>
-						<CustomerDrawing />
-					</Box>
-					<Box py="2rem" mt="1.5rem" border="1px solid #333" px="10px" borderRadius="10px">
-						<Typography variant="h3" textAlign="center">
-							Boq zilizokamilika
-						</Typography>
-						<CustomerDrawing />
-					</Box>
-        </Box> */}
-        	{/* <Box height="100px" backgroundColor="#333" mt="20px" color="#fff">
-				<List style={{ display: 'flex' }}>
-					<ListItem>
-						<ListItemText primary="privacy" />
-					</ListItem>
-					<ListItem>
-						<ListItemText primary="terms" />
-					</ListItem>
-					<ListItem>
-						<ListItemText primary="contact" />
-					</ListItem>
-				</List>
-			</Box> */}
-			</Box>
-		
-		</Box>
-	);
+  return (
+    <Box>
+      <Grid
+        container
+        item
+        alignItems={`center`}
+        justifyContent={`space-between`}
+        height={`90vh`}
+      >
+        <Grid sm={12} md={6}>
+          <Box lineHeight={`4`}>
+            <Typography variant="h2" sx={{ color: `#3498db`, marginY: `10px` }}>
+              Unahitaji kujenga nyumba? Fahamu gharama za kujenga bure.
+            </Typography>
+            <Typography variant="h5" marginY={`10px`}>
+              Hapa utafaha mu gharama za kujenga pamoja na wauzaji wa bidhaa kwa
+              gharama elekezi.
+            </Typography>
+
+            <Button
+              variant="contained"
+              color="success"
+              sx={{ height: `45px`, width: `50%` }}
+            >
+              Register Now
+            </Button>
+          </Box>
+        </Grid>
+        <Grid sm={12} md={4} item>
+          <Box marginTop={`10%`}>
+            <img
+              src="image/hero-img.png"
+              class="img-fluid"
+              alt="home"
+              style={{ width: `350px`, height: `300px` }}
+            />
+          </Box>
+        </Grid>
+      </Grid>
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        my="25px"
+        flexWrap="wrap"
+        rowGap="2rem"
+        px={2}
+        py={6}
+        boxShadow={`0 3px 10px rgba(0,0,0,0.2)`}
+        color={`#fff`}
+        sx={{backgroundColor:`#444`}}
+      >
+        <Box>
+          <Typography variant="h4" style={{ fontWeight: "bold" ,color:`#3498db`}}>
+            KUPATA MAKADILIO(BOQ)
+          </Typography>
+          <List>
+            <ListItem>
+              <ListItemText primary="1. JISAJIRI" />
+            </ListItem>
+            <ListItem>
+              <ListItemText primary="2. TUMA RAMANI" />
+            </ListItem>
+            <ListItem>
+              <ListItemText primary="3. SUBIRI BOQ IKAMILIKE" />
+            </ListItem>
+          </List>
+          <Typography variant="h5" style={{ fontWeight: "bold" ,color:`#3498db`}}>
+            HUDUMA HII NI BURE
+          </Typography>
+        </Box>
+        {/* <Box alignSelf={`center`} >
+          <Button variant="contained" sx={{width:`200px`, height:`50px`}} color="success">Jisajiri</Button>
+</Box> */}
+        <Box>
+          <Typography variant="h3" style={{ fontWeight: "bold" ,color:`#3498db`}}>
+            KUTOA HUDUMA
+          </Typography>
+          <List>
+            <ListItem>
+              <ListItemText primary="1. JISAJIRI" />
+            </ListItem>
+            <ListItem>
+              <ListItemText primary="2. TUMA TAARIFA ZA HUDUMA" />
+            </ListItem>
+            <ListItem>
+              <ListItemText primary="3. SUBIRI KAZI IKIPATIKANA" />
+            </ListItem>
+          </List>
+          <Typography variant="h5" style={{ fontWeight: "bold" ,color:`#3498db`}}>
+            HUDUMA HII NI BURE
+          </Typography>
+        </Box>
+      </Box>
+    </Box>
+  );
 };
 
 export default Home;

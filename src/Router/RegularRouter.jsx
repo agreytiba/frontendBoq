@@ -24,7 +24,8 @@ const Orders = lazy(() => import("../scenes/order"));
 const Failed= lazy(() => import("../scenes/map/Failed"));
 const Passed = lazy(() => import("../scenes/map/Passed"));
 const CompletedBoq = lazy(() => import("../scenes/boq/CompletedBoq"));
-const UserBoq= lazy(() => import("../scenes/userpage/UserBoq"));
+const UserBoq = lazy(() => import("../scenes/userpage/UserBoq"));
+const Profile = lazy(() => import("../scenes/user/Profile"));
 export default function AdminRoutes() {
   let element = useRoutes([
  {
@@ -50,7 +51,10 @@ export default function AdminRoutes() {
       element: <UserBoq />,
     },
   
- 
+  {
+      path: '/Profile',
+      element: <Profile />,
+    },
     {
       path: '*',
       element: <UserPage/>,
