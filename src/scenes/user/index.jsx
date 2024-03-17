@@ -145,7 +145,7 @@ if (isLoading) {
       </Box>
       {
         showAddForm &&
-        <Box position="absolute" top="0" left="0" p="20px" right="0" backgroundColor="rgba(0,0,0,0.5)" minHeight="100vh">
+        <Box position="absolute" top="20%" left="0" p="20px" right="0" backgroundColor="rgba(0,0,0,0.5)" minHeight="100vh">
           
               <AddNewUser setShowAddForm={setShowAddForm} /> 
       </Box>

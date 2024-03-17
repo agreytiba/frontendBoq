@@ -8,8 +8,10 @@ import {
   ListItem,
   ListItemText,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const navigate = useNavigate()
   return (
     <Box>
       <Grid
@@ -24,8 +26,8 @@ const Home = () => {
             <Typography variant="h2" sx={{ color: `#3498db`, marginY: `10px` }}>
               Unahitaji kujenga nyumba? Fahamu gharama za kujenga bure.
             </Typography>
-            <Typography variant="h5" marginY={`10px`}>
-              Hapa utafaha mu gharama za kujenga pamoja na wauzaji wa bidhaa kwa
+            <Typography variant="h5" marginY={`10px`} maxWidth={`400px`}>
+              Hapa utafahamu gharama za kujenga pamoja na wauzaji wa bidhaa kwa
               gharama elekezi.
             </Typography>
 
@@ -33,8 +35,9 @@ const Home = () => {
               variant="contained"
               color="success"
               sx={{ height: `45px`, width: `50%` }}
+              onClick={()=>navigate("/register")}
             >
-              Register Now
+              Jisajiri sasa
             </Button>
           </Box>
         </Grid>
@@ -44,7 +47,7 @@ const Home = () => {
               src="image/hero-img.png"
               class="img-fluid"
               alt="home"
-              style={{ width: `350px`, height: `300px` }}
+              style={{ width: `320px`, height: `280px`,marginRight:`20px` }}
             />
           </Box>
         </Grid>
@@ -59,7 +62,8 @@ const Home = () => {
         py={6}
         boxShadow={`0 3px 10px rgba(0,0,0,0.2)`}
         color={`#fff`}
-        sx={{backgroundColor:`#444`}}
+        sx={{ backgroundColor: `#444` }}
+      
       >
         <Box>
           <Typography variant="h4" style={{ fontWeight: "bold" ,color:`#3498db`}}>

@@ -5,7 +5,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "./Header";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import {  createUser} from "../redux/auth/authSlice";
+import {  createUser, getAllUsers} from "../redux/auth/authSlice";
 
 const AddNewUser = ({ setShowAddForm }) => {
     
@@ -21,10 +21,10 @@ const AddNewUser = ({ setShowAddForm }) => {
         toast.error(message)
       }
       if(isSuccess) {
-         dispatch(createUser(values))
+        dispatch(createUser(values))
         setShowAddForm(false)
         toast.success("user added successful")
-        window.location.reload()
+        dispatch(getAllUsers())
       }
       else {
         toast.error("failed to create the user")

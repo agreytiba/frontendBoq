@@ -54,8 +54,12 @@ const Register = () => {
 
   return (
     <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
-      <Box>
-        <Header title="JISAJIRI" subtitle="Jaza fomu kujisajiri" />
+      <Box boxShadow={`0 2px 6px rgba(0,0,0,0.3)`} p={`20px`} borderRadius={`10px`}>
+        <Box textAlign={`center`} marginY={`10px`}>
+        <Header title="JISAJIRI" subtitle="Jaza fomu kujisajiri"  />
+
+        </Box>
+      
         <Formik
           onSubmit={handleFormSubmit}
           initialValues={initialValues}
@@ -101,7 +105,7 @@ const Register = () => {
                     name="accessLevel"
                     error={!!touched.accessLevel && !!errors.accessLevel}
                     helperText={touched.accessLevel && errors.accessLevel}
-                    sx={{ gridColumn: "span 4" }}
+                    sx={{ gridColumn: "span 4" , width:`100%`}}
                   >
                     <MenuItem defaultValue="" disabled>
                       Select Account
@@ -173,7 +177,7 @@ const Register = () => {
               </Button>
 
               <Box display="flex" justifyContent="end" mt="20px">
-                <Button type="submit" color="secondary" variant="contained">
+                <Button type="submit"sx={{width:`200px`,height:`40px`}} color="success" variant="contained">
                   Jisajiri
                 </Button>
               </Box>

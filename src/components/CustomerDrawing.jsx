@@ -274,9 +274,9 @@ const CustomerDrawing = () => {
             backgroundColor: colors.primary[400],
           },
           "& .MuiDataGrid-footerContainer": {
-            borderTop: "none",
-            backgroundColor: "none",
-            display: "none",
+            // borderTop: "none",
+            // backgroundColor: "none",
+            // display: "none",
           },
           "& .MuiCheckbox-root": {
             color: `${colors.greenAccent[200]} !important`,
@@ -286,7 +286,7 @@ const CustomerDrawing = () => {
         {user?.accessLevel === "user" ? (
           <DataGrid rows={filtereData} columns={filteredColumns} getRowId={getRowId} />
         ) : (
-          <DataGrid rows={maps} columns={filteredColumns} getRowId={getRowId} />
+            <DataGrid rows={maps} columns={filteredColumns} getRowId={getRowId} />
         )}
       </Box>
       {/* popup dialog on click the status to show statu of the map*/}

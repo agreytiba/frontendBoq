@@ -95,8 +95,8 @@ const Dashboard = () => {
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Box mb="10px"  textAlign={`center`}>
           <Header title="DASHBOARD" subtitle="" />
-          <Typography variant="h5">
-            umeingia kwenye mfumo kwa jina{" "}
+          <Typography variant="h5" marginY={`10px`}>
+            Umeingia kwenye mfumo kwa jina{" "}
             <span style={{ color: "blue", textTransform: "uppercase" }}>
               {user?.name}
             </span>

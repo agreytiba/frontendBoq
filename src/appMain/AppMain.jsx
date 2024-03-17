@@ -68,11 +68,12 @@ const AppMain = () => {
             <Box
               width={`80%`}
               boxShadow={`0 4px 12px rgba(0,0,0,0.3)`}
-              padding={`20px`}
-              sx={{ backgroundColor: `#fff` }}
+              sx={{ backgroundColor: `#fff`, position:`relative` }}
             >
               <Topbar />
-              <PublicRouter />
+              <Box padding={`0 20px`} >
+                <PublicRouter />
+              </Box>
             </Box>
           </Box>
         </Suspense>

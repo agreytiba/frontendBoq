@@ -70,9 +70,9 @@ const BoqSideBar = () => {
       ],
     },
     { path: '/ceiling', icon: <Request />, text: 'Gysum Ceiling' },
-    { path: '/pvcHang', icon: <InboxIcon />, text: 'Pvc Over Hang' },
+    { path: '/pvcHang', icon: <InboxIcon />, text: 'Pvc' },
         {
-      text: 'Wall Skimming',
+      text: 'Skimming',
       icon: <MailIcon />,
       children: [
         { path: '/skimInside', text: 'Skimming Inside' },
@@ -99,7 +99,7 @@ const BoqSideBar = () => {
     { path: '/Plumbing', icon: <DoneIcon />, text: 'Plumbing' },
     { path: '/tiles', icon: <MailIcon />, text: 'Tiles' },
     { path: '/plastering', icon: <MailIcon />, text: 'Plastering' },
-    { path: '/electrical', icon: <MailIcon />, text: 'Electricaal Installation' },
+    { path: '/electrical', icon: <MailIcon />, text: 'Electrical' },
   ];
 
   const handleListItemClick = (path) => {
@@ -123,12 +123,12 @@ const BoqSideBar = () => {
       className="navbar-container"
       sx={{
         boxShadow: `0 4px 8px rgba(0,0,0,0.3)`,
-        position: `sticky`,
-        top: `50px`,
+        position: `fixed`,
+        top: `0px`,
         borderRadius: `10px`,
         backgroundColor: `#fff`,
         color: `#000`,
-        margin: `100px 10px 10px 10px`,
+        margin: ` 10px 10px 10px`,
         minHeight: `100vh`,
         padding: `20px`,
         maxWidth: `220px`,

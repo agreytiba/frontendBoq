@@ -22,7 +22,7 @@ const Topbar = () => {
 const user = JSON.parse(sessionStorage.getItem('user'));
 
   return (
-    <Box display="flex" justifyContent="space-between" justifyItems={`center`} m={0}  boxShadow={`0 3px 7px rgba(0,0,0,0.2)`} >
+    <Box display="flex" justifyContent="space-between" justifyItems={`center`} m={0}  boxShadow={`0 3px 12px rgba(0,0,0,0.3)`} position={`sticky`} top={`0px`} zIndex={`99`} backgroundColor={`#fff`}>
      <Box
           color={`#000`}
           sx={{
@@ -68,12 +68,12 @@ const user = JSON.parse(sessionStorage.getItem('user'));
           </Link>
           <Link to={"/about"} style={{textDecoration:"none", color:"#222"}}>
         <Typography variant="h5" textAlign="center">
-							about us
+							About us
             </Typography>
           </Link>
           <Link to={"/contact"} style={{textDecoration:"none", color:"#222"}}>
         <Typography variant="h5" textAlign="center">
-							contact
+							Contact
             </Typography>
           </Link>
           <Link to={"/login"} style={{textDecoration:"none", color:"#222"}}>
@@ -89,11 +89,11 @@ const user = JSON.parse(sessionStorage.getItem('user'));
           </Link>
        
         </Box>}
-      { showProfile &&
+      {/* { showProfile &&
       <Box position="absolute" top="60px" right="0"  zIndex="999">
           <Profile setShowProfile={setShowProfile} />
         </Box>
-      }
+      } */}
     </Box>
   );
 };

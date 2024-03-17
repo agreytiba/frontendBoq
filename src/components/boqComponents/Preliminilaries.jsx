@@ -162,7 +162,7 @@ const totalAmount = savedPre?.preData.reduce((total, data) => {
     navigate(-1)
   }
   return (
-    <Box mt={"2rem"} mb="3rem">
+    <Box p={`20px`} boxShadow={`0 4px 10px rgba(0,0,0,0.3)`} borderRadius={`10px`}>
       <Box>
     <Button color="primary" variant={"outlined"}style={{marginBlock:"30px"}} onClick={goBack}> Go Back</Button>
     <TableContainer component={Paper} >

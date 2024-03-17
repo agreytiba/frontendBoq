@@ -94,12 +94,12 @@ const NavigationBar = () => {
       sx={{
         boxShadow: `0 4px 8px rgba(0,0,0,0.3)`,
         position: `sticky`,
-        top: `50px`,
+        top: `120px`,
         borderRadius: `10px`,
         backgroundColor: `#fff`,
         color: `#000`,
         margin: `100px 10px 10px 10px`,
-        minHeight: `100vh`,
+        minHeight: `80vh`,
         padding: `20px`,
         maxWidth: `220px`,
       }}

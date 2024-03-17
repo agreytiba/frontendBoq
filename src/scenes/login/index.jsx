@@ -27,33 +27,11 @@ const Login = () => {
  useEffect(() => {
     if (isError) {
      toast.error(message);
+    }	
+    if (isSuccess && user) {
+      navigate('/')
     }
 
-	
-    if ((isSuccess || user?.token)&&( (user?.accessLevel) === "admin")) {
-      navigate('/dashboard')
-    }
-    if ((isSuccess || user?.token)&&( (user?.accessLevel) === "user")) {
-      navigate('/mteja')
-    }
-    if ((isSuccess || user?.token)&&( (user?.accessLevel) === "boq")) {
-      navigate('/boq')
-    }
-    if ((isSuccess || user?.token)&&( (user?.accessLevel) === "typechecker")) {
-      navigate('/pangaramani')
-    }
-    if ((isSuccess || user?.token)&&( (user?.accessLevel) === "unitchecker")) {
-      navigate('/vipimo')
-    }
-    if ((isSuccess || user?.token)&&( (user?.accessLevel) === "failedchecker")) {
-      navigate('/suggestion')
-    }
-    if ((isSuccess || user?.token)&&( (user?.accessLevel) === "pricetag")) {
-      navigate('/boq')
-    }
-    if ((isSuccess || user?.token)&&( (user?.accessLevel) === "seller")) {
-      navigate('/mtoahuduma')
-    }
 
    
   }, [user, isError, isSuccess, message, navigate, dispatch])
@@ -69,7 +47,12 @@ const Login = () => {
 
   return (
     <Box m="20px" display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
-    <Box>
+    <Box    style={{
+              boxShadow: '0 4px 10px rgba(0,0,0,0.3)',
+              width: '350px',
+              paddingBlock: '20px',
+              borderRadius: '10px'
+            }}>
       <Formik
         onSubmit={handleFormSubmit}
         initialValues={initialValues}
@@ -78,12 +61,7 @@ const Login = () => {
         {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
           <form
             onSubmit={handleSubmit}
-            style={{
-              boxShadow: '0 0 10px #000',
-              width: '350px',
-              paddingBlock: '20px',
-              borderRadius: '10px'
-            }}
+         
           >
             <Typography variant="h2" textAlign="center">
               Login
@@ -137,9 +115,9 @@ const Login = () => {
             <Box display="flex" justifyContent="flex-end" mt="20px" padding="20px">
               <Button
                 type="submit"
-             color='success'
+
                 variant="contained"
-                style={{ width: '100%', height: '40px', color: '#fff' }}
+                style={{ width: '100%', height: '40px', color: '#fff', backgroundColor:`#3498db` }}
               >
                 Login
               </Button>
@@ -147,7 +125,7 @@ const Login = () => {
           </form>
         )}
       </Formik>
-       <Typography fontSize='20px' fontWeight={'400'} > kama hauna account? <Link to="/register" style={{fontWeight:"bold", textDecoration:"none", color:"blue"}}>Jisajiri</Link></Typography>
+       <Typography p='20px' fontWeight={'400'} > kama hauna account? <Link to="/register" style={{fontWeight:"bold"}}>Jisajiri</Link></Typography>
       </Box>
     </Box>
   );

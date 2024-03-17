@@ -11,7 +11,7 @@ import BoqSideBar from "../../components/boqComponents/BoqSideBar";
 
 const BoqUser = () => {
   const location = useLocation();
-  const hideSidebarRoutes = ["/", "/boq"]; // Add the routes where you want to hide the sidebar
+  const hideSidebarRoutes = ["/", "/boq", "/login"]; // Add the routes where you want to hide the sidebar
 
   const isSidebarVisible = !hideSidebarRoutes.includes(location.pathname);
 
@@ -25,7 +25,7 @@ const BoqUser = () => {
         )}
         <Grid item md={isSidebarVisible ? 9 : 12}>
           <LogNavbar />
-          <Box sx={{ margin: `100px 10px 10px 10px` }}>
+          <Box sx={{ margin: `10px` }}>
             <BoqRoutes />
           </Box>
         </Grid>
