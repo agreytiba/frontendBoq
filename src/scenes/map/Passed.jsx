@@ -5,7 +5,7 @@ import { tokens } from '../../theme';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { getAllMaps, reset } from '../../redux/maps/mapsSlice';
+import { getAllMaps, getAllSuccess, reset } from '../../redux/maps/mapsSlice';
 import Spinner from '../../components/Spinner';
 const Passed = () => {
 	// color themes
@@ -22,14 +22,14 @@ const Passed = () => {
     (state) => state.map
     )
 // filter to get passed to boq maps 
- const filtereData = maps.filter((map) => map.status === "failed");
+//  const filtereData = maps.filter((map) => map.status === "boq");
   //useEffect to fetch all users
   useEffect(() => {
     if (isError) {
       toast.error(message)
     }
     // firing get all users
-    dispatch(getAllMaps())
+    dispatch(getAllSuccess())
 
     return () => {
       dispatch(reset())
@@ -112,7 +112,7 @@ const Passed = () => {
 				}}
 			>
 				<DataGrid
-					rows={filtereData}
+					rows={maps}
 					columns={columns}
 					getRowId={getRowId}
 					components={{ Toolbar: GridToolbar }}

@@ -35,6 +35,62 @@ export const getAllMaps = createAsyncThunk('maps/getAll', async (_, thunkAPI) =>
 		return thunkAPI.rejectWithValue(message);
 	}
 });
+
+//get all under failure check
+export const getAllFailedCheck = createAsyncThunk('maps/failedCheck', async (_, thunkAPI) => {
+	try {
+		  const token = thunkAPI.getState().auth.user.token
+		return await mapsService.getAllFailedCheck(token);
+	} catch (error) {
+		const message =
+			(error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+		return thunkAPI.rejectWithValue(message);
+	}
+});
+//get all under failure check
+export const getAllFailed = createAsyncThunk('maps/failed', async (_, thunkAPI) => {
+	try {
+		  const token = thunkAPI.getState().auth.user.token
+		return await mapsService.getAllFailed(token);
+	} catch (error) {
+		const message =
+			(error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+		return thunkAPI.rejectWithValue(message);
+	}
+});
+//get all under imetumwa
+export const getAllTypeCheck = createAsyncThunk('maps/typeCheck', async (_, thunkAPI) => {
+	try {
+		  const token = thunkAPI.getState().auth.user.token
+		return await mapsService.getAllTypeCheck(token);
+	} catch (error) {
+		const message =
+			(error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+		return thunkAPI.rejectWithValue(message);
+	}
+});
+//get all under vipimo
+export const getAllUnitCheck = createAsyncThunk('maps/unitCheck', async (_, thunkAPI) => {
+	try {
+		  const token = thunkAPI.getState().auth.user.token
+		return await mapsService.getAllUnitCheck(token);
+	} catch (error) {
+		const message =
+			(error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+		return thunkAPI.rejectWithValue(message);
+	}
+});
+//get all under successful
+export const getAllSuccess = createAsyncThunk('maps/unitSuccess', async (_, thunkAPI) => {
+	try {
+		  const token = thunkAPI.getState().auth.user.token
+		return await mapsService.getAllPassed(token);
+	} catch (error) {
+		const message =
+			(error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+		return thunkAPI.rejectWithValue(message);
+	}
+});
 // Get single map
 export const getMap = createAsyncThunk('maps/getOne', async (mapId, thunkAPI) => {
 	try {
@@ -109,6 +165,94 @@ export const mapSlice = createSlice({
       })
 			//state when the request is rejected and capture the to display to user
 			.addCase(getAllMaps.rejected, (state, action) => {
+				state.isLoading = false;
+				state.isError = true;
+				state.message = action.payload;
+      })
+      
+			// STATES FOR GET ALL MAPS UNDER MABORESHO
+			//state on waiting for response getAllMaps maps from the server
+			.addCase(getAllFailedCheck.pending, (state) => {
+				state.isLoading = true;
+      })
+			// states when the request fullfilles and when code [200k] we getAllFailedCheck data
+			.addCase(getAllFailedCheck.fulfilled, (state, action) => {
+				state.isLoading = false;
+				state.isSuccess = true;
+				state.maps = action.payload;
+      })
+			//state when the request is rejected and capture the to display to user
+			.addCase(getAllFailedCheck.rejected, (state, action) => {
+				state.isLoading = false;
+				state.isError = true;
+				state.message = action.payload;
+      })
+			// STATES FOR GET ALL MAPS UNDER MABORESHO
+			//state on waiting for response getAllMaps maps from the server
+			.addCase(getAllFailed.pending, (state) => {
+				state.isLoading = true;
+      })
+			// states when the request fullfilles and when code [200k] we getAllFailed data
+			.addCase(getAllFailed.fulfilled, (state, action) => {
+				state.isLoading = false;
+				state.isSuccess = true;
+				state.maps = action.payload;
+      })
+			//state when the request is rejected and capture the to display to user
+			.addCase(getAllFailed.rejected, (state, action) => {
+				state.isLoading = false;
+				state.isError = true;
+				state.message = action.payload;
+      })
+      
+			// STATES FOR GET ALL MAPS UNDER IMETUMWA
+			//state on waiting for response getAllMaps maps from the server
+			.addCase(getAllTypeCheck.pending, (state) => {
+				state.isLoading = true;
+      })
+			// states when the request fullfilles and when code [200k] we getAllTypeCheck data
+			.addCase(getAllTypeCheck.fulfilled, (state, action) => {
+				state.isLoading = false;
+				state.isSuccess = true;
+				state.maps = action.payload;
+      })
+			//state when the request is rejected and capture the to display to user
+			.addCase(getAllTypeCheck.rejected, (state, action) => {
+				state.isLoading = false;
+				state.isError = true;
+				state.message = action.payload;
+      })
+      
+			// STATES FOR GET ALL MAPS UNDER IMETUMWA
+			//state on waiting for response getAllMaps maps from the server
+			.addCase(getAllUnitCheck.pending, (state) => {
+				state.isLoading = true;
+      })
+			// states when the request fullfilles and when code [200k] we getAllUnitCheck data
+			.addCase(getAllUnitCheck.fulfilled, (state, action) => {
+				state.isLoading = false;
+				state.isSuccess = true;
+				state.maps = action.payload;
+      })
+			//state when the request is rejected and capture the to display to user
+			.addCase(getAllUnitCheck.rejected, (state, action) => {
+				state.isLoading = false;
+				state.isError = true;
+				state.message = action.payload;
+      })
+			// STATES FOR GET ALL MAPS UNDER IMETUMWA
+			//state on waiting for response getAllMaps maps from the server
+			.addCase(getAllSuccess.pending, (state) => {
+				state.isLoading = true;
+      })
+			// states when the request fullfilles and when code [200k] we getAllSuccess data
+			.addCase(getAllSuccess.fulfilled, (state, action) => {
+				state.isLoading = false;
+				state.isSuccess = true;
+				state.maps = action.payload;
+      })
+			//state when the request is rejected and capture the to display to user
+			.addCase(getAllSuccess.rejected, (state, action) => {
 				state.isLoading = false;
 				state.isError = true;
 				state.message = action.payload;

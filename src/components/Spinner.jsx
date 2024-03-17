@@ -3,8 +3,8 @@ import React from 'react'
 
 const Spinner = () => {
   return (
-      <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh"  backgroundColor="#999">
-       <Box width="100px">
+      <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh"  backgroundColor="rgba(0,0,0,0.4)">
+       <Box width="100px" color={`#3498db`}>
               <CircularProgress />
         </Box>
     </Box>

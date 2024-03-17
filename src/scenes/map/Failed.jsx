@@ -5,7 +5,7 @@ import { tokens } from '../../theme';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { getAllMaps, reset } from '../../redux/maps/mapsSlice';
+import { getAllFailed, reset } from '../../redux/maps/mapsSlice';
 import Spinner from '../../components/Spinner';
 const Failed = () => {
 	// color themes
@@ -21,14 +21,14 @@ const Failed = () => {
   const {maps, isLoading, isError, isSuccess, message } = useSelector(
     (state) => state.map
   )
-const filtereData = maps.filter((map) => map.status === "failed");
+
   //useEffect to fetch all users
   useEffect(() => {
     if (isError) {
       toast.error(message)
     }
     // firing get all users
-    dispatch(getAllMaps())
+    dispatch(getAllFailed())
 
     return () => {
       dispatch(reset())
@@ -99,7 +99,7 @@ const filtereData = maps.filter((map) => map.status === "failed");
     }
 
 	return (
-		<Box p="10px" mt="20px">
+		<Box p="10px" mt="20px" boxShadow={`0 4px 12px rgba(0,0,0,0.3)`} borderRadius={`10px`}>
 			<Typography style={{ textAlign: 'center', textTransform: 'uppercase' }} variant="h3">
 				Ramani
 			</Typography>
@@ -125,8 +125,8 @@ const filtereData = maps.filter((map) => map.status === "failed");
 					},
 					'& .MuiDataGrid-footerContainer': {
 						borderTop: 'none',
-						backgroundColor: 'none',
-						display: 'none'
+						// backgroundColor: '#333',
+						// display: 'none'
 					},
 					'& .MuiCheckbox-root': {
 						color: `${colors.greenAccent[200]} !important`
@@ -135,7 +135,7 @@ const filtereData = maps.filter((map) => map.status === "failed");
 				}}
 			>
 				<DataGrid
-					rows={filtereData}
+					rows={maps}
 					columns={columns}
 					getRowId={getRowId}
 					components={{ Toolbar: GridToolbar }}

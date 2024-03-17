@@ -6,7 +6,7 @@ import { useDispatch,useSelector} from "react-redux";
 import {useNavigate}  from "react-router-dom"
 import { toast } from "react-toastify"
 import {AppContext} from '../../useContextApi/AppContext'
-import { deleteMap, getAllMaps, reset } from '../../redux/maps/mapsSlice';
+import { deleteMap, getAllMaps, getAllSuccess, reset } from '../../redux/maps/mapsSlice';
 import axios from 'axios';
 import Spinner from '../../components/Spinner';
 import { API_BASE_URL } from '../../confing.js/baseUrl';
@@ -36,7 +36,7 @@ const user = JSON.parse(sessionStorage.getItem('user'));
   const {maps, isLoading, isError, isSuccess, message } = useSelector(
     (state) => state.map
   )
-	const filtereData = maps.filter((map) => map.status === "boq")
+	// const filtereData = maps.filter((map) => map.status === "boq")
 
 
   //useEffect to fetch all users
@@ -45,7 +45,7 @@ const user = JSON.parse(sessionStorage.getItem('user'));
       toast.error(message)
     }
     // firing get all users
-    dispatch(getAllMaps())
+    dispatch(getAllSuccess())
 
     return () => {
       dispatch(reset())
@@ -211,7 +211,7 @@ const createBoq =async (data) => {
 				}}
 			>
 			
-					<DataGrid rows={filtereData} columns={columns} getRowId={getRowId} /> 
+					<DataGrid rows={maps} columns={columns} getRowId={getRowId} /> 
 			
         </Box>
       </Box>

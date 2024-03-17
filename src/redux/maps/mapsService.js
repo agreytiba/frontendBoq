@@ -26,6 +26,63 @@ const getAllMaps = async (token) => {
 	const response = await axios.get(API_URL,config);
 	return response.data;
 };
+// Get all map under failure check
+const getAllFailedCheck = async (token) => {
+	  const config = {
+	    headers: {
+	      Authorization: `Bearer ${token}`,
+	    },
+	  }
+
+	const response = await axios.get(API_URL+`failedCheck`,config);
+	return response.data;
+};
+// Get all map under failure check
+const getAllFailed = async (token) => {
+	  const config = {
+	    headers: {
+	      Authorization: `Bearer ${token}`,
+	    },
+	  }
+
+	const response = await axios.get(API_URL+`failed`,config);
+	return response.data;
+};
+
+// get all under type check
+const getAllTypeCheck = async (token) => {
+	  const config = {
+	    headers: {
+	      Authorization: `Bearer ${token}`,
+	    },
+	  }
+
+	const response = await axios.get(API_URL+`typeCheck`,config);
+	return response.data;
+};
+
+// get all under type check 
+const getAllUnitCheck = async (token) => {
+	  const config = {
+	    headers: {
+	      Authorization: `Bearer ${token}`,
+	    },
+	  }
+
+	const response = await axios.get(API_URL+`unitCheck`,config);
+	return response.data;
+};
+// get all under type check 
+const getAllPassed = async (token) => {
+	  const config = {
+	    headers: {
+	      Authorization: `Bearer ${token}`,
+	    },
+	  }
+
+	const response = await axios.get(API_URL+`successful`,config);
+	return response.data;
+};
 // Get single map
 const getMap = async (mapId,token) => {
 	  const config = {
@@ -69,7 +126,12 @@ const mapsService = {
 	getAllMaps,
 	deleteMap,
 	updateMap,
-	getMap
+	getMap,
+	getAllFailedCheck,
+	getAllTypeCheck,
+	getAllUnitCheck,
+	getAllFailed,
+	getAllPassed
 };
 
 export default mapsService;

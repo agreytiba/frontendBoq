@@ -15,7 +15,7 @@ import { tokens } from "../../theme";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { deleteMap, getAllMaps, reset } from "../../redux/maps/mapsSlice";
+import { deleteMap, getAllMaps, getAllTypeCheck, reset } from "../../redux/maps/mapsSlice";
 import { DeleteOutlined, Padding } from "@mui/icons-material";
 import { EditOutlined } from "@mui/icons-material";
 import axios from "axios";
@@ -49,7 +49,6 @@ const TypeChecker = () => {
     (state) => state.map
   );
   // filter data maps which have imetumwa status
-  const filtereData = maps.filter((map) => map.status === "imetumwa");
 
   //useEffect to fetch all users
   useEffect(() => {
@@ -57,7 +56,7 @@ const TypeChecker = () => {
       toast.error(message);
     }
     // firing get all users
-    dispatch(getAllMaps());
+    dispatch(getAllTypeCheck());
 
     return () => {
       dispatch(reset());
@@ -266,7 +265,7 @@ const TypeChecker = () => {
             },
           }}
         >
-          <DataGrid rows={filtereData} columns={columns} getRowId={getRowId} />
+          <DataGrid rows={maps} columns={columns} getRowId={getRowId} />
         </Box>
         <Dialog
           open={commentPopupOpen}

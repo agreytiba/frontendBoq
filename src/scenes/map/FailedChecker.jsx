@@ -16,7 +16,7 @@ import { tokens } from "../../theme";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { getAllMaps, reset } from "../../redux/maps/mapsSlice";
+import { getAllFailedCheck, reset } from "../../redux/maps/mapsSlice";
 import axios from "axios";
 import Spinner from "../../components/Spinner";
 import { API_BASE_URL } from "../../confing.js/baseUrl";
@@ -55,7 +55,7 @@ const FailedChecker = () => {
   const { maps, isLoading, isError, isSuccess, message } = useSelector(
     (state) => state.map
   );
-  const filtereData = maps.filter((map) => map.status === "maboresho");
+  // const maps = maps.filter((map) => map.status === "maboresho");
 
   //useEffect to fetch all users
   useEffect(() => {
@@ -63,7 +63,7 @@ const FailedChecker = () => {
       toast.error(message);
     }
     // firing get all users
-    dispatch(getAllMaps());
+    dispatch(getAllFailedCheck());
 
     return () => {
       dispatch(reset());
@@ -292,9 +292,9 @@ const FailedChecker = () => {
             },
           }}
         >
-          {filtereData ? (
+          {maps ? (
             <DataGrid
-              rows={filtereData}
+              rows={maps}
               columns={columns}
               getRowId={getRowId}
             />
