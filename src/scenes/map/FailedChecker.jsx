@@ -256,7 +256,7 @@ const FailedChecker = () => {
   }
   return (
     <Box display="flex" justifyContent="center" alignItems="center">
-      <Box marginTop="2rem" width="95%"  boxShadow={`0 4px 12px rgba(0,0,0,0.3)`} padding={`20px 10px`}>
+      <Box marginTop="2rem" width="95%" borderRadius={`10px`}  boxShadow={`0 4px 12px rgba(0,0,0,0.3)`} padding={`20px 10px`}>
         <Box marginY="1rem">
           <Typography variant="h3" textAlign="center">
             ukurusa wa maboresho

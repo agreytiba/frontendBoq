@@ -78,15 +78,21 @@ const User = () => {
             justifyContent="center"
             backgroundColor={
               accessLevel === "admin"
-                ? colors.redAccent[600]
-                : accessLevel === "doctor"
-                ? colors.blueAccent[500]
+                ? colors.grey[600]
+                : accessLevel === "typechecker"
+                ? colors.blueAccent[700]
+                : accessLevel === "boq"
+                ? "goldenrod"
+                : accessLevel === "unitcheker"
+                ? "blue"
+                : accessLevel === "faildechecker"
+                ? "tomato"
                 : colors.greenAccent[700]
             }
             borderRadius="4px"
           >
             {accessLevel === "admin" && <AdminPanelSettingsOutlinedIcon />}
-            {accessLevel === "doctor" && <SecurityOutlinedIcon />}
+            {accessLevel === "" && <SecurityOutlinedIcon />}
             {accessLevel === "user" && <LockOpenOutlinedIcon />}
             <Typography color={colors.grey[100]} sx={{ ml: "5px" }}>
               {accessLevel}

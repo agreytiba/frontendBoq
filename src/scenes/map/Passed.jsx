@@ -76,7 +76,7 @@ const Passed = () => {
     }
 
 	return (
-		<Box p="10px" mt="20px">
+		<Box p="10px" mt="20px" boxShadow={`0 4px 12px rgba(0,0,0,0.3)`} borderRadius={`10px`}>
 			<Typography style={{ textAlign: 'center', textTransform: 'uppercase' }} variant="h3">
 				Ramani
 			</Typography>
