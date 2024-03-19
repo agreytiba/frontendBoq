@@ -169,10 +169,10 @@ const savedInfo = JSON.parse(localStorage.getItem("savedData"));
     return `${formattedValue}`; // Concatenate the "TSh" sign
   };
   return (
-    <Box mt={"2rem"}>
+    <Box mt={"2rem"} boxShadow={`0 4px 12px rgba(0,0,0,0.3)`} p={`20px`} borderRadius={`10px`}>
       {user.accessLevel === "pricetag" ? (
         <Box>
-          <TableContainer component={Paper}>
+          <TableContainer >
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead>
                 <TableRow>
@@ -246,17 +246,17 @@ const savedInfo = JSON.parse(localStorage.getItem("savedData"));
         </Box>
       ) : (
         <Box>
-          <TableContainer component={Paper}>
+          <TableContainer >
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead>
                 <TableRow>
                   <Typography
-                    variant={"h3"}
+                    variant={"h4"}
                     paddingY="10px"
                     fontWeight="bold"
                     color={"primary"}
                   >
-                    I.WINDOWS
+                      1. Window Grills
                   </Typography>
                 </TableRow>
 
@@ -273,7 +273,7 @@ const savedInfo = JSON.parse(localStorage.getItem("savedData"));
                 </TableRow>
               </TableHead>
               <TableBody>
-                <TableRow>
+                {/* <TableRow>
                   <Typography
                     variant={"h5"}
                     fontWeight="bold"
@@ -282,7 +282,7 @@ const savedInfo = JSON.parse(localStorage.getItem("savedData"));
                   >
                     1. Window Grills
                   </Typography>
-                </TableRow>
+                </TableRow> */}
                 {grillsRows.map((row) => (
                   <StyledTableRow
                     key={row.material}

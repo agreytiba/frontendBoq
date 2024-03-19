@@ -170,10 +170,10 @@ const SkimmingOutside = () => {
     return `${formattedValue}`; // Concatenate the "TSh" sign
   };
   return (
-    <Box mt={"2rem"}>
+    <Box mt={"2rem"} boxShadow={`0 4px 12px rgba(0,0,0,0.3)`} p={`20px`} borderRadius={`10px`}>
           {user.accessLevel === "pricetag" ?
               <Box>
-          <TableContainer component={Paper}>
+          <TableContainer>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
@@ -248,7 +248,7 @@ const SkimmingOutside = () => {
       </TableContainer>
 </Box> :
       <Box>
-      <TableContainer component={Paper}>
+      <TableContainer>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
@@ -258,7 +258,7 @@ const SkimmingOutside = () => {
                 fontWeight="bold"
                 color={"primary"}
               >
-                G. WALL SKIMMING
+            1. Wall skimming outside
               </Typography>
             </TableRow>
             <TableRow style={{ marginBottom: "5px" }}>
@@ -271,12 +271,12 @@ const SkimmingOutside = () => {
           </TableHead>
           <TableBody>
             <TableRow>
-              <Typography   variant={"h5"}
+              {/* <Typography   variant={"h5"}
                 fontWeight="bold"
                 color={"primary"}
                 paddingTop="10px">
                 2. Wall Skimming Outside
-              </Typography>
+              </Typography> */}
             </TableRow>
             {skimmingOutsideRows.map((row) => (
               <StyledTableRow

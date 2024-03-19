@@ -13,8 +13,8 @@ const Beams = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedPreData, setSelectedPreData] = useState([]);
   const location = useLocation();
-  const mapId = location.state;
-
+  // const mapId = location.state;
+const mapId = JSON.parse(localStorage.getItem("myMapId"));
     //  get user from session store
   const user = JSON.parse(sessionStorage.getItem("user"));
 

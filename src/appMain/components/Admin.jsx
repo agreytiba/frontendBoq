@@ -45,7 +45,7 @@ const Admin = () => {
         <Grid item md={9}>
           <Navbar />
           <Box sx={{ margin: `100px 10px 10px 10px` }}>
-            <AdminRoutes />
+            <AdminRoutes/>
           </Box>
         </Grid>
       </Grid>

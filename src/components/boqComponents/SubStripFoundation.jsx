@@ -165,9 +165,9 @@ const SubStripFoundation = () => {
   };
 
   return (
-    <Box >
+    <Box  boxShadow={`0 4px 12px rgba(0,0,0,0.3)`} p={`20px`} borderRadius={`10px`}>
       {user.accessLevel === "pricetag" ? <Box marginTop={"10px"}>
-         <TableContainer component={Paper}>
+         <TableContainer >
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
               <TableRow>
@@ -242,15 +242,15 @@ const SubStripFoundation = () => {
         </TableContainer>
 </Box>:
       <Box>
-      <TableContainer component={Paper}>
+      <TableContainer >
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
               <TableRow>
                 <Typography
-                 variant={"h3"} paddingY="10px" fontWeight="bold"
+                 variant={"h4"} paddingY="10px" fontWeight="bold"
                   color={"primary"}
                 >
-                  B. SUBSTRUCTURE
+                2. Strip Foundation
                 </Typography>
               </TableRow>
        
@@ -273,7 +273,7 @@ const SubStripFoundation = () => {
                   <TableBody>
            
                 {/* strip foundation */}
-            <TableRow>
+            {/* <TableRow>
                 <Typography
                   variant={"h5"}
                   fontWeight="bold"
@@ -282,7 +282,7 @@ const SubStripFoundation = () => {
                 >
                   2. Strip Foundation
                 </Typography>
-              </TableRow>
+              </TableRow> */}
             {stripRows.map((row) => (
               <StyledTableRow
                 key={row.material}

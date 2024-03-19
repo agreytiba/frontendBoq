@@ -12,7 +12,8 @@ import Spinner from '../../components/Spinner';
 import { API_BASE_URL } from '../../confing.js/baseUrl';
 const Boq = () => {
 
-//   const [mapId, setMapId] = useState();
+	// use context 
+	const {setShowBoq} =useContext(AppContext)
 
 	//colors themes
 	const theme = useTheme();
@@ -22,11 +23,12 @@ const Boq = () => {
 // initiliaze useDispatch && useNavigate
   const dispatch = useDispatch()
 	const navigate = useNavigate()
-// get the values from context apia
-	  const {setPreMapData } = useContext(AppContext);
+// // get the values from context apia
+// 	  const {setPreMapData } = useContext(AppContext);
 
 // get user from local
-const user = JSON.parse(sessionStorage.getItem('user'));
+	const user = JSON.parse(sessionStorage.getItem('user'));
+	const admin = user?.accessLevel === 'admin'
  const config = {
 	    headers: {
 	      Authorization: `Bearer ${user?.token}`,
@@ -167,15 +169,21 @@ const createBoq =async (data) => {
 	if (isLoading) {
 		return <Spinner/>
 	}
+	// handle back to admin page
+	const backToAdminPage = () => {
+		setShowBoq(false)
+		navigate("/")
+	}
+
 	return (
 		<Box display="flex" justifyContent="center" alignItems="center" >
 			
 			<Box   marginTop="2rem"
         width="90%" boxShadow={`0 4px 12px rgba(0,0,0,0.3)`} padding={`20px 10px`} borderRadius={`10px`}>
-        <Box marginY="1rem">
+				<Box marginY="1rem">
+				{admin &&	<Button onClick={backToAdminPage} variant='contained' sx={{backgroundColor:`${colors.greenAccent[400]}`}}>Back To Admin </Button>}
         <Typography variant='h3' textAlign="center" >
-           ukurasa wa kupanga ramani
-
+           Ukurasa wa kutengeneza ramani
           </Typography>
         </Box>
       <Box

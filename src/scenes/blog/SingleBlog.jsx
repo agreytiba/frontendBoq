@@ -27,12 +27,12 @@ const SingleBlog = () => {
                 </Box>	
 						
 						<CardContent>
-							<CardMedia component="img" alt="image blog" height="400"  image={img} />
-							<Typography variant="p" component="p">
+					<CardMedia component="img" alt="image blog" height="300px" width={`300px`} sx={{borderRadius:`10px`}} image={img} />
+							<Typography variant="p" component="p" paddingY={`10px`}>
 							{article}
 							</Typography>
 				</CardContent>
-				<Button onClick={()=>window.history.back()} variant='contained' color="primary">back</Button>
+				<Button onClick={()=>window.history.back()} variant='outlined' color="primary">back</Button>
 					</Card>
         </Box>
 	);

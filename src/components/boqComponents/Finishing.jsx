@@ -59,7 +59,7 @@ const Finishing = () => {
   useEffect(() => {
     // Fetch data using axios
     axios
-      .get("/api/finishing",config)
+      .get(API_BASE_URL +"/api/finishing",config)
       .then((response) => {
         setFinishingRows(response.data);
       })
@@ -71,7 +71,7 @@ const Finishing = () => {
   // get data after success
   const fetchUpdatedData = async () => {
     try {
-      const response = await axios.get("/api/finishing",config);
+      const response = await axios.get(API_BASE_URL + "api/finishing",config);
       setFinishingRows(response.data);
     } catch (error) {
       toast.error("Failed to fetch updated data");
@@ -166,8 +166,8 @@ const Finishing = () => {
     return `${formattedValue}`; // Concatenate the "TSh" sign
   };
   return (
-    <Box mt={"2rem"}>
-      <TableContainer component={Paper}>
+    <Box mt={"2rem"} boxShadow={`0 4px 12px rgba(0,0,0,0.3)`} p={`20px`} borderRadius={`10px`}>
+      <TableContainer >
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>

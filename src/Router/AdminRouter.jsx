@@ -26,11 +26,17 @@ const Passed = lazy(() => import("../scenes/map/Passed"));
 const CompletedBoq = lazy(() => import("../scenes/boq/CompletedBoq"));
 const UserBoq = lazy(() => import("../scenes/userpage/UserBoq"));
 const Profile = lazy(() => import("../scenes/user/Profile"));
+const UploadImage = lazy(() => import("../scenes/upload"));
+const GoToBoQ = lazy(() => import("../scenes/GoToboq/GoToBoQ"));
 export default function AdminRoutes() {
   let element = useRoutes([
     {
       path: '/',
       element: <Dashboard />,
+    },
+    {
+      path: '/upload',
+      element: <UploadImage />,
     },
     {
       path: '/allpdf',
@@ -97,9 +103,13 @@ export default function AdminRoutes() {
       path: '/mtoahuduma',
       element: <SellerPage/>,
     },
+    // {
+    //   path: '/boq',
+    //   element: <Boq/>,
+    // },
     {
       path: '/boq',
-      element: <Boq/>,
+      element: <GoToBoQ />,
     },
     {
       path: '/bidhaa',

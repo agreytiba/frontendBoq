@@ -3,13 +3,14 @@ export const AppContext = createContext();
 
 export const AppContextProvider = ({ children }) => {
     const [preMapData, setPreMapData]= useState(null)
-    const [totalTodos, setTotalTodos] = useState(null)
+    const [showBoq, setShowBoq] = useState(false)
+    const [showUserBoq, setShowUseBoq] = useState(false)
   return (
       <AppContext.Provider
           value={{
               preMapData, setPreMapData,
-
-              totalTodos, setTotalTodos,
+              showUserBoq, setShowUseBoq,
+              showBoq, setShowBoq,
           }}
       >
           {children}

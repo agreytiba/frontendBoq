@@ -156,8 +156,8 @@ const Plastering = () => {
     return `${formattedValue}`; // Concatenate the "TSh" sign
   };
   return (
-    <Box mt={"2rem"}>
-      <TableContainer component={Paper}>
+    <Box mt={"2rem"}  boxShadow={`0 4px 12px rgba(0,0,0,0.3)`} p={`20px`} borderRadius={`10px`}>
+      <TableContainer >
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
@@ -167,7 +167,7 @@ const Plastering = () => {
                 fontWeight="bold"
                 color={"primary"}
               >
-            PlASTERING (iNSIDE AND OUTSIDE)AND FLORING
+            PlASTERING (iNSIDE AND OUTSIDE)AND FLOORING
               </Typography>
             </TableRow>
             <TableRow style={{ marginBottom: "5px" }}>

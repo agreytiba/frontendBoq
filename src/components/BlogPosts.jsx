@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { Card, CardMedia, CardContent, Typography, Box, Button } from '@mui/material';
+import { Card, CardMedia,Grid, CardContent, Typography, Box, Button } from '@mui/material';
 import { deleteBlogPost, getBlogPosts, reset } from '../redux/blog/blogSlice';
 import Spinner from '../components/Spinner';
 
@@ -73,10 +73,12 @@ const BlogPosts = () => {
 		return <Spinner />;
 	}
 	return (
-		<Box display="grid" gridTemplateColumns="repeat(3, 1fr)" rowGap="2em">
+		<Box >
+			<Grid container>
 			{blogPosts.map((post) => {
 				return (
-					<Card key={post.id} style={{ position: 'relative', width: '300px', height:"300px" }} >
+					<Grid item sm={12} md={5} justifyContent={`center`} alignItems={`center`} sx={{margin:`10px`}}>
+					<Card key={post.id} style={{ position: 'relative', boxShadow:`0 4px 12px rgba(0,0,0,0.3)` }} >
 					{user?.accessLevel === "admin" &&	<Box
 							onClick={() => handleDelete(post._id)}
 							position="absolute"
@@ -90,7 +92,7 @@ const BlogPosts = () => {
 						>
 							X
 						</Box>}
-						<CardMedia component="img" alt="image blog" height="200" width="300" image={post.img} />
+						<CardMedia component="img" alt="image blog" height="200" width="200" image={post.img} />
 						<CardContent>
 							<Typography variant="h5" component="h2" style={{ color: 'green' }}>
 								{post.title}
@@ -105,9 +107,11 @@ const BlogPosts = () => {
 						</Box>
 						</CardContent>
 						
-					</Card>
+						</Card>
+					</Grid>
 				);
 			})}
+			</Grid>
 		</Box>
 	);
 };

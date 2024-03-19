@@ -73,7 +73,8 @@ const CustomerDrawing = () => {
 
   // handle show the  boq created
   const handleGetBoq = (id) => {
-    navigate("userboq", {state:id});
+    navigate("userboq", { state: id });
+     localStorage.setItem('myMapId', JSON.stringify(id))
   };
   // handle get all maps
   const handleAllMap = (mapsData) => {
