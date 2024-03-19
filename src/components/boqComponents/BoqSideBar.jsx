@@ -140,6 +140,7 @@ const BoqSideBar = () => {
         { path: "/panel", text: "Aluminium Panel", name: "savedpanels" },
       ],
     },
+ 
     {
       text: "Doors",
       icon: <MailIcon />,
@@ -148,7 +149,18 @@ const BoqSideBar = () => {
         { path: "/doorShut", text: "Door Shutters", name: "savedshutters" },
       ],
     },
-    { path: "/Plumbing", icon: <DoneIcon />, text: "Plumbing", name: "savedtiles" },
+       {
+      text: "Plumbing",
+      icon: <MailIcon />,
+      children: [
+        { path: "/waterInside", text: "Water Inside", name: "savedwaterIn" },
+        { path: "/waterOutside", text: "Water Outside", name: "savedwaterOut" },
+        { path: "/sewage", text: "Sewage Inside", name: "savedsewageIn" },
+        { path: "/finishInside", text: "Finishing Inside", name: "savedfinishIn" },
+        { path: "/septic", text: "Septic Tank", name: "savedseptic" },
+      ],
+    },
+    // { path: "/Plumbing", icon: <DoneIcon />, text: "Plumbing", name: "savedtiles" },
     { path: "/tiles", icon: <MailIcon />, text: "Tiles", name: "savedtiles" },
     {
       path: "/plastering",

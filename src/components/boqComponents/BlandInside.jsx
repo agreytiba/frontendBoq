@@ -205,7 +205,8 @@ const BlanderingInside = () => {
   };
   return (
     <Box mt={"2rem"} boxShadow={`0 4px 12px rgba(0,0,0,0.3)`} p={`20px`} borderRadius={`10px`}>
-      <TableContainer component={Paper}>
+      {user.accessLevel === "pricetag" ?
+        <TableContainer >
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
@@ -215,7 +216,87 @@ const BlanderingInside = () => {
                 fontWeight="bold"
                 color={"primary"}
               >
-             1. Blandering Inside
+                1. Blandering Inside
+              </Typography>
+            </TableRow>
+            <TableRow style={{ marginBottom: "5px" }}>
+              <StyledTableCell>material</StyledTableCell>
+              <StyledTableCell align="right">unit</StyledTableCell>
+             
+              <StyledTableCell align="right">rate&nbsp;(tsh)</StyledTableCell>
+            
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {/* <TableRow>
+              <Typography
+                variant={"h5"}
+                fontWeight="bold"
+                color={"primary"}
+                paddingTop="10px"
+              >
+                1. Blandering Inside
+              </Typography>
+            </TableRow> */}
+            {blanderRows.length > 0 && blanderRows.map((row) => (
+              <StyledTableRow
+                key={row.material}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <StyledTableCell component="th" scope="row">
+                  {row.material}
+                </StyledTableCell>
+                <StyledTableCell align="right">{row.unit}</StyledTableCell>
+               
+                <StyledTableCell align="right">
+                  {editingRate === row.material ? (
+                    <div>
+                      <input
+                        type="number"
+                        value={newRate}
+                        onChange={(e) => setNewRate(e.target.value)}
+                        style={{ height: "50px", width: "50px" }}
+                      />
+                      {row.quantity}
+                      <button onClick={() => handleRateUpdate(row._id)}>
+                        Submit
+                      </button>
+                    </div>
+                  ) : (
+                    <span
+                      style={{
+                        display: "flex",
+                        justifyContent: "right",
+                        columnGap: "10px",
+                      }}
+                    >
+                      {formatCurrency(row.rate)}
+                      {(user?.accessLevel === "admin" ||
+                        user?.accessLevel === "pricetag") && (
+                          <Edit onClick={() => setEditingRate(row.material)} />
+                        )}
+                    </span>
+                  )}
+                </StyledTableCell>
+
+           
+              </StyledTableRow>
+            ))}
+       
+          </TableBody>
+        </Table>
+        </TableContainer> :
+         <TableContainer >
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <Typography
+                variant={"h4"}
+                paddingY="10px"
+                fontWeight="bold"
+                color={"primary"}
+              >
+                1. Blandering Inside
               </Typography>
             </TableRow>
             <TableRow style={{ marginBottom: "5px" }}>
@@ -246,7 +327,7 @@ const BlanderingInside = () => {
                   {row.material}
                 </StyledTableCell>
                 <StyledTableCell align="right">{row.unit}</StyledTableCell>
-<StyledTableCell align="right">
+                <StyledTableCell align="right">
                   {savedData?.insideData !== null ? (
                     <Box>
           
@@ -275,14 +356,14 @@ const BlanderingInside = () => {
                         Submit
                       </button>
                     </div>
-                  ) :  (<>{(user?.accessLevel === "admin" || user?.accessLevel === "boq") &&
-                  <Box onClick={() => setEditingQuantity(row.material)}>
-                    <Edit />
+                  ) : (<>{(user?.accessLevel === "admin" || user?.accessLevel === "boq") &&
+                    <Box onClick={() => setEditingQuantity(row.material)}>
+                      <Edit />
                      
-                  </Box>}</>
+                    </Box>}</>
                   )}
                 </StyledTableCell>
-                    <StyledTableCell align="right">
+                <StyledTableCell align="right">
                   {editingRate === row.material ? (
                     <div>
                       <input
@@ -307,13 +388,13 @@ const BlanderingInside = () => {
                       {formatCurrency(row.rate)}
                       {(user?.accessLevel === "admin" ||
                         user?.accessLevel === "pricetag") && (
-                        <Edit onClick={() => setEditingRate(row.material)} />
-                      )}
+                          <Edit onClick={() => setEditingRate(row.material)} />
+                        )}
                     </span>
                   )}
                 </StyledTableCell>
 
-             <StyledTableCell align="right">
+                <StyledTableCell align="right">
                   {savedData?.insideData.map((data) => {
                     if (row._id === data.materialId) {
                       return (
@@ -328,7 +409,7 @@ const BlanderingInside = () => {
               </StyledTableRow>
             ))}
        
-                       <StyledTableRow
+            <StyledTableRow
               style={{ border: "4px solid #333", marginBlock: "10px" }}
             >
               <StyledTableCell variant="dark">
@@ -348,7 +429,7 @@ const BlanderingInside = () => {
             </StyledTableRow>
           </TableBody>
         </Table>
-      </TableContainer>
+      </TableContainer>}
     </Box>
   );
 };

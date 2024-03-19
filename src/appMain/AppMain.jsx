@@ -15,6 +15,7 @@ const PangaRouter = lazy(() => import("../Router/pangaRouter"));
 const VipimoRouter = lazy(() => import("../Router/vipimoRouter"));
 const PriceRouter = lazy(() => import("../Router/PriceRouter"));
 const BoqUser = lazy(() => import("./components/BoqUser"));
+const Boq = lazy(() => import("../Router/boqRouter"));
 
 const AppMain = () => {
   const { user } = useSelector((state) => state.auth);
@@ -44,8 +45,8 @@ const AppMain = () => {
     case "pricetag":
       return (
         <Suspense fallback={<Spinner />}>
-          <LogNavbar />
-          <PriceRouter />
+        
+          <BoqUser/>
         </Suspense>
       );
     case "unitchecker":

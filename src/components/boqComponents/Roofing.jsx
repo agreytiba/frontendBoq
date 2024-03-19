@@ -13,107 +13,6 @@ import Paper from "@mui/material/Paper";
 import { Box, Typography } from "@mui/material";
 import { API_BASE_URL } from "../../confing.js/baseUrl";
 
-// const roofingRows = [
-//   {
-//     material: "2x4 Treated Timber",
-//     unit: "ft",
-//     quantity: 4,
-//     rate: 4000,
-//     amount: 160000,
-//   },
-//   {
-//     material: "2x2 Treated Timber",
-//     unit: "ft",
-//     quantity: 1,
-//     rate: 1,
-//     amount: 1,
-//   },
-//   {
-//     material: "1X10 Fascia board",
-//     unit: "Pcs",
-//     quantity: 4,
-//     rate: 3500,
-//     amount: 14000,
-//   },
-//   {
-//     material: "4'nails",
-//     unit: "Kg",
-//     quantity: 2,
-//     rate: 20000,
-//     amount: 40000,
-//   },
-//   {
-//     material: "3'nails",
-//     unit: "Kg",
-//     quantity: 2,
-//     rate: 20000,
-//     amount: 40000,
-//   },
-//   {
-//     material: "2'nails",
-//     unit: "Kg",
-//     quantity: 2,
-//     rate: 20000,
-//     amount: 40000,
-//   },
-//   {
-//     material: "Galvanized wire",
-//     unit: "Pcs",
-//     quantity: 1,
-//     rate: 50000,
-//     amount: 50000,
-//   },
-//   {
-//     material: "Roofing Sheets(28 Gauge)",
-//     unit: "Pcs",
-//     quantity: 1,
-//     rate: 50000,
-//     amount: 50000,
-//   },
-//   {
-//     material: "Roofing valley & Cap",
-//     unit: "Pcs",
-//     quantity: 1,
-//     rate: 50000,
-//     amount: 50000,
-//   },
-//   {
-//     material: "Roofing Nails",
-//     unit: "kg",
-//     quantity: 1,
-//     rate: 50000,
-//     amount: 50000,
-//   },
-//   {
-//     material: "1X2 Shuttering(Ring Beam)",
-//     unit: "Pcs",
-//     quantity: 1,
-//     rate: 50000,
-//     amount: 50000,
-//   },
-//   {
-//     material: "Dpc",
-//     unit: "Roller",
-//     quantity: 1,
-//     rate: 50000,
-//     amount: 50000,
-//   },
-//   {
-//     material: "Binding wire",
-//     unit: "Pcs",
-//     quantity: 1,
-//     rate: 50000,
-//     amount: 50000,
-//   },
-//   {
-//     material: "Props(Mirunda)",
-//     unit: "Pcs",
-//     quantity: 1,
-//     rate: 50000,
-//     amount: 50000,
-//   },
-  
-// ];
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -138,11 +37,11 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const Roofing = () => {
   //  use state to get data
-  const [roofingRows , setRoofingRows ] = useState([]);
+  const [roofingRows, setRoofingRows] = useState([]);
   // edit rate useState
   const [editingRate, setEditingRate] = useState(null);
   const [newRate, setNewRate] = useState(null);
- // use state to get savedpre data
+  // use state to get savedpre data
   const [savedData, setSavedData] = useState(null);
   // get  quantity
   const [editingQuantity, setEditingQuantity] = useState(null); // Add state for editing quantity
@@ -151,17 +50,16 @@ const Roofing = () => {
   //  get user from session store
   const user = JSON.parse(sessionStorage.getItem("user"));
 
-
-     const config = {
-	    headers: {
-	      Authorization: `Bearer ${user?.token}`,
-	    },
-	  }
+  const config = {
+    headers: {
+      Authorization: `Bearer ${user?.token}`,
+    },
+  };
   // useEffect to enable fetching  of data
   useEffect(() => {
     // Fetch data using axios
     axios
-      .get(API_BASE_URL + "/api/roofing",config)
+      .get(API_BASE_URL + "/api/roofing", config)
       .then((response) => {
         setRoofingRows(response.data);
       })
@@ -173,8 +71,8 @@ const Roofing = () => {
   // get data after success
   const fetchUpdatedData = async () => {
     try {
-      const response = await axios.get(API_BASE_URL + "/api/roofing",config);
-      setRoofingRows (response.data);
+      const response = await axios.get(API_BASE_URL + "/api/roofing", config);
+      setRoofingRows(response.data);
     } catch (error) {
       toast.error("Failed to fetch updated data");
     }
@@ -186,7 +84,8 @@ const Roofing = () => {
       try {
         const response = await axios.put(
           API_BASE_URL + `/api/roofing/${materialId}`,
-          { newRate: newRate },config
+          { newRate: newRate },
+          config
         );
         setNewRate(null);
         if (response.data) {
@@ -208,7 +107,8 @@ const Roofing = () => {
     try {
       if (savedInfo.savedPreId) {
         const response = await axios.get(
-          API_BASE_URL + `/api/savedroofing/${savedInfo.savedPreId}`,config
+          API_BASE_URL + `/api/savedroofing/${savedInfo.savedPreId}`,
+          config
         );
         setSavedData(response.data);
       }
@@ -230,7 +130,8 @@ const Roofing = () => {
           {
             quantity: Number(quantity), // Convert to number
             materialId,
-          },config
+          },
+          config
         );
 
         if (response.data) {
@@ -256,137 +157,222 @@ const Roofing = () => {
     return total;
   }, 0);
   return (
-    <Box mt={"2rem"} boxShadow={`0 4px 12px rgba(0,0,0,0.3)`} p={`20px`} borderRadius={`10px`}>
-      <TableContainer >
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <Typography
-               variant={"h3"} paddingY="10px" fontWeight="bold"
+    <Box
+      mt={"2rem"}
+      boxShadow={`0 4px 12px rgba(0,0,0,0.3)`}
+      p={`20px`}
+      borderRadius={`10px`}
+    >
+      {user.accessLevel === "pricetag" ? (
+        <TableContainer>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <Typography
+                  variant={"h3"}
+                  paddingY="10px"
+                  fontWeight="bold"
                   color={"primary"}
-              >
-                D. ROOFING
-              </Typography>
-            </TableRow>
-            <TableRow style={{ marginBottom: "5px" }}>
-              <StyledTableCell>material</StyledTableCell>
-              <StyledTableCell align="right">unit</StyledTableCell>
-              <StyledTableCell align="right">quantity</StyledTableCell>
-              <StyledTableCell align="right">rate&nbsp;(tsh)</StyledTableCell>
-              <StyledTableCell align="right">Amount&nbsp;(tsh)</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {roofingRows.map((row) => (
-              <StyledTableRow
-                key={row.material}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <StyledTableCell component="th" scope="row">
-                  {row.material}
-                </StyledTableCell>
-                <StyledTableCell align="right">{row.unit}</StyledTableCell>
-<StyledTableCell align="center">
-                  {savedData?.roofData !== null ? (
-                    <Box>
-                      {" "}
-                      {savedData?.roofData.map((data) => {
-                        if (row._id === data.materialId) {
-                          return (
-                            <>
-                              <span key={data.materialId}>{data.quantity}</span>
-                            </>
-                          );
-                        }
-                      })}
-                    </Box>
-                  ) : (
-                    <span> 0 </span>
-                  )}
-                  {editingQuantity === row.material ? (
-                    <div>
-                      <input
-                        type="number"
-                        value={quantity}
-                        onChange={(e) => setQuantity(e.target.value)}
-                        style={{ height: "50px", width: "50px" }}
-                      />
-                      <button onClick={() => handleQuantityUpdate(row._id)}>
-                        Submit
-                      </button>
-                    </div>
-                  ) :  (<>{(user?.accessLevel === "admin" || user?.accessLevel === "boq") &&
-                  <Box onClick={() => setEditingQuantity(row.material)}>
-                    <Edit />
-                     
-                  </Box>}</>
-                  )}
-                </StyledTableCell>
+                >
+                  D. ROOFING
+                </Typography>
+              </TableRow>
+              <TableRow style={{ marginBottom: "5px" }}>
+                <StyledTableCell>material</StyledTableCell>
+                <StyledTableCell align="right">unit</StyledTableCell>
+                <StyledTableCell align="right">rate&nbsp;(tsh)</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {roofingRows.map((row) => (
+                <StyledTableRow
+                  key={row.material}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <StyledTableCell component="th" scope="row">
+                    {row.material}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">{row.unit}</StyledTableCell>
+
+                  <StyledTableCell align="right">
+                    {editingRate === row.material ? (
+                      <div>
+                        <input
+                          type="number"
+                          value={newRate}
+                          onChange={(e) => setNewRate(e.target.value)}
+                          style={{ height: "50px", width: "50px" }}
+                        />
+                        {row.quantity}
+                        <button onClick={() => handleRateUpdate(row._id)}>
+                          Submit
+                        </button>
+                      </div>
+                    ) : (
+                      <span
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          columnGap: "10px",
+                        }}
+                      >
+                        {row.rate}
+                        {(user?.accessLevel === "admin" ||
+                          user?.accessLevel === "pricetag") && (
+                          <Edit onClick={() => setEditingRate(row.material)} />
+                        )}
+                      </span>
+                    )}
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      ) : (
+        <TableContainer>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <Typography
+                  variant={"h3"}
+                  paddingY="10px"
+                  fontWeight="bold"
+                  color={"primary"}
+                >
+                  D. ROOFING
+                </Typography>
+              </TableRow>
+              <TableRow style={{ marginBottom: "5px" }}>
+                <StyledTableCell>material</StyledTableCell>
+                <StyledTableCell align="right">unit</StyledTableCell>
+                <StyledTableCell align="right">quantity</StyledTableCell>
+                <StyledTableCell align="right">rate&nbsp;(tsh)</StyledTableCell>
                 <StyledTableCell align="right">
-  {editingRate === row.material ? (
-                    <div>
-                      <input
-                        type="number"
-                        value={newRate}
-                        onChange={(e) => setNewRate(e.target.value)}
-                        style={{ height: "50px", width: "50px" }}
-                      />
-                      {row.quantity}
-                      <button onClick={() => handleRateUpdate(row._id)}>
-                        Submit
-                      </button>
-                    </div>
-                  ) : (
-                    <span
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        columnGap: "10px",
-                      }}
-                    >
-                      {row.rate}
-                      {(user?.accessLevel === "admin" ||
-                        user?.accessLevel === "pricetag") && (
-                        <Edit onClick={() => setEditingRate(row.material)} />
-                      )}
-                    </span>
-                  )}
+                  Amount&nbsp;(tsh)
                 </StyledTableCell>
- <StyledTableCell align="center">
-                  {savedData?.roofData.map((data) => {
-                    if (row._id === data.materialId) {
-                      return (
-                        <span key={data.materialId}>
-                          {row.rate * data.quantity}
-                        </span>
-                      );
-                    }
-                    return null; // Return null for non-matching rows
-                  })}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {roofingRows.map((row) => (
+                <StyledTableRow
+                  key={row.material}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <StyledTableCell component="th" scope="row">
+                    {row.material}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">{row.unit}</StyledTableCell>
+                  <StyledTableCell align="center">
+                    {savedData?.roofData !== null ? (
+                      <Box>
+                        {" "}
+                        {savedData?.roofData.map((data) => {
+                          if (row._id === data.materialId) {
+                            return (
+                              <>
+                                <span key={data.materialId}>
+                                  {data.quantity}
+                                </span>
+                              </>
+                            );
+                          }
+                        })}
+                      </Box>
+                    ) : (
+                      <span> 0 </span>
+                    )}
+                    {editingQuantity === row.material ? (
+                      <div>
+                        <input
+                          type="number"
+                          value={quantity}
+                          onChange={(e) => setQuantity(e.target.value)}
+                          style={{ height: "50px", width: "50px" }}
+                        />
+                        <button onClick={() => handleQuantityUpdate(row._id)}>
+                          Submit
+                        </button>
+                      </div>
+                    ) : (
+                      <>
+                        {(user?.accessLevel === "admin" ||
+                          user?.accessLevel === "boq") && (
+                          <Box onClick={() => setEditingQuantity(row.material)}>
+                            <Edit />
+                          </Box>
+                        )}
+                      </>
+                    )}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {editingRate === row.material ? (
+                      <div>
+                        <input
+                          type="number"
+                          value={newRate}
+                          onChange={(e) => setNewRate(e.target.value)}
+                          style={{ height: "50px", width: "50px" }}
+                        />
+                        {row.quantity}
+                        <button onClick={() => handleRateUpdate(row._id)}>
+                          Submit
+                        </button>
+                      </div>
+                    ) : (
+                      <span
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          columnGap: "10px",
+                        }}
+                      >
+                        {row.rate}
+                        {(user?.accessLevel === "admin" ||
+                          user?.accessLevel === "pricetag") && (
+                          <Edit onClick={() => setEditingRate(row.material)} />
+                        )}
+                      </span>
+                    )}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {savedData?.roofData.map((data) => {
+                      if (row._id === data.materialId) {
+                        return (
+                          <span key={data.materialId}>
+                            {row.rate * data.quantity}
+                          </span>
+                        );
+                      }
+                      return null; // Return null for non-matching rows
+                    })}
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))}
+              <StyledTableRow
+                style={{ border: "4px solid #333", marginBlock: "10px" }}
+              >
+                <StyledTableCell variant="dark">
+                  <Typography variant="h4" color={"primary"}>
+                    {" "}
+                    Total Amount
+                  </Typography>
+                </StyledTableCell>
+
+                <StyledTableCell align="center"></StyledTableCell>
+
+                <StyledTableCell align="center"></StyledTableCell>
+
+                <StyledTableCell align="center"></StyledTableCell>
+
+                <StyledTableCell fontWeight="800">
+                  {totalAmount}
                 </StyledTableCell>
               </StyledTableRow>
-            ))}
-            <StyledTableRow
-              style={{ border: "4px solid #333", marginBlock: "10px" }}
-            >
-              <StyledTableCell variant="dark">
-                <Typography variant="h4" color={"primary"}>
-                  {" "}
-                  Total Amount
-                </Typography>
-              </StyledTableCell>
-
-              <StyledTableCell align="center"></StyledTableCell>
-
-              <StyledTableCell align="center"></StyledTableCell>
-
-              <StyledTableCell align="center"></StyledTableCell>
-
-              <StyledTableCell fontWeight="800">{totalAmount}</StyledTableCell>
-            </StyledTableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
     </Box>
   );
 };

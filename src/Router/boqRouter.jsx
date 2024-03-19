@@ -37,7 +37,12 @@ const ElectricalInstallation= lazy(() => import("../components/boqComponents/Ele
 const SkimmingInside= lazy(() => import("../components/boqComponents/SkimmingInside"));
 const SkimmingOutside= lazy(() => import("../components/boqComponents/SkimmingOutside"));
 const BlanderingOutside= lazy(() => import("../components/boqComponents/BlandOutside"));
-const BlanderingInside= lazy(() => import("../components/boqComponents/BlandOutside"));
+const BlanderingInside= lazy(() => import("../components/boqComponents/BlandInside"));
+const WaterInside= lazy(() => import("../components/boqComponents/waterIn"));
+const WaterOut= lazy(() => import("../components/boqComponents/waterOutside"));
+const SewageInside = lazy(() => import("../components/boqComponents/SewageInside"));
+const FinishingInside= lazy(() => import("../components/boqComponents/FinishingInside"));
+const Septic = lazy(() => import("../components/boqComponents/Septic"));
 
 export default function AdminRoutes() {
   let element = useRoutes([
@@ -179,6 +184,26 @@ export default function AdminRoutes() {
     {
       path: '/blandeIn',
       element: <BlanderingInside/>,
+    },
+    {
+      path: '/waterInside',
+      element: <WaterInside/>,
+    },
+    {
+      path: '/waterOutside',
+      element: <WaterOut/>,
+    },
+    {
+      path: '/sewage',
+      element: <SewageInside/>,
+    },
+    {
+      path: '/finishInside',
+      element: <FinishingInside/>,
+    },
+    {
+      path: '/septic',
+      element: <Septic/>,
     },
     
     {

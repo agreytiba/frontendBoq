@@ -247,7 +247,7 @@ const Walling = ({ setIsSidebar }) => {
   };
   return (
     <Box mt={"2rem"} boxShadow={`0 4px 12px rgba(0,0,0,0.3)`} p={`20px`} borderRadius={`10px`}>
-      <TableContainer >
+      {!user.accessLevel === "pricetag" ? <TableContainer >
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
@@ -307,11 +307,11 @@ const Walling = ({ setIsSidebar }) => {
                         Submit
                       </button>
                     </div>
-                  ) :  (<>{(user?.accessLevel === "admin" || user?.accessLevel === "boq") &&
-                  <Box onClick={() => setEditingQuantity(row.material)}>
-                    <Edit />
+                  ) : (<>{(user?.accessLevel === "admin" || user?.accessLevel === "boq") &&
+                    <Box onClick={() => setEditingQuantity(row.material)}>
+                      <Edit />
                      
-                  </Box>}</>
+                    </Box>}</>
                   )}
                 </StyledTableCell>
                 <StyledTableCell align="right">
@@ -339,8 +339,8 @@ const Walling = ({ setIsSidebar }) => {
                       {row.rate}
                       {(user?.accessLevel === "admin" ||
                         user?.accessLevel === "pricetag") && (
-                        <Edit onClick={() => setEditingRate(row.material)} />
-                      )}
+                          <Edit onClick={() => setEditingRate(row.material)} />
+                        )}
                     </span>
                   )}
                 </StyledTableCell>
@@ -378,7 +378,76 @@ const Walling = ({ setIsSidebar }) => {
             </StyledTableRow>
           </TableBody>
         </Table>
+      </TableContainer> :
+        <TableContainer >
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <Typography
+                variant={"h3"}
+                paddingY="10px"
+                fontWeight="bold"
+                color={"primary"}
+              >
+                C. WALLING
+              </Typography>
+            </TableRow>
+            <TableRow style={{ marginBottom: "5px" }}>
+              <StyledTableCell>material</StyledTableCell>
+              <StyledTableCell align="right">unit</StyledTableCell>
+              <StyledTableCell align="right">rate&nbsp;(tsh)</StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {wallingRows.map((row) => (
+              <StyledTableRow
+                key={row._id}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <StyledTableCell component="th" scope="row">
+                  {row.material}
+                </StyledTableCell>
+                <StyledTableCell align="right">{row.unit}</StyledTableCell>
+                
+                <StyledTableCell align="right">
+                  {editingRate === row.material ? (
+                    <div>
+                      <input
+                        type="number"
+                        value={newRate}
+                        onChange={(e) => setNewRate(e.target.value)}
+                        style={{ height: "50px", width: "50px" }}
+                      />
+                      {row.quantity}
+                      <button onClick={() => handleRateUpdate(row._id)}>
+                        Submit
+                      </button>
+                    </div>
+                  ) : (
+                    <span
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        columnGap: "10px",
+                      }}
+                    >
+                      {row.rate}
+                      {(user?.accessLevel === "admin" ||
+                        user?.accessLevel === "pricetag") && (
+                          <Edit onClick={() => setEditingRate(row.material)} />
+                        )}
+                    </span>
+                  )}
+                </StyledTableCell>
+             
+              </StyledTableRow>
+            ))}
+      
+          </TableBody>
+        </Table>
       </TableContainer>
+      
+      }
     </Box>
   );
 };

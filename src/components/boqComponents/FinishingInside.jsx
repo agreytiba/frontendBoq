@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { API_BASE_URL } from "../../confing.js/baseUrl";
 
+// Styled components
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -29,114 +30,97 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(odd)": {
     backgroundColor: theme.palette.action.hover,
   },
-  // hide last border
   "&:last-child td, &:last-child th": {
     border: 0,
   },
 }));
 
-const SkimmingOutside = () => {
-  // get data from response
-  const [skimmingInsideRows, setSkimmingInsideRows] = useState([]);
-  const [skimmingOutsideRows, setSkimmingOutsideRows] = useState([]);
-  const [allData, setAllData] = useState([]);
-  // edit rate useState
+const FinishingIn = () => {
+  const [dataRows, setDataRows] = useState([]);
   const [editingRate, setEditingRate] = useState(null);
   const [newRate, setNewRate] = useState(null);
-  // use state to get savedpre data
   const [savedData, setSavedData] = useState(null);
-  // get  quantity
-  const [editingQuantity, setEditingQuantity] = useState(null); // Add state for editing quantity
-  const [quantity, setQuantity] = useState(""); // Add state for new quantity
-
-  //  get user from session store
+  const [editingQuantity, setEditingQuantity] = useState(null);
+  const [quantity, setQuantity] = useState("");
   const user = JSON.parse(sessionStorage.getItem("user"));
-
   const config = {
     headers: {
       Authorization: `Bearer ${user?.token}`,
     },
   };
-  //  useEffect to get data from database
+
   useEffect(() => {
     fetchData();
+    fetchSavedData();
   }, []);
 
-  //function to fetch data from the database
   const fetchData = async () => {
     try {
-      const response = await axios.get(API_BASE_URL + "/api/skimming", config);
+      const response = await axios.get(API_BASE_URL + "/api/plumbing", config);
       if (response.data) {
-        setAllData(response.data);
-        //  file data according to property  of "type" from data
-        const filteredOutside = response.data.filter((entry) =>
-          entry.type.includes("outside")
+        const filteredInside = response.data.filter((entry) =>
+          entry.type.includes("finishIn")
         );
-        setSkimmingOutsideRows(filteredOutside);
+        setDataRows(filteredInside);
       }
     } catch (error) {
-      console.error("Error fetching data:", error);
+      toast.error("Error fetching data:", error);
     }
   };
 
-  // handle update rate
-  const handleRateUpdate = async (materialId) => {
-    if (newRate !== null) {
-      try {
-        const response = await axios.put(
-          API_BASE_URL + `/api/skimming/${materialId}`,
-          { newRate: newRate },
-          config
-        );
-        setNewRate(null);
-        if (response.data) {
-          setEditingRate(null);
-          await fetchData();
-        } else {
-          toast.error("Failed to update rate in the backend");
-        }
-      } catch (error) {
-        toast.error(`kuna matatizo katika kubadilisha bei, ${error}`);
-      }
-      setEditingRate(null);
-    }
-  };
-
-  const savedInfo = JSON.parse(localStorage.getItem("savedData"));
-  // fetch SavedPre by Id
+const savedInfo = JSON.parse(localStorage.getItem("savedData"));
+   
   const fetchSavedData = async () => {
     try {
+      
       if (savedInfo.savedPreId) {
         const response = await axios.get(
-          API_BASE_URL + `/api/savedskimoutside/${savedInfo.savedPreId}`,
+          API_BASE_URL + `/api/savedfinishIn/${savedInfo.savedPreId}`,
           config
         );
         setSavedData(response.data);
+        console.log(response.data)
       }
     } catch (error) {
       toast.error("Error fetching savedData:", error);
     }
   };
 
-  //  use effect to get savedData by id
-  useEffect(() => {
-    fetchSavedData();
-  }, [savedInfo.savedPreId]);
+  const handleRateUpdate = async (materialId) => {
+    if (newRate !== null) {
+      try {
+        const response = await axios.put(
+          API_BASE_URL + `/api/plumbing/${materialId}`,
+          { newRate: newRate },
+          config
+        );
+        setNewRate(null);
+        if (response.data) {
+          setEditingRate(null);
+          fetchData();
+        } else {
+          toast.error("Failed to update rate in the backend");
+        }
+      } catch (error) {
+        toast.error(`Error updating rate: ${error}`);
+      }
+    }
+  };
 
   const handleQuantityUpdate = async (materialId) => {
     if (quantity !== "") {
       try {
         const response = await axios.put(
-          API_BASE_URL + `/api/savedskimoutside/${savedInfo.savedPreId}`,
+          API_BASE_URL + `/api/savedfinishIn/${savedData._id}`,
           {
-            quantity: Number(quantity), // Convert to number
+            quantity: Number(quantity),
             materialId,
           },
           config
         );
 
         if (response.data) {
-          setQuantity(""); // Reset the quantity input
+          setQuantity("");
           setEditingQuantity(false);
           fetchSavedData();
         } else {
@@ -148,11 +132,8 @@ const SkimmingOutside = () => {
     }
   };
 
-  // Calculate the total amount of the pre items
-  const totalAmount = savedData?.skimData.reduce((total, data) => {
-    const material = skimmingOutsideRows.find(
-      (row) => row._id === data.materialId
-    );
+  const totalAmount = savedData?.finishInData.reduce((total, data) => {
+    const material = dataRows.find((row) => row._id === data.materialId);
     if (material) {
       const amount = material.rate * data.quantity;
       return total + amount;
@@ -160,59 +141,34 @@ const SkimmingOutside = () => {
     return total;
   }, 0);
 
-  // currency formatter
-  // currency format
   const formatCurrency = (value) => {
-    const formattedValue = new Intl.NumberFormat({
+    return new Intl.NumberFormat("en-US", {
       style: "currency",
-      currency: "TZS", // Tanzanian Shillings
-      minimumFractionDigits: 0, // Display whole numbers
+      currency: "TZS",
+      minimumFractionDigits: 0,
     }).format(value);
-
-    return `${formattedValue}`; // Concatenate the "TSh" sign
   };
+
   return (
-    <Box
-      mt={"2rem"}
-      boxShadow={`0 4px 12px rgba(0,0,0,0.3)`}
-      p={`20px`}
-      borderRadius={`10px`}
-    >
+    <Box mt={"2rem"} boxShadow={`0 4px 12px rgba(0,0,0,0.3)`} p={`20px`} borderRadius={`10px`}>
       {user.accessLevel === "pricetag" ? (
         <Box>
           <TableContainer>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  <Typography
-                    variant={"h3"}
-                    paddingY="10px"
-                    fontWeight="bold"
-                    color={"primary"}
-                  >
-                    WALL SKIMMING
+                  <Typography variant={"h5"} paddingY="10px" fontWeight="bold" color={"primary"}>
+                     Finishings Inside
                   </Typography>
                 </TableRow>
                 <TableRow style={{ marginBottom: "5px" }}>
                   <StyledTableCell>material</StyledTableCell>
                   <StyledTableCell align="right">unit</StyledTableCell>
-                  <StyledTableCell align="right">
-                    rate&nbsp;(tsh)
-                  </StyledTableCell>
+                  <StyledTableCell align="right">rate&nbsp;(tsh)</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                <TableRow>
-                  <Typography
-                    variant={"h5"}
-                    fontWeight="bold"
-                    color={"primary"}
-                    paddingTop="10px"
-                  >
-                    Wall skimming materials
-                  </Typography>
-                </TableRow>
-                {skimmingOutsideRows.map((row) => (
+                {dataRows?.map((row) => (
                   <StyledTableRow
                     key={row.material}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -221,7 +177,6 @@ const SkimmingOutside = () => {
                       {row.material}
                     </StyledTableCell>
                     <StyledTableCell align="right">{row.unit}</StyledTableCell>
-                  
                     <StyledTableCell align="right">
                       {editingRate === row.material ? (
                         <div>
@@ -231,10 +186,7 @@ const SkimmingOutside = () => {
                             onChange={(e) => setNewRate(e.target.value)}
                             style={{ height: "50px", width: "50px" }}
                           />
-                          {row.quantity}
-                          <button onClick={() => handleRateUpdate(row._id)}>
-                            Submit
-                          </button>
+                          <button onClick={() => handleRateUpdate(row._id)}>Submit</button>
                         </div>
                       ) : (
                         <span
@@ -245,16 +197,12 @@ const SkimmingOutside = () => {
                           }}
                         >
                           {formatCurrency(row.rate)}
-                          {(user?.accessLevel === "admin" ||
-                            user?.accessLevel === "pricetag") && (
-                            <Edit
-                              onClick={() => setEditingRate(row.material)}
-                            />
+                          {(user?.accessLevel === "admin" || user?.accessLevel === "pricetag") && (
+                            <Edit onClick={() => setEditingRate(row.material)} />
                           )}
                         </span>
                       )}
                     </StyledTableCell>
-                  
                   </StyledTableRow>
                 ))}
               </TableBody>
@@ -267,37 +215,20 @@ const SkimmingOutside = () => {
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  <Typography
-                    variant={"h3"}
-                    paddingY="10px"
-                    fontWeight="bold"
-                    color={"primary"}
-                  >
-                    1. Wall skimming outside
+                  <Typography variant={"h4"} paddingY="10px" fontWeight="bold" color={"primary"}>
+                 Finishings Inside
                   </Typography>
                 </TableRow>
                 <TableRow style={{ marginBottom: "5px" }}>
                   <StyledTableCell>material</StyledTableCell>
                   <StyledTableCell align="right">unit</StyledTableCell>
                   <StyledTableCell align="right">quantity</StyledTableCell>
-                  <StyledTableCell align="right">
-                    rate&nbsp;(tsh)
-                  </StyledTableCell>
-                  <StyledTableCell align="right">
-                    Amount&nbsp;(tsh)
-                  </StyledTableCell>
+                  <StyledTableCell align="right">rate&nbsp;(tsh)</StyledTableCell>
+                  <StyledTableCell align="right">Amount&nbsp;(tsh)</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                <TableRow>
-                  {/* <Typography   variant={"h5"}
-                fontWeight="bold"
-                color={"primary"}
-                paddingTop="10px">
-                2. Wall Skimming Outside
-              </Typography> */}
-                </TableRow>
-                {skimmingOutsideRows.map((row) => (
+                {dataRows?.map((row) => (
                   <StyledTableRow
                     key={row.material}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -307,9 +238,9 @@ const SkimmingOutside = () => {
                     </StyledTableCell>
                     <StyledTableCell align="right">{row.unit}</StyledTableCell>
                     <StyledTableCell align="right">
-                      {savedData?.skimData !== null ? (
+                      {savedData?.finishInData !== null ? (
                         <Box>
-                          {savedData?.skimData.map((data) => {
+                          {savedData?.finishInData.map((data) => {
                             if (row._id === data.materialId) {
                               return (
                                 <>
@@ -330,17 +261,12 @@ const SkimmingOutside = () => {
                             onChange={(e) => setQuantity(e.target.value)}
                             style={{ height: "50px", width: "50px" }}
                           />
-                          <button onClick={() => handleQuantityUpdate(row._id)}>
-                            Submit
-                          </button>
+                          <button onClick={() => handleQuantityUpdate(row._id)}>Submit</button>
                         </div>
                       ) : (
                         <>
-                          {(user?.accessLevel === "admin" ||
-                            user?.accessLevel === "boq") && (
-                            <Box
-                              onClick={() => setEditingQuantity(row.material)}
-                            >
+                          {(user?.accessLevel === "admin" || user?.accessLevel === "boq") && (
+                            <Box onClick={() => setEditingQuantity(row.material)}>
                               <Edit />
                             </Box>
                           )}
@@ -356,10 +282,7 @@ const SkimmingOutside = () => {
                             onChange={(e) => setNewRate(e.target.value)}
                             style={{ height: "50px", width: "50px" }}
                           />
-                          {row.quantity}
-                          <button onClick={() => handleRateUpdate(row._id)}>
-                            Submit
-                          </button>
+                          <button onClick={() => handleRateUpdate(row._id)}>Submit</button>
                         </div>
                       ) : (
                         <span
@@ -370,17 +293,14 @@ const SkimmingOutside = () => {
                           }}
                         >
                           {formatCurrency(row.rate)}
-                          {(user?.accessLevel === "admin" ||
-                            user?.accessLevel === "pricetag") && (
-                            <Edit
-                              onClick={() => setEditingRate(row.material)}
-                            />
+                          {(user?.accessLevel === "admin" || user?.accessLevel === "pricetag") && (
+                            <Edit onClick={() => setEditingRate(row.material)} />
                           )}
                         </span>
                       )}
                     </StyledTableCell>
                     <StyledTableCell align="right">
-                      {savedData?.skimData.map((data) => {
+                      {savedData?.finishInData.map((data) => {
                         if (row._id === data.materialId) {
                           return (
                             <span key={data.materialId}>
@@ -388,30 +308,21 @@ const SkimmingOutside = () => {
                             </span>
                           );
                         }
-                        return null; // Return null for non-matching rows
+                        return null;
                       })}
                     </StyledTableCell>
                   </StyledTableRow>
                 ))}
-                <StyledTableRow
-                  style={{ border: "4px solid #333", marginBlock: "10px" }}
-                >
+                <StyledTableRow style={{ border: "4px solid #333", marginBlock: "10px" }}>
                   <StyledTableCell variant="dark">
                     <Typography variant="h4" color={"primary"}>
-                      {" "}
                       Total Amount
                     </Typography>
                   </StyledTableCell>
-
                   <StyledTableCell align="center"></StyledTableCell>
-
                   <StyledTableCell align="center"></StyledTableCell>
-
                   <StyledTableCell align="center"></StyledTableCell>
-
-                  <StyledTableCell fontWeight="800">
-                    {formatCurrency(totalAmount)}
-                  </StyledTableCell>
+                  <StyledTableCell fontWeight="800">{formatCurrency(totalAmount)}</StyledTableCell>
                 </StyledTableRow>
               </TableBody>
             </Table>
@@ -422,4 +333,4 @@ const SkimmingOutside = () => {
   );
 };
 
-export default SkimmingOutside;
+export default FinishingIn;
