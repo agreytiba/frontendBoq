@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   Box,
   Typography,
@@ -18,6 +18,7 @@ import { deleteMap, getAllMaps, reset } from "../redux/maps/mapsSlice";
 import { DeleteOutlined } from "@mui/icons-material";
 
 import Spinner from "./Spinner";
+import { AppContext } from "../useContextApi/AppContext";
 const CustomerDrawing = () => {
   //usestate for get data
   const [data, setData] = useState();
@@ -39,6 +40,8 @@ const CustomerDrawing = () => {
   // initiliaze useDispatch && useNavigate
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const {setShowUseBoq} = useContext(AppContext)
 
   // get user from local
   const user = JSON.parse(sessionStorage.getItem("user"));
@@ -73,7 +76,8 @@ const CustomerDrawing = () => {
 
   // handle show the  boq created
   const handleGetBoq = (id) => {
-    navigate("userboq", { state: id });
+     setShowUseBoq(true)
+    navigate("/", { state: id });
      localStorage.setItem('myMapId', JSON.stringify(id))
   };
   // handle get all maps

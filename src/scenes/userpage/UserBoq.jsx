@@ -1,6 +1,6 @@
 import React from 'react'
 import Pre from '../../components/user/pre'
-import Wall from '../../components/user/wall'
+import Wall from '../../components/user/walling'
 import Plaster from '../../components/user/Plaster'
 import Tile from '../../components/user/Tile'
 import Roof from '../../components/user/Roof'

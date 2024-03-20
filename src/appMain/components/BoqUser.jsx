@@ -17,6 +17,8 @@ const BoqUser = () => {
 
   return (
     <Container>
+      <Box>
+        <LogNavbar /></Box>
       <Grid container>
         {isSidebarVisible && (
           <Grid item md={3}>
@@ -24,7 +26,6 @@ const BoqUser = () => {
           </Grid>
         )}
         <Grid item md={isSidebarVisible ? 9 : 12}>
-          <LogNavbar />
           <Box sx={{ margin: `10px` }}>
             <BoqRoutes />
           </Box>

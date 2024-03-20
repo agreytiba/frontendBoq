@@ -2,7 +2,7 @@
 import React from 'react'
 import ReadBoq from '../ReadBoq'
 
-const DataBoq = () => {
+const Walling = () => {
   const tableHeaders = [
   'Material ID',
     'Unit',
@@ -11,10 +11,10 @@ const DataBoq = () => {
      'Amount'
 ]
   const infoData = {
-    urlName: 'savedfinishing',
-    collectionName: 'finishData',
-    Title: 'Finishing',
-    pdfTitle:'Finishing_Boq',
+    urlName: 'savedwalling',
+    collectionName: 'wallData',
+    Title: 'Walling',
+    pdfTitle:'Walling_Boq',
     tableHeaders
   }
   return (
@@ -22,4 +22,4 @@ const DataBoq = () => {
   )
 }
 
-export default DataBoq
+export default Walling

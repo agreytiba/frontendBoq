@@ -8,7 +8,7 @@ const SubPad = lazy(() => import("../components/user/pad"));
 const SubWallFoundation = lazy(() => import("../components/user/wallfound"));
 const SubBeamFoundation= lazy(() => import("../components/user/beam"));
 const SubConcrete= lazy(() => import("../components/user/Concerate"));
-const Walling= lazy(() => import("../components/user/wall"));
+const Walling= lazy(() => import("../components/user/walling"));
 const Roofing= lazy(() => import("../components/user/Roof"));
 
 const GypsumCeiling= lazy(() => import("../components/user/Gysum"));
@@ -28,7 +28,15 @@ const ElectricalInstallation= lazy(() => import("../components/user/Electric"));
 const SkimmingInside= lazy(() => import("../components/user/Skimin"));
 const SkimmingOutside= lazy(() => import("../components/user/Skimout"));
 const BlanderingOutside= lazy(() => import("../components/user/BlandOut"));
-const BlanderingInside= lazy(() => import("../components/user/Blandin"));
+const BlanderingInside = lazy(() => import("../components/user/Blandin"));
+const WaterInside = lazy(() => import("../components/user/WaterInside"));
+const WaterOutside = lazy(() => import("../components/user/WaterOut"));
+const SewageInside = lazy(() => import("../components/user/SewageIn"));
+const FinishIn = lazy(() => import("../components/user/FinishIn"));
+const SepticTank = lazy(() => import("../components/user/septicTank"));
+
+
+
 export default function MyBoqRoutes() {
   let element = useRoutes([
       {
@@ -149,10 +157,29 @@ export default function MyBoqRoutes() {
       path: '/blandeIn',
       element: <BlanderingInside/>,
     },
-    
+    {
+      path: '/waterInside',
+      element: <WaterInside/>,
+    },
+    {
+      path: '/waterOutside',
+      element: <WaterOutside/>,
+    },
+    {
+      path: '/sewage',
+      element: <SewageInside/>,
+    },
+    {
+      path: '/finishInside',
+      element: <FinishIn/>,
+    },
+    {
+      path: '/septic',
+      element: <SepticTank/>,
+    },
     // {
     //   path: '*',
-    //   element: <Boq/>,
+    //   element: <Preliminaries/>,
     // },
   
 

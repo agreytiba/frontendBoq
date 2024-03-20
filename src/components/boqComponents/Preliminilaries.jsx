@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 import axios from 'axios';
 import { Edit } from '@mui/icons-material';
 import { API_BASE_URL } from '../../confing.js/baseUrl';
+import { formatCurrency } from '../../utulities/formatCurrency';
 
 
 
@@ -285,11 +286,12 @@ const totalAmount = savedPre?.preData.reduce((total, data) => {
                             onChange={(e) => setNewRate(e.target.value)}
                             style={{ height: "50px", width: "50px" }}
                           />
-                          {row.quantity}
+                          {/* {row.quantity} */}
+                         {row.quantity}
                           <button onClick={() => handleRateUpdate(row._id)}>Submit</button>
                         </div>) : (
                         <span style={{ display: "flex", justifyContent: "center", columnGap: "10px" }}>
-                          {row.rate}{(user?.accessLevel === "admin" || user?.accessLevel === "pricetag") && <Edit onClick={() => setEditingRate(row.material)} />}
+                          {formatCurrency(row.rate)}{(user?.accessLevel === "admin" || user?.accessLevel === "pricetag") && <Edit onClick={() => setEditingRate(row.material)} />}
                         </span>
                       )}
                     </StyledTableCell>
@@ -297,7 +299,7 @@ const totalAmount = savedPre?.preData.reduce((total, data) => {
                     <StyledTableCell align="center">
                       {savedPre?.preData.map((data) => {
                         if (row._id === data.materialId) {
-                          return <span key={data.materialId}>{row.rate * data.quantity}</span>;
+                          return <span key={data.materialId}>{formatCurrency(row.rate * data.quantity)}</span>;
                         }
                         return null; // Return null for non-matching rows
                       })}
@@ -321,7 +323,7 @@ const totalAmount = savedPre?.preData.reduce((total, data) => {
           
                   <StyledTableCell align="center"></StyledTableCell>
           
-                  <StyledTableCell fontWeight='800'>{totalAmount}</StyledTableCell>
+                  <StyledTableCell fontWeight='800'>{formatCurrency(totalAmount)}Tsh</StyledTableCell>
                 </StyledTableRow>
             
               </TableBody> : <Typography >hakuna data</Typography>}

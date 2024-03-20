@@ -1,8 +1,7 @@
-
 import React from 'react'
 import ReadBoq from '../ReadBoq'
 
-const DataBoq = () => {
+const WaterOutside = () => {
   const tableHeaders = [
   'Material ID',
     'Unit',
@@ -11,10 +10,10 @@ const DataBoq = () => {
      'Amount'
 ]
   const infoData = {
-    urlName: 'savedfinishing',
-    collectionName: 'finishData',
-    Title: 'Finishing',
-    pdfTitle:'Finishing_Boq',
+    urlName: 'savedwaterOut',
+    collectionName: 'waterOutData',
+    Title: 'Clean  and Sewage water outside',
+    pdfTitle:'Water_Outside_Boq',
     tableHeaders
   }
   return (
@@ -22,4 +21,4 @@ const DataBoq = () => {
   )
 }
 
-export default DataBoq
+export default WaterOutside

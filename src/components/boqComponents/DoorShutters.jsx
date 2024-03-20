@@ -171,8 +171,88 @@ const DoorShutters = () => {
   };
   return (
     <Box mt={"2rem"} boxShadow={`0 4px 12px rgba(0,0,0,0.3)`} p={`20px`} borderRadius={`10px`}>
-      {!user.accessLevel === "pricetag" ?
-        <TableContainer >
+      {user.accessLevel === "pricetag" ?
+         <TableContainer >
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <Typography
+                  variant={"h4"}
+                  paddingY="10px"
+                  fontWeight="bold"
+                  color={"primary"}
+                >
+                  2. Door Shutter
+                </Typography>
+              </TableRow>
+
+              <TableRow style={{ marginBottom: "5px" }}>
+                <StyledTableCell>Material</StyledTableCell>
+                <StyledTableCell align="right">Unit</StyledTableCell>
+                <StyledTableCell align="right">Rate</StyledTableCell>
+              
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {/* <TableRow>
+              <Typography
+                variant={"h5"}
+                fontWeight="bold"
+                color={"primary"}
+                paddingTop="10px"
+              >
+                2. Door Shutter
+              </Typography>
+            </TableRow> */}
+              {doorShutterRows.map((row) => (
+                <StyledTableRow
+                  key={row.material}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <StyledTableCell component="th" scope="row">
+                    {row.material}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">{row.unit}</StyledTableCell>
+              
+                  <StyledTableCell align="right">
+                    {editingRate === row.material ? (
+                      <div>
+                        <input
+                          type="number"
+                          value={newRate}
+                          onChange={(e) => setNewRate(e.target.value)}
+                          style={{ height: "50px", width: "50px" }}
+                        />
+                        {row.quantity}
+                        <button onClick={() => handleRateUpdate(row._id)}>
+                          Save
+                        </button>
+                      </div>
+                    ) : (
+                      <span
+                        style={{
+                          display: "flex",
+                          justifyContent: "right",
+                          columnGap: "10px",
+                        }}
+                      >
+                        {formatCurrency(row.rate)}
+                        {(user?.accessLevel === "admin" ||
+                          user?.accessLevel === "pricetag") && (
+                            <Edit
+                              onClick={() => setEditingRate(row.material)}
+                            />
+                          )}
+                      </span>
+                    )}
+                  </StyledTableCell>
+                
+                </StyledTableRow>
+              ))}
+            
+            </TableBody>
+          </Table>
+        </TableContainer>:<TableContainer >
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
@@ -316,87 +396,7 @@ const DoorShutters = () => {
               </StyledTableRow>
             </TableBody>
           </Table>
-        </TableContainer> : <TableContainer >
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <Typography
-                  variant={"h4"}
-                  paddingY="10px"
-                  fontWeight="bold"
-                  color={"primary"}
-                >
-                  2. Door Shutter
-                </Typography>
-              </TableRow>
-
-              <TableRow style={{ marginBottom: "5px" }}>
-                <StyledTableCell>Material</StyledTableCell>
-                <StyledTableCell align="right">Unit</StyledTableCell>
-                <StyledTableCell align="right">Rate</StyledTableCell>
-              
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {/* <TableRow>
-              <Typography
-                variant={"h5"}
-                fontWeight="bold"
-                color={"primary"}
-                paddingTop="10px"
-              >
-                2. Door Shutter
-              </Typography>
-            </TableRow> */}
-              {doorShutterRows.map((row) => (
-                <StyledTableRow
-                  key={row.material}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <StyledTableCell component="th" scope="row">
-                    {row.material}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">{row.unit}</StyledTableCell>
-              
-                  <StyledTableCell align="right">
-                    {editingRate === row.material ? (
-                      <div>
-                        <input
-                          type="number"
-                          value={newRate}
-                          onChange={(e) => setNewRate(e.target.value)}
-                          style={{ height: "50px", width: "50px" }}
-                        />
-                        {row.quantity}
-                        <button onClick={() => handleRateUpdate(row._id)}>
-                          Save
-                        </button>
-                      </div>
-                    ) : (
-                      <span
-                        style={{
-                          display: "flex",
-                          justifyContent: "right",
-                          columnGap: "10px",
-                        }}
-                      >
-                        {formatCurrency(row.rate)}
-                        {(user?.accessLevel === "admin" ||
-                          user?.accessLevel === "pricetag") && (
-                            <Edit
-                              onClick={() => setEditingRate(row.material)}
-                            />
-                          )}
-                      </span>
-                    )}
-                  </StyledTableCell>
-                
-                </StyledTableRow>
-              ))}
-            
-            </TableBody>
-          </Table>
-        </TableContainer>}
+        </TableContainer> }
     </Box>
   );
 };

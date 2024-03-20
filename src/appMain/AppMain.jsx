@@ -15,7 +15,7 @@ const PangaRouter = lazy(() => import("../Router/pangaRouter"));
 const VipimoRouter = lazy(() => import("../Router/vipimoRouter"));
 const PriceRouter = lazy(() => import("../Router/PriceRouter"));
 const BoqUser = lazy(() => import("./components/BoqUser"));
-const Boq = lazy(() => import("../Router/boqRouter"));
+const UserViewRouter = lazy(() => import("./components/userViewRouter"));
 
 const AppMain = () => {
   const { user } = useSelector((state) => state.auth);
@@ -27,13 +27,14 @@ const AppMain = () => {
       return (
         <Suspense fallback={<Spinner />}>
           {showBoq ? <BoqUser /> : <AdminApp />}
+         
         </Suspense>
       );
     case "user":
       return (
         <Suspense fallback={<Spinner />}>
           <LogNavbar />
-          {showUserBoq ? <MyBoqRoutes /> : <RegularRouter />}
+          {showUserBoq ? <UserViewRouter/> : <RegularRouter />}
         </Suspense>
       );
     case "boq":

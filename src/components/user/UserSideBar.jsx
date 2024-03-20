@@ -42,7 +42,7 @@ const DropdownBackground = styled("div")({
   borderRadius: "0 0 5px 5px",
 });
 
-const BoqSideBar = () => {
+const UserSideBar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -53,7 +53,7 @@ const BoqSideBar = () => {
   });
 
   const navigationItems = [
-    { path: "/pre", icon: <HomeIcon />, text: "Preliminaries", name:"savedpres" },
+    { path: "/", icon: <HomeIcon />, text: "Preliminaries", name:"savedpres" },
 
     {
       text: "Substructure",
@@ -178,25 +178,25 @@ const BoqSideBar = () => {
 
   const handleListItemClick = async(item) => {
 
-       try {
-      const mapData = JSON.parse(localStorage.getItem("mapData"));
-      const mapId = mapData._id;
+    //    try {
+    //   const mapData = JSON.parse(localStorage.getItem("mapData"));
+    //   const mapId = mapData._id;
 
-      const response = await axios.post(API_BASE_URL + `/api/${item.name}`, { mapId });
+    //   const response = await axios.post(API_BASE_URL + `/api/${item.name}`, { mapId });
 
-      if (response.data) {
-        const combinedData = {
-          mapId,
-          savedPreId: response.data._id,
-        };
-        navigate(item.path);
-        localStorage.setItem("savedData", JSON.stringify(combinedData));
-      }
-    } catch (error) {
-      toast.error("Error creating saved pre:", error.response?.data);
-    }
-    console.log(item)
-    // navigate(item.path);
+    //   if (response.data) {
+    //     const combinedData = {
+    //       mapId,
+    //       savedPreId: response.data._id,
+    //     };
+    //     navigate(item.path);
+    //     localStorage.setItem("savedData", JSON.stringify(combinedData));
+    //   }
+    // } catch (error) {
+    //   toast.error("Error creating saved pre:", error.response?.data);
+    // }
+    // console.log(item)
+    navigate(item.path);
   };
 
   const handleLogoutUser = () => {
@@ -301,4 +301,4 @@ const BoqSideBar = () => {
   );
 };
 
-export default BoqSideBar;
+export default UserSideBar;
