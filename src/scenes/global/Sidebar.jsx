@@ -12,6 +12,7 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import { useDispatch } from 'react-redux';
 import './sidebar.css';
+import '../../components/css/userRouter.css';
 import { Book, Padding, Person2TwoTone, Person3Rounded, ScubaDiving } from '@mui/icons-material';
 
 const DropdownArrow = styled('div')({
@@ -32,7 +33,7 @@ const DropdownBackground = styled('div')({
   borderRadius: '0 0 5px 5px',
 });
 
-const NavigationBar = () => {
+const NavigationBar = ({navigationItems}) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -42,35 +43,7 @@ const NavigationBar = () => {
     // Add more dropdowns here if needed
   });
 
-  const navigationItems = [
-    { path: '/dashboard', icon: <HomeIcon />, text: 'Home' },
-    {
-      text: 'Watumiaji',
-      icon: <Person2TwoTone/>,
-      children: [
-        { path: '/mteja', text: 'wateja' },
-        { path: '/pangaramani', text: 'Panga Ramani' },
-        { path: '/vipimo', text: 'angalia vipimo' },
-        { path: '/suggestion', text: 'maboresho' },
-        { path: '/mtoahuduma', text: 'watoa huduma' },
-      ],
-    },
-    {
-      text: 'Ramani',
-      icon: <Book />,
-      children: [
-        { path: '/allpdf', text: 'pdfs' },
-        { path: '/maps', text: 'ramani zote' },
-        { path: '/failed', text: 'zilizofail' },
-        { path: '/passed', text: 'Zilizofanikiwa' },
-      ],
-    },
-    { path: '/bidhaa', icon: <Request />, text: 'Bidhaa' },
-    { path: '/completedboq', icon: <DoneIcon/>, text: 'zilizokamilika' },
-    { path: '/boq', icon: <Padding />, text: 'Boq' },
-    { path: '/users', icon: <Person3Rounded />, text: 'Users' },
-    { path: '/blog', icon: <MailIcon/>, text: 'Blog' },
-  ];
+ 
 
   const handleListItemClick = (path) => {
     navigate(path);
@@ -112,11 +85,11 @@ const NavigationBar = () => {
               <React.Fragment key={index}>
                 <ListItem
                   button
-                  className={`navbar-item ${isOpen ? 'active' : ''}`}
+                  className={`navbar-item ${isOpen ? 'activ' : ''}`}
                   onClick={() => handleDropdownClick(item.text.toLowerCase())}
                 >
                   {item.icon && <ListItemIcon>{item.icon}</ListItemIcon>}
-                  <ListItemText primary={item.text} style={{ color: '#000' }} />
+                  <ListItemText primary={item.text} color='#000' />
                   {isOpen ? <ExpandLess /> : <ExpandMore />}
                 </ListItem>
                 <Collapse in={isOpen} timeout="auto" unmountOnExit>

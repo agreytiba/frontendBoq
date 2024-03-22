@@ -13,11 +13,13 @@ const Blog = () => {
 	// color themes
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
+	const user = JSON.parse(sessionStorage.getItem("user"));
 
 	return (
 		<Box  display="flex" justifyContent="center" alignItems="center" py="50px">
 		<Box width="90%" p="10px" boxShadow="0 0 5px #333">
-			   	<Box>
+				{(user?.accessLevel === "admin") &&
+					<Box>
 				<Button
 					style={{
 					
@@ -29,7 +31,7 @@ const Blog = () => {
 				>
 				weka post
 				</Button>
-            </Box>
+            </Box>}
           
             	<Box my="4em">
 				<Box textAlign="center" mb="1rem">

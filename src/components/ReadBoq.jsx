@@ -13,6 +13,7 @@ const ReadBoq = ({ infoData }) => {
 
   const [boqData, setBoqData] = useState([]);
   const [boqInfo, setBoqInfo] = useState([]);
+
  
   // get saved mapId from local storage
   const mapId = JSON.parse(localStorage.getItem("myMapId"));
@@ -50,7 +51,7 @@ const ReadBoq = ({ infoData }) => {
     fetchSavedPres();
   }, []);
 
-      console.log(boqData)
+console.log(boqInfo)
 
   const totalAmountwithCurrency = boqData.reduce((total, data) => total + data.quantity * data.materialId.rate, 0);
   const totalAmount = formatCurrency(totalAmountwithCurrency);
@@ -104,10 +105,10 @@ const handleDownloadPDF = () => {
   return (
     <Box display="flex" justifyContent="center" alignItems="center">
       <Box width={isSmallScreen ? "100%" : "800px"} boxShadow="0 4px 12px rgba(0,0,0,0.3)" padding="10px" borderRadius="10px">
-        <Typography align="center" textTransform={`uppercase`} variant="h4" margin="20px 0 10px 0" fontWeight={`bold`}>{Title}</Typography>
-        <Button onClick={handleDownloadPDF} color="primary" variant='outlined' sx={{marginBottom:`10px`}}>Download PDF</Button>
+       <Typography align="center" textTransform={`uppercase`} variant="h4" margin="20px 0 10px 0" fontWeight={`bold`}>{Title}</Typography>
+        {boqInfo[0]?.isSaved ? <Button onClick={handleDownloadPDF} color="primary" variant='outlined' sx={{ marginBottom: `10px` }}>Download PDF</Button> : <Typography variant='h5'color={`green`} paddingY={`10px`}> Bado inafanyiwa makadilio,ikamilika utaweza kudownload</Typography>}
         <TableContainer>
-          <Table>
+          <Table aria-label="simple table">
             <TableHead>
               <TableRow style={{ textTransform: "uppercase", fontWeight: "700", color: "#fff", backgroundColor: "#3498db" }}>
                 {tableHeaders.map((header, index) => (
@@ -127,12 +128,12 @@ const handleDownloadPDF = () => {
                   
                 </TableRow>
               ))}
-              <TableRow style={{ borderBlock: "2px solid #333", fontWeight: "bolder" }}>
-              <TableCell   color="#333">Total Amount:</TableCell>
+              <TableRow style={{ borderBlock: "2px solid #333" }} >
+              <TableCell sx={{fontWeight:`bold`}} >Total Amount:</TableCell>
                 <TableCell/>
                 <TableCell/>
                 <TableCell/>
-                <TableCell>
+                <TableCell sx={{fontWeight:`bold`}}>
                   {totalAmount} Tsh
                 </TableCell>
               </TableRow>

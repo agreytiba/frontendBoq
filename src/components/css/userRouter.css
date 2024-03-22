@@ -1,0 +1,14 @@
+.navbar-item.active {
+    background-color: rgba(52, 152, 219, 0.3);
+    color: #fff !important;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+}
+
+.navbar-item.activ {
+    color: rgba(52, 152, 219, 0.8) !important;
+
+}

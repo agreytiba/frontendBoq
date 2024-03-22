@@ -7,7 +7,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { Edit } from "@mui/icons-material";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -160,7 +160,24 @@ const CreateBoq = ({ infoData }) => {
       }
     }
   };
-  console.log(collectionData);
+ 
+
+//     const handleComplete = async(data) => {
+//     try {
+
+//         const response = await axios.post(
+//           `${API_BASE_URL}/api/${savedUrl}/status/${savedInfo.savedPreId}`, {boqStatus:data},
+//           config
+//         );
+//         if (response.status === 200) {
+//           toast.success(response.data.message)
+//           fetchData()
+//         }
+//     } catch (error) {
+//       toast.error("Error fetching Data:", error);
+//     }
+   
+//  }
   const totalAmount = collectionData?.reduce((total, data) => {
     const material = dataRows.find((row) => row._id === data.materialId);
     if (material) {
@@ -187,6 +204,16 @@ const CreateBoq = ({ infoData }) => {
     >
       {user.accessLevel === "pricetag" ? (
         <Box>
+            <Typography
+                    variant={"h3"}
+                    paddingY="15px"
+                    fontWeight="bold"
+                      color={"primary"}
+              textTransform={`uppercase`}
+              textAlign={`center`}
+                  >
+                    Add rate page
+              </Typography>
           <TableContainer>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead>
@@ -222,7 +249,8 @@ const CreateBoq = ({ infoData }) => {
                     <StyledTableCell align="right">
                       {editingRate === row.material ? (
                         <div>
-                          <input
+            
+                         <input
                             type="number"
                             value={newRate}
                             onChange={(e) => setNewRate(e.target.value)}
@@ -230,7 +258,7 @@ const CreateBoq = ({ infoData }) => {
                           />
                           <button onClick={() => handleRateUpdate(row._id)}>
                             Submit
-                          </button>
+                          </button> 
                         </div>
                       ) : (
                         <span
@@ -257,7 +285,17 @@ const CreateBoq = ({ infoData }) => {
           </TableContainer>
         </Box>
       ) : (
-        <Box>
+          <Box>
+            <Typography
+                    variant={"h3"}
+                    paddingY="15px"
+                    fontWeight="bold"
+                      color={"primary"}
+              textTransform={`uppercase`}
+              textAlign={`center`}
+                  >
+                    Create Boq page
+              </Typography>
           <TableContainer>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead>
@@ -267,7 +305,7 @@ const CreateBoq = ({ infoData }) => {
                     paddingY="10px"
                     fontWeight="bold"
                       color={"primary"}
-                      textTransform={`uppercase`}
+                      textTransform={`capitalize`}
                   >
                      {TITLE}
                   </Typography>
@@ -398,6 +436,17 @@ const CreateBoq = ({ infoData }) => {
           </TableContainer>
         </Box>
       )}
+      {/* <Box marginY={`10px`} display={`flex`} justifyContent={`space-between`}>
+       
+        {
+          (dataRows[0]?.isSaved ||dataRows?.isSaved  )&&
+          <Button variant="contained" width={`100px`} color="success" onClick={() => handleComplete("yes")}>Completed</Button>
+        }
+
+            <Button variant="contained"  sx={{width:`100px`, backgroundColor:`#3498db`}} onClick={() => handleComplete("no")} >Edit</Button>
+          
+        
+      </Box> */}
     </Box>
   );
 };
