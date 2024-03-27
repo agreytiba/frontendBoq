@@ -66,13 +66,13 @@ const NavigationBar = ({navigationItems}) => {
       className="navbar-container"
       sx={{
         boxShadow: `0 4px 8px rgba(0,0,0,0.3)`,
-        position: `sticky`,
-        top: `120px`,
+        position: `fixed`,
+        top: `20px`,
         borderRadius: `10px`,
         backgroundColor: `#fff`,
         color: `#000`,
         margin: `100px 10px 10px 10px`,
-        minHeight: `80vh`,
+        minHeight: `70vh`,
         padding: `20px`,
         maxWidth: `220px`,
       }}

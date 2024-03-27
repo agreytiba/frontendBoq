@@ -97,7 +97,7 @@ const UserSideBar = ({navigationItems}) => {
                   onClick={() => handleDropdownClick(item.text.toLowerCase())}
                 >
                   {/* {item.icon && <ListItemIcon>{item.icon}</ListItemIcon>} */}
-                  <ListItemText primary={item.text} style={{ color: "#000" }} />
+                  <ListItemText primary={item.text} color="#333" />
                   {isOpen ? <ExpandLess /> : <ExpandMore />}
                 </ListItem>
                 <Collapse in={isOpen} timeout="auto" unmountOnExit>

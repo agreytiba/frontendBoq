@@ -15,6 +15,7 @@ import MailIcon from "@mui/icons-material/Mail";
 import UserIcon from "@mui/icons-material/People";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Request from "@mui/icons-material/Receipt";
+import { Balance, Build, Colorize, DoorFront, ElectricMeter, Foundation, FoundationOutlined, FoundationSharp, House, RoofingSharp, RoofingTwoTone, SixK, Water, Window } from "@mui/icons-material";
 const BoqUser = () => {
   const location = useLocation();
   const hideSidebarRoutes = ["/", "/boq", "/login"]; // Add the routes where you want to hide the sidebar
@@ -30,7 +31,7 @@ const BoqUser = () => {
 
     {
       text: "Substructure",
-      icon: <MailIcon />,
+      icon: <FoundationOutlined />,
       children: [
         { path: "/blinding", text: "blinding", name: "savedblinding" },
         { path: "/strip", text: "Strip Foundation", name: "savedStrips" },
@@ -50,14 +51,14 @@ const BoqUser = () => {
     },
     {
       path: "/walling",
-      icon: <HomeIcon />,
+      icon: <Foundation />,
       text: "Walling",
       name: "savedwalling",
     },
 
     {
       path: "/roofing",
-      icon: <HomeIcon />,
+      icon: <RoofingSharp />,
       text: "Roofing",
       name: "savedroofing",
     },
@@ -66,7 +67,7 @@ const BoqUser = () => {
 
     {
       text: "Blandering",
-      icon: <MailIcon />,
+      icon: <FoundationSharp/>,
       children: [
         {
           path: "/blandeOut",
@@ -78,14 +79,14 @@ const BoqUser = () => {
     },
     {
       path: "/ceiling",
-      icon: <Request />,
+      icon: <RoofingTwoTone/>,
       text: "Gysum Ceiling",
       name: "savedgypsum",
     },
     { path: "/pvcHang", icon: <InboxIcon />, text: "Pvc", name: "savedpvcs" },
     {
       text: "Skimming",
-      icon: <MailIcon />,
+      icon: <FoundationOutlined />,
       children: [
         {
           path: "/skimInside",
@@ -101,13 +102,13 @@ const BoqUser = () => {
     },
     {
       path: "/finishing",
-      icon: <InboxIcon />,
+      icon: <House/>,
       text: "Finishing",
       name: "savedfinishing",
     },
     {
       text: "Windows",
-      icon: <MailIcon />,
+      icon: <Window />,
       children: [
         { path: "/windowGrill", text: "Window Grills", name: "savedgrills" },
         { path: "/panel", text: "Aluminium Panel", name: "savedpanels" },
@@ -116,7 +117,7 @@ const BoqUser = () => {
 
     {
       text: "Doors",
-      icon: <MailIcon />,
+      icon: <DoorFront />,
       children: [
         { path: "/doorFrame", text: "Door Frames", name: "savedframes" },
         { path: "/doorShut", text: "Door Shutters", name: "savedshutters" },
@@ -124,7 +125,7 @@ const BoqUser = () => {
     },
     {
       text: "Plumbing",
-      icon: <MailIcon />,
+      icon: <Water />,
       children: [
         { path: "/waterInside", text: "Water Inside", name: "savedwaterIn" },
         { path: "/waterOutside", text: "Water Outside", name: "savedwaterOut" },
@@ -138,16 +139,16 @@ const BoqUser = () => {
       ],
     },
     // { path: "/Plumbing", icon: <DoneIcon />, text: "Plumbing", name: "savedtiles" },
-    { path: "/tiles", icon: <MailIcon />, text: "Tiles", name: "savedtiles" },
+    { path: "/tiles", icon: <Foundation/>, text: "Tiles", name: "savedtiles" },
     {
       path: "/plastering",
-      icon: <MailIcon />,
+      icon: <Colorize />,
       text: "Plastering",
       name: "savedplastering",
     },
     {
       path: "/electrical",
-      icon: <MailIcon />,
+      icon: <ElectricMeter />,
       text: "Electrical",
       name: "savedelectrical",
     },

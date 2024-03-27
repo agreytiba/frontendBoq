@@ -10,7 +10,7 @@ const SubBeamFoundation= lazy(() => import("../components/user/beam"));
 const SubConcrete= lazy(() => import("../components/user/Concerate"));
 const Walling= lazy(() => import("../components/user/walling"));
 const Roofing= lazy(() => import("../components/user/Roof"));
-
+const Profile = lazy(() => import("../scenes/user/Profile"));
 const GypsumCeiling= lazy(() => import("../components/user/Gysum"));
 const PvcOverHang= lazy(() => import("../components/user/Pvc"));
 
@@ -42,6 +42,10 @@ export default function MyBoqRoutes() {
       {
       path: '/',
       element: <Preliminaries />,
+    },
+         {
+      path: '/Profile',
+      element: <Profile />,
     },
     {
       path: '/blinding',

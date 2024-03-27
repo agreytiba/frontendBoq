@@ -53,9 +53,10 @@ const ReadBoq = ({ infoData }) => {
 
 console.log(boqInfo)
 
-  const totalAmountwithCurrency = boqData.reduce((total, data) => total + data.quantity * data.materialId.rate, 0);
-  const totalAmount = formatCurrency(totalAmountwithCurrency);
+  const subtotal = boqData.reduce((acc, data) => acc + (data.quantity * data.materialId.rate), 0);
+  const labourCharge = (subtotal * 0.1);
 
+  const totalAmount = (subtotal + labourCharge)
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
 
 const handleDownloadPDF = () => {
@@ -78,8 +79,25 @@ const handleDownloadPDF = () => {
   ]);
 
   // Calculate total amount
-  const totalAmount = boqData.reduce((acc, data) => acc + (data.quantity * data.materialId.rate), 0);
 
+  // Add total amount row to table data
+  const subTotalRow = [
+    { content: 'Sub Total:', styles: { fontStyle: 'bold' , marginBottom:'10px'}}, // Bold style for total label
+    '', // Empty unit
+    '', // Empty quantity
+    '', // Empty rate
+    { content: formatCurrency(subtotal), styles: { fontStyle: 'bold', marginBottom:'10px' }} // Bold style for total amount
+  ];
+   tableData.push(subTotalRow);
+  const chargeRow = [
+    { content: 'labour charge:', styles: { fontStyle: 'bold' }}, // Bold style for total label
+    '', // Empty unit
+    '', // Empty quantity
+    '', // Empty rate
+    { content: formatCurrency(labourCharge), styles: { fontStyle: 'bold' }} // Bold style for total amount
+  ];
+
+  tableData.push(chargeRow);
   // Add total amount row to table data
   const totalRow = [
     { content: 'Total Amount:', styles: { fontStyle: 'bold' }}, // Bold style for total label
@@ -128,13 +146,31 @@ const handleDownloadPDF = () => {
                   
                 </TableRow>
               ))}
-              <TableRow style={{ borderBlock: "2px solid #333" }} >
-              <TableCell sx={{fontWeight:`bold`}} >Total Amount:</TableCell>
+              <TableRow  sx={{borderTop:`2px solid rgba(0,0,0,1)`}}>
+              <TableCell sx={{fontWeight:`bold`}} >Subtotal:</TableCell>
                 <TableCell/>
                 <TableCell/>
                 <TableCell/>
                 <TableCell sx={{fontWeight:`bold`}}>
-                  {totalAmount} Tsh
+                  {formatCurrency(subtotal)} Tsh
+                </TableCell>
+              </TableRow>
+              <TableRow sx={{marginTop:`10px`}} >
+              <TableCell sx={{fontWeight:`bold`}} >Labour charges:</TableCell>
+                <TableCell/>
+                <TableCell/>
+                <TableCell/>
+                <TableCell sx={{fontWeight:`bold`}}>
+                  {formatCurrency(labourCharge)} Tsh
+                </TableCell>
+              </TableRow>
+              <TableRow style={{ borderBlock: "2px solid #333" }} >
+              <TableCell sx={{fontWeight:`bold`,fontSize:`16px`}} >Total Amount:</TableCell>
+                <TableCell/>
+                <TableCell/>
+                <TableCell/>
+                <TableCell sx={{fontWeight:`bold`,fontSize:`16px`}}>
+                  {formatCurrency(totalAmount)} Tsh
                 </TableCell>
               </TableRow>
             </TableBody>

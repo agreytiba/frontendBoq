@@ -48,7 +48,7 @@ function LogNavbar() {
   const handleProfile = () => {
     handleCloseUserMenu()
     handleCloseNavMenu()
-    navigate("/profile")
+    navigate("/Profile")
  
   }
   // handle logout user function

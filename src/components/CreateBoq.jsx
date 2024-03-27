@@ -51,7 +51,8 @@ const CreateBoq = ({ infoData }) => {
       Authorization: `Bearer ${user?.token}`,
     },
   };
-
+console.log(savedData)
+ 
   useEffect(() => {
     fetchData();
     fetchSavedData();
@@ -115,6 +116,7 @@ const CreateBoq = ({ infoData }) => {
     }
   };
 
+ 
   const handleRateUpdate = async (materialId) => {
     if (newRate !== null) {
       try {
@@ -162,23 +164,23 @@ const CreateBoq = ({ infoData }) => {
   };
  
 
-//     const handleComplete = async(data) => {
-//     try {
+    const handleComplete = async(data) => {
+    try {
 
-//         const response = await axios.post(
-//           `${API_BASE_URL}/api/${savedUrl}/status/${savedInfo.savedPreId}`, {boqStatus:data},
-//           config
-//         );
-//         if (response.status === 200) {
-//           toast.success(response.data.message)
-//           fetchData()
-//         }
-//     } catch (error) {
-//       toast.error("Error fetching Data:", error);
-//     }
+        const response = await axios.post(
+          `${API_BASE_URL}/api/${savedUrl}/status/${savedInfo.savedPreId}`, {boqStatus:data},
+          config
+        );
+        if (response.status === 200) {
+          toast.success(response.data.message)
+          fetchSavedData()
+        }
+    } catch (error) {
+      toast.error("Error fetching Data:", error);
+    }
    
-//  }
-  const totalAmount = collectionData?.reduce((total, data) => {
+ }
+  const subTotal = collectionData?.reduce((total, data) => {
     const material = dataRows.find((row) => row._id === data.materialId);
     if (material) {
       const amount = material.rate * data.quantity;
@@ -186,7 +188,7 @@ const CreateBoq = ({ infoData }) => {
     }
     return total;
   }, 0);
-
+ const  labourCharge = subTotal * 0.1
   const formatCurrency = (value) => {
     return new Intl.NumberFormat("en-US", {
       style: "currency",
@@ -362,8 +364,8 @@ const CreateBoq = ({ infoData }) => {
                         </div>
                       ) : (
                         <>
-                          {(user?.accessLevel === "admin" ||
-                            user?.accessLevel === "boq") && (
+                            {((savedData?.isSaved === false )&&(user?.accessLevel === "admin" ||
+                              user?.accessLevel === "boq")) && (
                             <Box
                               onClick={() => setEditingQuantity(row.material)}
                             >
@@ -419,6 +421,19 @@ const CreateBoq = ({ infoData }) => {
                   </StyledTableRow>
                 ))}
                 <StyledTableRow
+                  style={{marginBlock: "10px" }}
+                >
+                  <StyledTableCell variant="dark" sx={{ fontWeight:"bold",fontSize:`18px`}}> 
+                      Labor charge
+                  </StyledTableCell>
+                  <StyledTableCell />
+                  <StyledTableCell />
+                  <StyledTableCell />
+                  <StyledTableCell sx={{ fontWeight:"bold"}}align="right" >
+                    {formatCurrency(labourCharge)}
+                  </StyledTableCell>
+                </StyledTableRow>
+                <StyledTableRow
                   style={{ borderBlock: "2px solid #333", marginBlock: "10px" }}
                 >
                   <StyledTableCell variant="dark" sx={{ fontWeight:"bold",fontSize:`18px`}}> 
@@ -428,7 +443,7 @@ const CreateBoq = ({ infoData }) => {
                   <StyledTableCell />
                   <StyledTableCell />
                   <StyledTableCell sx={{ fontWeight:"bold"}}align="right" >
-                    {formatCurrency(totalAmount)}
+                    {formatCurrency(subTotal + labourCharge)}
                   </StyledTableCell>
                 </StyledTableRow>
               </TableBody>
@@ -436,17 +451,17 @@ const CreateBoq = ({ infoData }) => {
           </TableContainer>
         </Box>
       )}
-      {/* <Box marginY={`10px`} display={`flex`} justifyContent={`space-between`}>
+      <Box marginY={`10px`} display={`flex`} justifyContent={`space-between`}>
        
         {
-          (dataRows[0]?.isSaved ||dataRows?.isSaved  )&&
-          <Button variant="contained" width={`100px`} color="success" onClick={() => handleComplete("yes")}>Completed</Button>
+          (savedData?.isSaved === true )
+            ?
+            <Button variant="contained" sx={{ width: `100px`, backgroundColor: `#3498db` }} onClick={() => handleComplete("no")} >Edit</Button>
+            :
+            <Button variant="contained" width={`100px`} color="success" onClick={() => handleComplete("yes")}>Completed</Button>
         }
-
-            <Button variant="contained"  sx={{width:`100px`, backgroundColor:`#3498db`}} onClick={() => handleComplete("no")} >Edit</Button>
-          
         
-      </Box> */}
+      </Box>
     </Box>
   );
 };
