@@ -28,23 +28,23 @@ const Dashboard = () => {
     }
   };
  const user = JSON.parse(sessionStorage.getItem("user"));
-  useEffect(() => {
-    const user = JSON.parse(sessionStorage.getItem("user"));
-    const config = {
-      headers: {
-        Authorization: `Bearer ${user?.token}`,
-      },
-    };
+  // useEffect(() => {
+   
+  //   const config = {
+  //     headers: {
+  //       Authorization: `Bearer ${user?.token}`,
+  //     },
+  //   };
 
-    fetchData(`${API_BASE_URL}/api/maps/count`, setMapCount);
-    fetchData(`${API_BASE_URL}/api/maps/typeCheck/count`, setPangaRamaniCount);
-    fetchData(`${API_BASE_URL}/api/maps/unitCheck/count`, setVipimoCount);
-    fetchData(`${API_BASE_URL}/api/maps/failed/count`, setFailedCount);
-    fetchData(`${API_BASE_URL}/api/materials/count`, setMatCount);
-    fetchData(`${API_BASE_URL}/api/users/countCustomer`, setCustomerCount);
-    fetchData(`${API_BASE_URL}/api/blog/count`, setPostsCount);
-    fetchData(`${API_BASE_URL}/api/maps/failedCheck/count`, setMaboreshoCount);
-  }, []);
+  //   fetchData(`${API_BASE_URL}/api/maps/count`, setMapCount);
+  //   fetchData(`${API_BASE_URL}/api/maps/typeCheck/count`, setPangaRamaniCount);
+  //   fetchData(`${API_BASE_URL}/api/maps/unitCheck/count`, setVipimoCount);
+  //   fetchData(`${API_BASE_URL}/api/maps/failed/count`, setFailedCount);
+  //   fetchData(`${API_BASE_URL}/api/materials/count`, setMatCount);
+  //   fetchData(`${API_BASE_URL}/api/users/countCustomer`, setCustomerCount);
+  //   fetchData(`${API_BASE_URL}/api/blog/count`, setPostsCount);
+  //   fetchData(`${API_BASE_URL}/api/maps/failedCheck/count`, setMaboreshoCount);
+  // }, []);
 console.log(mapCount)
   return (
     <Box p="20px" position="relative" boxShadow={`0 4px 12px rgba(0,0,0,0.3)`} borderRadius={`10px`}>
@@ -59,7 +59,7 @@ console.log(mapCount)
           </Typography>
         </Box>
       </Box>
-      {/* <Grid container gap={`15px`}>
+      <Grid container gap={`15px`}>
         <Grid sm={6} md={3.5}>
           <Link to="/ramani" style={{ textDecoration: `none` }}>
           
@@ -108,7 +108,7 @@ console.log(mapCount)
             <StatBox title={postsCount} subtitle="Blog Posts" icon={<PostAdd />} />
           </Link>
         </Grid>
-      </Grid> */}
+      </Grid>
     </Box>
   );
 };
