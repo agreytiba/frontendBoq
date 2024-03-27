@@ -35,6 +35,10 @@ export default function AdminRoutes() {
       element: <Dashboard />,
     },
     {
+      path: '/login',
+      element: <Dashboard />,
+    },
+    {
       path: '/upload',
       element: <UploadImage />,
     },
@@ -135,10 +139,10 @@ export default function AdminRoutes() {
       path: '/suggestion',
       element: <FailedChecker/>,
     },
-    {
-      path: '*',
-      element: <Dashboard/>,
-    },
+    // {
+    //   path: '*',
+    //   element: <Dashboard/>,
+    // },
   
 
   ]);
