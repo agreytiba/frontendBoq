@@ -33,7 +33,7 @@ const DropdownBackground = styled('div')({
   borderRadius: '0 0 5px 5px',
 });
 
-const NavigationBar = ({navigationItems}) => {
+const NavigationBar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -43,6 +43,35 @@ const NavigationBar = ({navigationItems}) => {
     // Add more dropdowns here if needed
   });
 
+  const navigationItems = [
+    { path: '/dashboard', icon: <HomeIcon />, text: 'Home' },
+    {
+      text: 'Watumiaji',
+      icon: <Person2TwoTone/>,
+      children: [
+        { path: '/mteja', text: 'wateja' },
+        { path: '/pangaramani', text: 'Panga Ramani' },
+        { path: '/vipimo', text: 'angalia vipimo' },
+        { path: '/suggestion', text: 'maboresho' },
+        { path: '/mtoahuduma', text: 'watoa huduma' },
+      ],
+    },
+    {
+      text: 'Ramani',
+      icon: <Book />,
+      children: [
+        { path: '/allpdf', text: 'pdfs' },
+        { path: '/maps', text: 'ramani zote' },
+        { path: '/failed', text: 'zilizofail' },
+        { path: '/passed', text: 'Zilizofanikiwa' },
+      ],
+    },
+    { path: '/bidhaa', icon: <Request />, text: 'Bidhaa' },
+    // { path: '/completedboq', icon: <DoneIcon/>, text: 'zilizokamilika' },
+    { path: '/boq', icon: <Padding />, text: 'Boq' },
+    { path: '/users', icon: <Person3Rounded />, text: 'Users' },
+    { path: '/blog', icon: <MailIcon/>, text: 'Blog' },
+  ]
  
 
   const handleListItemClick = (path) => {
@@ -82,7 +111,7 @@ const NavigationBar = ({navigationItems}) => {
           if (item.children) {
             const isOpen = openDropdown[item.text.toLowerCase()];
             return (
-              <React.Fragment key={index}>
+              <React.Fragment key={item.text}>
                 <ListItem
                   button
                   className={`navbar-item ${isOpen ? 'activ' : ''}`}

@@ -1,6 +1,6 @@
 import { lazy } from 'react';
 import { useRoutes } from 'react-router-dom';
-import User from '../scenes/user';
+
 
 // Lazy-loaded Pages
 const Dashboard = lazy(() => import("../scenes/dashboard"));
@@ -28,14 +28,12 @@ const UserBoq = lazy(() => import("../scenes/userpage/UserBoq"));
 const Profile = lazy(() => import("../scenes/user/Profile"));
 const UploadImage = lazy(() => import("../scenes/upload"));
 const GoToBoQ = lazy(() => import("../scenes/GoToboq/GoToBoQ"));
+const User= lazy(() => import("../scenes/user"));
+
 export default function AdminRoutes() {
   let element = useRoutes([
     {
       path: '/',
-      element: <Dashboard />,
-    },
-    {
-      path: '/login',
       element: <Dashboard />,
     },
     {
@@ -139,10 +137,10 @@ export default function AdminRoutes() {
       path: '/suggestion',
       element: <FailedChecker/>,
     },
-    // {
-    //   path: '*',
-    //   element: <Dashboard/>,
-    // },
+    {
+      path: '*',
+      element: <Dashboard/>,
+    },
   
 
   ]);
