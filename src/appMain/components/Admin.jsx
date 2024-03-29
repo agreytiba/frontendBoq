@@ -21,7 +21,7 @@ const Navbar = () => {
     <AppBar position="fixed" sx={{ backgroundColor: `#fff`, width: `100%` }}>
       <Toolbar>
         <Link to="/" style={{ textDecoration: "none" }}>
-          {/* <img src={Logo} alt="Logo" style={{ width: `80px`, height: `80px` }} /> */}
+          <img src="image/logo.png" alt="Logo" style={{ width: `80px`, height: `80px` }} />
         </Link>
         <Avatar
           sx={{ marginLeft: "auto" }}

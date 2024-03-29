@@ -104,6 +104,7 @@ const NavigationBar = () => {
         minHeight: `70vh`,
         padding: `20px`,
         maxWidth: `220px`,
+        zIndex:`999`
       }}
     >
       <List className="navbar-list">
